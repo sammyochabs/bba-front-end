@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 import { disableUser } from "src/actions/users";
 import UsersModal from "./UsersModal";
 
-const UsersTable = ({ users, userID }) => {
+const UsersTable = ({ users, userID, editPermission, deletePermission }) => {
   const dispatch = useDispatch();
   const [modal, setModal] = useState(false);
   const [currentId, setCurrentId] = useState();
@@ -74,13 +74,25 @@ const UsersTable = ({ users, userID }) => {
                   </CDropdownToggle>
                   <CDropdownMenu>
                     <CDropdownItem
-                      onClick={() => handleUpdate(item.EmployeeID, item)}
+                      onClick={() => {
+                        if (editPermission === 1) {
+                          handleUpdate(item.EmployeeID, item);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Edit className="c-iconmd-lg mr-3" />
                       Edit
                     </CDropdownItem>
                     <CDropdownItem
-                      onClick={() => handleDelete(item.EmployeeID)}
+                      onClick={() => {
+                        if (deletePermission === 1) {
+                          handleDelete(item.EmployeeID);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Trash className="c-icon-lg mr-3" />
                       Delete

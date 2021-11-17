@@ -12,7 +12,12 @@ import { deleteDocumentType } from "../../../../../actions/documentType";
 import DocumentTypeModal from "./DocumentTypeModal";
 import DeleteDialog from "src/reusable/DeleteDialog";
 
-const DocumentTypeTable = ({ documentTypes, userID }) => {
+const DocumentTypeTable = ({
+  documentTypes,
+  userID,
+  deletePermission,
+  editPermission,
+}) => {
   const [modal, setModal] = useState(false);
   const [delete_modal, setDeleteModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState({});
@@ -69,13 +74,25 @@ const DocumentTypeTable = ({ documentTypes, userID }) => {
                   </CDropdownToggle>
                   <CDropdownMenu>
                     <CDropdownItem
-                      onClick={() => handleUpdate(item.DocumentTypeID, item)}
+                      onClick={() => {
+                        if (editPermission === 1) {
+                          handleUpdate(item.DocumentTypeID, item);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Edit className="c-iconmd-lg mr-3" />
                       Edit
                     </CDropdownItem>
                     <CDropdownItem
-                      onClick={() => handleDelete(item.DocumentTypeID)}
+                      onClick={() => {
+                        if (deletePermission === 1) {
+                          handleDelete(item.DocumentTypeID);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Trash className="c-icon-lg mr-3" />
                       Delete

@@ -12,7 +12,12 @@ import { deleteHealthInfo } from "src/actions/healthinfo";
 import HealthInfoModal from "./HealthInfoModal";
 import DeleteDialog from "src/reusable/DeleteDialog";
 
-const HealthInfoTable = ({ healthInfos, userID }) => {
+const HealthInfoTable = ({
+  healthInfos,
+  userID,
+  editPermission,
+  deletePermission,
+}) => {
   const [modal, setModal] = useState(false);
   const [delete_modal, setDeleteModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState();
@@ -67,13 +72,25 @@ const HealthInfoTable = ({ healthInfos, userID }) => {
                   </CDropdownToggle>
                   <CDropdownMenu>
                     <CDropdownItem
-                      onClick={() => handleUpdate(item.HealthInfoID, item)}
+                      onClick={() => {
+                        if (editPermission === 1) {
+                          handleUpdate(item.HealthInfoID, item);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Edit className="c-iconmd-lg mr-3" />
                       Edit
                     </CDropdownItem>
                     <CDropdownItem
-                      onClick={() => handleDelete(item.HealthInfoID)}
+                      onClick={() => {
+                        if (deletePermission === 1) {
+                          handleDelete(item.HealthInfoID);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Trash className="c-icon-lg mr-3" />
                       Delete

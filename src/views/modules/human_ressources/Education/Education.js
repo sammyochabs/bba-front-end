@@ -7,68 +7,76 @@ import {
   CCard,
   CCol,
   CRow,
-} from '@coreui/react'
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+} from "@coreui/react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   fetchEducationlist,
   fetchEmployeeDropdown,
-} from 'src/actions/HumanRessource/education.services'
-import SettingPageTitle from 'src/reusable/SettingPageTitle'
-import EducationTable from './EducationTable'
-import EducationModal from './EducationModal'
-import { ExportCSV } from 'src/actions/ExportCSV'
+} from "src/actions/HumanRessource/education.services";
+import SettingPageTitle from "src/reusable/SettingPageTitle";
+import EducationTable from "./EducationTable";
+import EducationModal from "./EducationModal";
+import { ExportCSV } from "src/actions/ExportCSV";
 const Education = () => {
-  const dispatch = useDispatch()
-  const [educationlist, seteducationlist] = useState([])
-  const [employeedd, setEmployeeList] = useState([])
-  const userID = localStorage.getItem('userID')
+  const dispatch = useDispatch();
+  const [educationlist, seteducationlist] = useState([]);
+  const [employeedd, setEmployeeList] = useState([]);
+  const userID = localStorage.getItem("userID");
 
   useEffect(async () => {
-    let _educationList = []
-    let _employeeList = []
+    let _educationList = [];
+    let _employeeList = [];
     try {
-      _educationList = await fetchEducationlist(userID)
-      _employeeList = await fetchEmployeeDropdown(userID)
-      seteducationlist(_educationList)
-      setEmployeeList(_employeeList)
+      _educationList = await fetchEducationlist(userID);
+      _employeeList = await fetchEmployeeDropdown(userID);
+      seteducationlist(_educationList);
+      setEmployeeList(_employeeList);
       _educationList.filter((el, index, array) => {
         _employeeList.filter((emp) => {
           if (emp.EmployeeID == el.EmployeeID) {
-            el.EmployeeName = emp.Name
+            el.EmployeeName = emp.Name;
           }
-        })
+        });
         if (index == array.length - 1) {
-          seteducationlist([..._educationList])
+          seteducationlist([..._educationList]);
         }
-      })
+      });
     } catch (error) {}
-  }, [])
+  }, []);
   //  const { loantypes } = useSelector(state => state.loantype)
-  const [modal, setModal] = useState(false)
-  const [responseModal, setResponseModal] = useState(false)
+  const [modal, setModal] = useState(false);
+  const [responseModal, setResponseModal] = useState(false);
   const toggle = () => {
-    setModal(!modal)
-    setResponseModal(false)
-  }
+    setModal(!modal);
+    setResponseModal(false);
+  };
 
   const reInitalizeList = async () => {
-    let _educationList = []
+    let _educationList = [];
     try {
-      _educationList = await fetchEducationlist(userID)
+      _educationList = await fetchEducationlist(userID);
       _educationList.filter((el, index, array) => {
         employeedd.filter((emp) => {
           if (emp.EmployeeID == el.EmployeeID) {
-            el.EmployeeName = emp.Name
+            el.EmployeeName = emp.Name;
           }
-        })
+        });
         if (index == array.length - 1) {
-          seteducationlist([..._educationList])
+          seteducationlist([..._educationList]);
         }
-      })
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
+  };
+
+  let userProgramsPermissions;
+
+  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
+    userProgramsPermissions = JSON.parse(
+      localStorage.getItem("userProgramsPermissions")
+    );
   }
 
   return (
@@ -77,13 +85,30 @@ const Education = () => {
         <SettingPageTitle title="Education List" />
         <CRow>
           <CCol sm="12">
-            <CButton onClick={toggle} color="info">
+            <CButton
+              // onClick={toggle}
+              onClick={() => {
+                if (
+                  userProgramsPermissions &&
+                  userProgramsPermissions[19]?.Add === 1
+                ) {
+                  // history.push("/HR/AddEducation");
+                  toggle();
+                } else {
+                  alert("You dont have this permission");
+                }
+              }}
+              color="info"
+            >
               + Add Education
             </CButton>
             <ExportCSV
               color="info"
               csvData={educationlist}
-              fileName={'Education-list'}
+              fileName={"Education-list"}
+              permission={
+                userProgramsPermissions && userProgramsPermissions[19]?.Export
+              }
             />
           </CCol>
         </CRow>
@@ -102,8 +127,8 @@ const Education = () => {
         userID={userID}
         toggle={toggle}
         modal={modal}
-        type={'Add'}
-        title={'Add new Education'}
+        type={"Add"}
+        title={"Add new Education"}
         currentValue={userID}
         employeedropdown={employeedd}
         reInitalizeList={reInitalizeList}
@@ -111,7 +136,7 @@ const Education = () => {
         setResponseModal={setResponseModal}
       />
     </CCard>
-  )
-}
+  );
+};
 
-export default Education
+export default Education;

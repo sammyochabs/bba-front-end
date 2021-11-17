@@ -12,7 +12,7 @@ import { deleteLeave } from "src/actions/leaves";
 import LeavesModal from "./LeavesModal";
 import DeleteDialog from "src/reusable/DeleteDialog";
 
-const LeavesTable = ({ leaves, userID }) => {
+const LeavesTable = ({ leaves, userID, editPermission, deletePermission }) => {
   const [modal, setModal] = useState(false);
   const [delete_modal, setDeleteModal] = useState(false);
   const [leaveId, setCurrentleaveId] = useState();
@@ -68,12 +68,26 @@ const LeavesTable = ({ leaves, userID }) => {
                   </CDropdownToggle>
                   <CDropdownMenu>
                     <CDropdownItem
-                      onClick={() => handleUpdate(item.LEAVE_ID, item)}
+                      onClick={() => {
+                        if (editPermission === 1) {
+                          handleUpdate(item.LEAVE_ID, item);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Edit className="c-iconmd-lg mr-3" />
                       Edit
                     </CDropdownItem>
-                    <CDropdownItem onClick={() => handleDelete(item.LEAVE_ID)}>
+                    <CDropdownItem
+                      onClick={() => {
+                        if (deletePermission === 1) {
+                          handleDelete(item.LEAVE_ID);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
+                    >
                       <Trash className="c-icon-lg mr-3" />
                       Delete
                     </CDropdownItem>

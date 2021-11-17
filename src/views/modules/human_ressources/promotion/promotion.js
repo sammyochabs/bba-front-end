@@ -6,84 +6,106 @@ import {
   CCard,
   CFormGroup,
   CButtonGroup,
-} from '@coreui/react'
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchLoanTypes } from 'src/actions/loantypes'
-import SettingPageTitle from 'src/reusable/SettingPageTitle'
+} from "@coreui/react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchLoanTypes } from "src/actions/loantypes";
+import SettingPageTitle from "src/reusable/SettingPageTitle";
 import {
   fetchEducationlist,
   fetchEmployeeDropdown,
   fetchDesignationDropdown,
   fetchGradeDropdown,
-} from 'src/actions/HumanRessource/promotion.services'
-import PromotionTable from './promotionTable'
-import PromotionModal from './promotionModal'
-import { ExportCSV } from 'src/actions/ExportCSV'
+} from "src/actions/HumanRessource/promotion.services";
+import PromotionTable from "./promotionTable";
+import PromotionModal from "./promotionModal";
+import { ExportCSV } from "src/actions/ExportCSV";
 const Promotion = () => {
   // const dispatch = useDispatch();
-  const [promotionList, setpromotionList] = useState([])
-  const [employeeList, setEmployeeList] = useState([])
-  const [desgination, setDesgination] = useState([])
-  const [grade, setGradeList] = useState([])
+  const [promotionList, setpromotionList] = useState([]);
+  const [employeeList, setEmployeeList] = useState([]);
+  const [desgination, setDesgination] = useState([]);
+  const [grade, setGradeList] = useState([]);
 
-  const [employeeName, setemployeeName] = useState('')
-  const [Type, setType] = useState('')
-  const [designation, setdesignation] = useState('')
-  const [organization, setOrganization] = useState('')
-  const [postingType, setPostingType] = useState('')
-  const [Location, setLocation] = useState('')
-  const [FromDate, setFromDate] = useState(new Date())
-  const [ToDate, setToDate] = useState(new Date())
-  const [promotionDate, setPromotionDate] = useState(new Date())
-  const [GradeORPayscale, setGradeORPayscale] = useState('')
-  const [Grade, setGrade] = useState('')
+  const [employeeName, setemployeeName] = useState("");
+  const [Type, setType] = useState("");
+  const [designation, setdesignation] = useState("");
+  const [organization, setOrganization] = useState("");
+  const [postingType, setPostingType] = useState("");
+  const [Location, setLocation] = useState("");
+  const [FromDate, setFromDate] = useState(new Date());
+  const [ToDate, setToDate] = useState(new Date());
+  const [promotionDate, setPromotionDate] = useState(new Date());
+  const [GradeORPayscale, setGradeORPayscale] = useState("");
+  const [Grade, setGrade] = useState("");
 
-  const userID = localStorage.getItem('userID')
+  const userID = localStorage.getItem("userID");
   useEffect(async () => {
-    setpromotionList(await fetchEducationlist(userID))
-    setEmployeeList(await fetchEmployeeDropdown(userID))
-    setDesgination(await fetchDesignationDropdown(userID))
-    setGradeList(await fetchGradeDropdown(userID))
-  }, [])
+    setpromotionList(await fetchEducationlist(userID));
+    setEmployeeList(await fetchEmployeeDropdown(userID));
+    setDesgination(await fetchDesignationDropdown(userID));
+    setGradeList(await fetchGradeDropdown(userID));
+  }, []);
   //  const { loantypes } = useSelector(state => state.loantype)
-  const [modal, setModal] = useState(false)
-  const [responseModal, setResponseModal] = useState(false)
+  const [modal, setModal] = useState(false);
+  const [responseModal, setResponseModal] = useState(false);
 
   const toggle = () => {
-    setemployeeName('')
-    setType('')
-    setdesignation('')
-    setOrganization('')
-    setPostingType('')
-    setLocation('')
-    setGradeORPayscale('')
-    setResponseModal(false)
-    setModal(!modal)
-  }
+    setemployeeName("");
+    setType("");
+    setdesignation("");
+    setOrganization("");
+    setPostingType("");
+    setLocation("");
+    setGradeORPayscale("");
+    setResponseModal(false);
+    setModal(!modal);
+  };
 
   const clearForm = () => {
-    alert('clear')
-  }
+    alert("clear");
+  };
 
   const reInitalizeList = async () => {
-    setpromotionList(await fetchEducationlist(userID))
-  }
+    setpromotionList(await fetchEducationlist(userID));
+  };
 
+  let userProgramsPermissions;
+
+  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
+    userProgramsPermissions = JSON.parse(
+      localStorage.getItem("userProgramsPermissions")
+    );
+  }
   return (
     <CCard className="p-5">
       <div className="hr-header">
         <SettingPageTitle title="Promotion/Charge List" />
         <CRow>
           <CCol sm="12">
-            <CFormGroup className={'mr-1'}>
-              <CButton onClick={toggle} color="info">
+            <CFormGroup className={"mr-1"}>
+              <CButton
+                onClick={() => {
+                  if (
+                    userProgramsPermissions &&
+                    userProgramsPermissions[20]?.Add === 1
+                  ) {
+                    toggle();
+                  } else {
+                    alert("You dont have permission to do this");
+                  }
+                }}
+                color="info"
+              >
                 + Add Promotion/Charge
               </CButton>
               <ExportCSV
                 color="info"
                 csvData={promotionList}
-                fileName={'Promotion-charge-list'}
+                fileName={"Promotion-charge-list"}
+                permission={
+                  userProgramsPermissions && userProgramsPermissions[20]?.Export
+                }
               />
             </CFormGroup>
           </CCol>
@@ -91,6 +113,15 @@ const Promotion = () => {
       </div>
 
       <PromotionTable
+        editPermission={
+          userProgramsPermissions && userProgramsPermissions[20]?.Edit
+        }
+        viewPermission={
+          userProgramsPermissions && userProgramsPermissions[20]?.View
+        }
+        deletePermission={
+          userProgramsPermissions && userProgramsPermissions[20]?.Delete
+        }
         employeeList={promotionList}
         userID={userID}
         employeedropdown={employeeList}
@@ -126,8 +157,8 @@ const Promotion = () => {
         userID={userID}
         toggle={toggle}
         modal={modal}
-        type={'Add'}
-        title={'Add new Promotion/Charge'}
+        type={"Add"}
+        title={"Add new Promotion/Charge"}
         currentValue={userID}
         employeedropdown={employeeList}
         desginationdropdown={desgination}
@@ -160,7 +191,7 @@ const Promotion = () => {
         reInitalizeList={reInitalizeList}
       />
     </CCard>
-  )
-}
+  );
+};
 
-export default Promotion
+export default Promotion;

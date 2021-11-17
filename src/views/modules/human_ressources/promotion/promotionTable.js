@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
   CDataTable,
   CDropdown,
   CDropdownToggle,
   CDropdownMenu,
   CDropdownItem,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { Edit, Trash } from 'react-feather'
-import { useDispatch } from 'react-redux'
-import { deleteEducation } from 'src/actions/HumanRessource/promotion.services'
-import PromotionModal from './promotionModal'
-import PromotionViewModal from './promotionViewModal'
+} from "@coreui/react";
+import CIcon from "@coreui/icons-react";
+import { Edit, Trash } from "react-feather";
+import { useDispatch } from "react-redux";
+import { deleteEducation } from "src/actions/HumanRessource/promotion.services";
+import PromotionModal from "./promotionModal";
+import PromotionViewModal from "./promotionViewModal";
 const PromotionTable = ({
   employeeList,
   userID,
@@ -42,60 +42,62 @@ const PromotionTable = ({
   setGradeORPayscale,
   Grade,
   setGrade,
-
+  editPermission,
+  viewPermission,
+  deletePermission,
   responseModal,
   setResponseModal,
 }) => {
-  const dispatch = useDispatch()
-  const [modal, setModal] = useState(false)
-  const [viewmodal, setViewModal] = useState(false)
-  const [educationId, setCurrentEducationId] = useState()
-  const [employee, setEmployee] = useState()
+  const dispatch = useDispatch();
+  const [modal, setModal] = useState(false);
+  const [viewmodal, setViewModal] = useState(false);
+  const [educationId, setCurrentEducationId] = useState();
+  const [employee, setEmployee] = useState();
   const fields = [
-    { key: 'Name', _style: { width: '10%' } },
-    { key: 'type', _style: { width: '10%' } },
-    { key: 'Designation', _style: { width: '10%' } },
-    { key: 'Organization', _style: { width: '10%' } },
-    { key: 'PostingType', _style: { width: '10%' } },
-    { key: 'Location', _style: { width: '20%' } },
-    { key: 'Promotion/Charge Date', _style: { width: '20%' } },
-    { key: 'DateFrom', _style: { width: '20%' } },
-    { key: 'DateTo', _style: { width: '20%' } },
-    'Action',
-  ]
-  var formData = new FormData()
+    { key: "Name", _style: { width: "10%" } },
+    { key: "type", _style: { width: "10%" } },
+    { key: "Designation", _style: { width: "10%" } },
+    { key: "Organization", _style: { width: "10%" } },
+    { key: "PostingType", _style: { width: "10%" } },
+    { key: "Location", _style: { width: "20%" } },
+    { key: "Promotion/Charge Date", _style: { width: "20%" } },
+    { key: "DateFrom", _style: { width: "20%" } },
+    { key: "DateTo", _style: { width: "20%" } },
+    "Action",
+  ];
+  var formData = new FormData();
   const handleUpdate = (id) => {
-    let _employeeList = employeeList.filter((el) => el.PromotionID == id)[0]
-    setModal(!modal)
+    let _employeeList = employeeList.filter((el) => el.PromotionID == id)[0];
+    setModal(!modal);
     setEmployee({
       ..._employeeList,
-    })
-    setResponseModal(false)
-    setCurrentEducationId(id)
-  }
+    });
+    setResponseModal(false);
+    setCurrentEducationId(id);
+  };
 
   const closeModal = () => {
-    setViewModal(false)
-    setModal(false)
-  }
+    setViewModal(false);
+    setModal(false);
+  };
 
   const viewModal = (id) => {
-    let _employeeList = employeeList.filter((el) => el.PromotionID == id)[0]
-    setViewModal(!viewmodal)
+    let _employeeList = employeeList.filter((el) => el.PromotionID == id)[0];
+    setViewModal(!viewmodal);
     setEmployee({
       ..._employeeList,
-    })
-    setCurrentEducationId(id)
-  }
+    });
+    setCurrentEducationId(id);
+  };
 
   const handleDelete = async (id) => {
     try {
-      let deleteResp = await deleteEducation(userID, id)
-      if (deleteResp.status == '200') reInitalizeList()
+      let deleteResp = await deleteEducation(userID, id);
+      if (deleteResp.status == "200") reInitalizeList();
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <div>
@@ -127,7 +129,7 @@ const PromotionTable = ({
           Organization: (item) => <td>{item.Organization}</td>,
           PostingType: (item) => <td>{item.PostingType}</td>,
           Location: (item) => <td>{item.Location}</td>,
-          'Promotion/Charge Date': (item) => <td>{item.PromotionDate}</td>,
+          "Promotion/Charge Date": (item) => <td>{item.PromotionDate}</td>,
           DateFrom: (item) => <td>{item.DateFrom}</td>,
           DateTo: (item) => <td>{item.DateTo}</td>,
           Action: (item) => {
@@ -135,21 +137,41 @@ const PromotionTable = ({
               <td className="py-2">
                 <CDropdown className="m-1">
                   <CDropdownToggle>
-                    <CIcon name={'cilSettings'} size={'lg'} />
+                    <CIcon name={"cilSettings"} size={"lg"} />
                   </CDropdownToggle>
                   <CDropdownMenu>
-                    <CDropdownItem onClick={() => viewModal(item.PromotionID)}>
+                    <CDropdownItem
+                      onClick={() => {
+                        if (viewPermission === 1) {
+                          viewModal(item.PromotionID);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
+                    >
                       <Edit className="c-iconmd-lg mr-3" />
                       View
                     </CDropdownItem>
                     <CDropdownItem
-                      onClick={() => handleUpdate(item.PromotionID)}
+                      onClick={() => {
+                        if (editPermission === 1) {
+                          handleUpdate(item.PromotionID);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Edit className="c-iconmd-lg mr-3" />
                       Edit
                     </CDropdownItem>
                     <CDropdownItem
-                      onClick={() => handleDelete(item.PromotionID)}
+                      onClick={() => {
+                        if (deletePermission === 1) {
+                          handleDelete(item.PromotionID);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Trash className="c-icon-lg mr-3" />
                       Delete
@@ -157,7 +179,7 @@ const PromotionTable = ({
                   </CDropdownMenu>
                 </CDropdown>
               </td>
-            )
+            );
           },
         }}
       />
@@ -165,8 +187,8 @@ const PromotionTable = ({
         userID={userID}
         toggle={closeModal}
         modal={viewmodal}
-        type={'Update'}
-        title={'View Promotion/Charge'}
+        type={"Update"}
+        title={"View Promotion/Charge"}
         currentValue={educationId}
         employee={employee}
         employeedropdown={employeedropdown}
@@ -203,8 +225,8 @@ const PromotionTable = ({
         userID={userID}
         toggle={closeModal}
         modal={modal}
-        type={'Update'}
-        title={'Update Employee'}
+        type={"Update"}
+        title={"Update Employee"}
         currentValue={educationId}
         employee={employee}
         employeedropdown={employeedropdown}
@@ -238,7 +260,7 @@ const PromotionTable = ({
         reInitalizeList={reInitalizeList}
       />
     </div>
-  )
-}
+  );
+};
 
-export default PromotionTable
+export default PromotionTable;

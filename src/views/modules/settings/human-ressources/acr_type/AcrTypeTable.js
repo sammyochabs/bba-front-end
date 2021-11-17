@@ -12,7 +12,12 @@ import AcrTypeModal from "./AcrTypeModal";
 import { deleteAcrType } from "../../../../../actions/acrtype";
 import DeleteDialog from "src/reusable/DeleteDialog";
 
-const AcrTypeTable = ({ acrType, userID }) => {
+const AcrTypeTable = ({
+  acrType,
+  userID,
+  deletePermission,
+  editPermission,
+}) => {
   const [modal, setModal] = useState(false);
   const [delete_modal, setDeleteModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState({});
@@ -67,12 +72,26 @@ const AcrTypeTable = ({ acrType, userID }) => {
                   </CDropdownToggle>
                   <CDropdownMenu>
                     <CDropdownItem
-                      onClick={() => handleUpdate(item.ACRTypeID, item)}
+                      onClick={() => {
+                        if (editPermission === 1) {
+                          handleUpdate(item.ACRTypeID, item);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Edit className="c-iconmd-lg mr-3" />
                       Edit
                     </CDropdownItem>
-                    <CDropdownItem onClick={() => handleDelete(item.ACRTypeID)}>
+                    <CDropdownItem
+                      onClick={() => {
+                        if (deletePermission === 1) {
+                          handleDelete(item.ACRTypeID);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
+                    >
                       <Trash className="c-icon-lg mr-3" />
                       Delete
                     </CDropdownItem>

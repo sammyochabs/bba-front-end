@@ -12,7 +12,12 @@ import { deleteDesignation } from "../../../../../actions/designation";
 import DesignationModal from "./DesignationModal";
 import DeleteDialog from "src/reusable/DeleteDialog";
 
-const DesignationTable = ({ designations, userID }) => {
+const DesignationTable = ({
+  designations,
+  userID,
+  editPermission,
+  deletePermission,
+}) => {
   const [modal, setModal] = useState(false);
   const [delete_modal, setDeleteModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState({});
@@ -69,13 +74,25 @@ const DesignationTable = ({ designations, userID }) => {
                   </CDropdownToggle>
                   <CDropdownMenu>
                     <CDropdownItem
-                      onClick={() => handleUpdate(item.DESIGNATION_ID, item)}
+                      onClick={() => {
+                        if (editPermission === 1) {
+                          handleUpdate(item.DESIGNATION_ID, item);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Edit className="c-iconmd-lg mr-3" />
                       Edit
                     </CDropdownItem>
                     <CDropdownItem
-                      onClick={() => handleDelete(item.DESIGNATION_ID)}
+                      onClick={() => {
+                        if (deletePermission === 1) {
+                          handleDelete(item.DESIGNATION_ID);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Trash className="c-icon-lg mr-3" />
                       Delete

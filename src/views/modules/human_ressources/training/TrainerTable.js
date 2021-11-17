@@ -1,73 +1,75 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
   CDataTable,
   CDropdown,
   CDropdownToggle,
   CDropdownMenu,
   CDropdownItem,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { Edit, Trash } from 'react-feather'
-import { useDispatch } from 'react-redux'
-import { deleteEducation } from 'src/actions/HumanRessource/Trainer.services'
-import TrainerModal from './TrainerModal'
-import TrainerViewModal from './TrainerViewModal'
+} from "@coreui/react";
+import CIcon from "@coreui/icons-react";
+import { Edit, Trash } from "react-feather";
+import { useDispatch } from "react-redux";
+import { deleteEducation } from "src/actions/HumanRessource/Trainer.services";
+import TrainerModal from "./TrainerModal";
+import TrainerViewModal from "./TrainerViewModal";
 const TrainerTable = ({
   employeeList,
   userID,
   employeedropdown,
   reInitalizeList,
-
+  editPermission,
+  viewPermission,
+  deletePermission,
   responseModal,
   setResponseModal,
 }) => {
-  const [modal, setModal] = useState(false)
-  const [viewmodal, setViewModal] = useState(false)
-  const [educationId, setCurrentEducationId] = useState()
-  const [employee, setEmployee] = useState()
+  const [modal, setModal] = useState(false);
+  const [viewmodal, setViewModal] = useState(false);
+  const [educationId, setCurrentEducationId] = useState();
+  const [employee, setEmployee] = useState();
 
   const fields = [
-    { key: 'Name', _style: { width: '10%' } },
-    { key: 'CourseTitle', _style: { width: '10%' } },
-    { key: 'TrainingType', _style: { width: '10%' } },
-    { key: 'FromDate', _style: { width: '10%' } },
-    { key: 'ToDate', _style: { width: '10%' } },
-    { key: 'Position', _style: { width: '20%' } },
-    { key: 'Institution', _style: { width: '20%' } },
-    'Action',
-  ]
+    { key: "Name", _style: { width: "10%" } },
+    { key: "CourseTitle", _style: { width: "10%" } },
+    { key: "TrainingType", _style: { width: "10%" } },
+    { key: "FromDate", _style: { width: "10%" } },
+    { key: "ToDate", _style: { width: "10%" } },
+    { key: "Position", _style: { width: "20%" } },
+    { key: "Institution", _style: { width: "20%" } },
+    "Action",
+  ];
   const handleUpdate = (id) => {
-    let _employeeList = employeeList.filter((el) => el.TrainingID == id)[0]
-    setModal(!modal)
+    let _employeeList = employeeList.filter((el) => el.TrainingID == id)[0];
+    setModal(!modal);
     setEmployee({
       ..._employeeList,
-    })
-    setCurrentEducationId(id)
-    console.log(educationId)
-  }
+    });
+    setCurrentEducationId(id);
+    console.log(educationId);
+  };
 
   const closeModal = () => {
-    setViewModal(false)
-    setModal(false)
-  }
+    setViewModal(false);
+    setModal(false);
+  };
 
   const handleView = (id) => {
-    let _employeeList = employeeList.filter((el) => el.TrainingID == id)[0]
-    setViewModal(!modal)
+    let _employeeList = employeeList.filter((el) => el.TrainingID == id)[0];
+    setViewModal(!modal);
     setEmployee({
       ..._employeeList,
-    })
-    setCurrentEducationId(id)
-  }
+    });
+    setCurrentEducationId(id);
+  };
 
   const handleDelete = async (id) => {
     try {
-      let deleteResp = await deleteEducation(userID, id)
-      if (deleteResp.status == '200') reInitalizeList()
+      let deleteResp = await deleteEducation(userID, id);
+      if (deleteResp.status == "200") reInitalizeList();
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <div>
@@ -105,21 +107,41 @@ const TrainerTable = ({
               <td className="py-2">
                 <CDropdown className="m-1">
                   <CDropdownToggle>
-                    <CIcon name={'cilSettings'} size={'lg'} />
+                    <CIcon name={"cilSettings"} size={"lg"} />
                   </CDropdownToggle>
                   <CDropdownMenu>
-                    <CDropdownItem onClick={() => handleView(item.TrainingID)}>
+                    <CDropdownItem
+                      onClick={() => {
+                        if (viewPermission === 1) {
+                          handleView(item.TrainingID);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
+                    >
                       <Edit className="c-iconmd-lg mr-3" />
                       View
                     </CDropdownItem>
                     <CDropdownItem
-                      onClick={() => handleUpdate(item.TrainingID)}
+                      onClick={() => {
+                        if (editPermission === 1) {
+                          handleUpdate(item.TrainingID);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Edit className="c-iconmd-lg mr-3" />
                       Edit
                     </CDropdownItem>
                     <CDropdownItem
-                      onClick={() => handleDelete(item.TrainingID)}
+                      onClick={() => {
+                        if (deletePermission === 1) {
+                          handleDelete(item.TrainingID);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Trash className="c-icon-lg mr-3" />
                       Delete
@@ -127,7 +149,7 @@ const TrainerTable = ({
                   </CDropdownMenu>
                 </CDropdown>
               </td>
-            )
+            );
           },
         }}
       />
@@ -135,8 +157,8 @@ const TrainerTable = ({
         userID={userID}
         toggle={closeModal}
         modal={viewmodal}
-        type={'Update'}
-        title={'View Trainer'}
+        type={"Update"}
+        title={"View Trainer"}
         currentValue={educationId}
         employee={employee}
         employeedropdown={employeedropdown}
@@ -148,8 +170,8 @@ const TrainerTable = ({
         userID={userID}
         toggle={closeModal}
         modal={modal}
-        type={'Update'}
-        title={'Update Employee'}
+        type={"Update"}
+        title={"Update Employee"}
         currentValue={educationId}
         employee={employee}
         employeedropdown={employeedropdown}
@@ -159,7 +181,7 @@ const TrainerTable = ({
         reInitalizeList={reInitalizeList}
       />
     </div>
-  )
-}
+  );
+};
 
-export default TrainerTable
+export default TrainerTable;

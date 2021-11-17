@@ -5,9 +5,13 @@ const MyFunction = () => {
   alert("rrrr"); // window.open('https://www.facebook.com/ ', '_blank')
 };
 
-const userProgramsPermissions = JSON.parse(
-  localStorage.getItem("userProgramsPermissions")
-);
+let userProgramsPermissions;
+
+if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
+  userProgramsPermissions = JSON.parse(
+    localStorage.getItem("userProgramsPermissions")
+  );
+}
 
 console.log(userProgramsPermissions);
 const _nav = {
@@ -16,7 +20,7 @@ const _nav = {
       _tag: "CSidebarNavItem",
       name: "Dashboard Admin",
       to:
-        userProgramsPermissions[16].Permission === 1
+        userProgramsPermissions && userProgramsPermissions[16]?.Permission === 1
           ? "/dashboard"
           : "no-permission",
       icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
@@ -37,7 +41,8 @@ const _nav = {
           name: "Loan Type",
           programid: "1",
           to:
-            userProgramsPermissions[1].Permission === 1
+            userProgramsPermissions &&
+            userProgramsPermissions[1]?.Permission === 1
               ? "/settings/loantype"
               : "no-permission",
         },
@@ -45,7 +50,8 @@ const _nav = {
           _tag: "CSidebarNavItem",
           name: "Grades",
           to:
-            userProgramsPermissions[2].Permission === 1
+            userProgramsPermissions &&
+            userProgramsPermissions[2]?.Permission === 1
               ? "/settings/Grades"
               : "no-permission",
         },
@@ -53,7 +59,8 @@ const _nav = {
           _tag: "CSidebarNavItem",
           name: "Leave types & duration",
           to:
-            userProgramsPermissions[3].Permission === 1
+            userProgramsPermissions &&
+            userProgramsPermissions[3]?.Permission === 1
               ? "/settings/leaves"
               : "no-permission",
         },
@@ -61,7 +68,8 @@ const _nav = {
           _tag: "CSidebarNavItem",
           name: "Loan Funds",
           to:
-            userProgramsPermissions[4].Permission === 1
+            userProgramsPermissions &&
+            userProgramsPermissions[4]?.Permission === 1
               ? "/settings/loanfunds"
               : "no-permission",
         },
@@ -69,7 +77,8 @@ const _nav = {
           _tag: "CSidebarNavItem",
           name: "Districts",
           to:
-            userProgramsPermissions[5].Permission === 1
+            userProgramsPermissions &&
+            userProgramsPermissions[5]?.Permission === 1
               ? "/settings/district"
               : "no-permission",
         },
@@ -78,7 +87,8 @@ const _nav = {
           name: "Designations",
           to: "/settings/designation",
           to:
-            userProgramsPermissions[6].Permission === 1
+            userProgramsPermissions &&
+            userProgramsPermissions[6]?.Permission === 1
               ? "/settings/designation"
               : "no-permission",
         },
@@ -86,7 +96,8 @@ const _nav = {
           _tag: "CSidebarNavItem",
           name: "Departments",
           to:
-            userProgramsPermissions[7].Permission === 1
+            userProgramsPermissions &&
+            userProgramsPermissions[7]?.Permission === 1
               ? "/settings/department"
               : "no-permission",
         },
@@ -95,7 +106,8 @@ const _nav = {
           name: "Punishment",
           to: "/settings/punishment",
           to:
-            userProgramsPermissions[8].Permission === 1
+            userProgramsPermissions &&
+            userProgramsPermissions[8]?.Permission === 1
               ? "/settings/punishment"
               : "no-permission",
         },
@@ -103,7 +115,8 @@ const _nav = {
           _tag: "CSidebarNavItem",
           name: "ACRClass",
           to:
-            userProgramsPermissions[9].Permission === 1
+            userProgramsPermissions &&
+            userProgramsPermissions[9]?.Permission === 1
               ? "/settings/acrclass"
               : "no-permission",
         },
@@ -112,7 +125,8 @@ const _nav = {
           name: "ACRType",
           to: "/settings/acrtype",
           to:
-            userProgramsPermissions[10].Permission === 1
+            userProgramsPermissions &&
+            userProgramsPermissions[10]?.Permission === 1
               ? "/settings/arctype"
               : "no-permission",
         },
@@ -121,7 +135,8 @@ const _nav = {
           name: "Health Infos",
           to: "/settings/health_info",
           to:
-            userProgramsPermissions[11].Permission === 1
+            userProgramsPermissions &&
+            userProgramsPermissions[11]?.Permission === 1
               ? "/settings/health_info"
               : "no-permission",
         },
@@ -129,7 +144,8 @@ const _nav = {
           _tag: "CSidebarNavItem",
           name: "Document type",
           to:
-            userProgramsPermissions[12].Permission === 1
+            userProgramsPermissions &&
+            userProgramsPermissions[12]?.Permission === 1
               ? "/settings/document_type"
               : "no-permission",
         },
@@ -150,7 +166,8 @@ const _nav = {
           name: "Users",
 
           to:
-            userProgramsPermissions[14].Permission === 1
+            userProgramsPermissions &&
+            userProgramsPermissions[14]?.Permission === 1
               ? "/settings/users"
               : "no-permission",
         },
@@ -159,7 +176,8 @@ const _nav = {
           name: "Roles",
           to: "/settings/role",
           to:
-            userProgramsPermissions[13].Permission === 1
+            userProgramsPermissions &&
+            userProgramsPermissions[13]?.Permission === 1
               ? "/settings/role"
               : "no-permission",
         },
@@ -331,7 +349,7 @@ const _nav = {
       name: "Dashboard",
 
       to:
-        userProgramsPermissions[0].Permission === 1
+        userProgramsPermissions && userProgramsPermissions[0]?.Permission === 1
           ? "/dashboard"
           : "/no-permission",
       icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
@@ -340,7 +358,7 @@ const _nav = {
       _tag: "CSidebarNavItem",
       name: "Dashboard Employee",
       to:
-        userProgramsPermissions[17].Permission === 1
+        userProgramsPermissions && userProgramsPermissions[17]?.Permission === 1
           ? "/dashboardEmployee"
           : "/no-permission",
       icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
@@ -361,7 +379,8 @@ const _nav = {
               _tag: "CSidebarNavItem",
               name: "All Employees",
               to:
-                userProgramsPermissions[18].Permission === 1
+                userProgramsPermissions &&
+                userProgramsPermissions[18]?.Permission === 1
                   ? "/HR/listEmployee"
                   : "/no-permission",
             },
@@ -369,7 +388,8 @@ const _nav = {
               _tag: "CSidebarNavItem",
               name: "Education",
               to:
-                userProgramsPermissions[19].Permission === 1
+                userProgramsPermissions &&
+                userProgramsPermissions[19]?.Permission === 1
                   ? "/HR/listEducations"
                   : "/no-permission",
             },
@@ -378,7 +398,8 @@ const _nav = {
               name: "Promotion/Change",
 
               to:
-                userProgramsPermissions[20].Permission === 1
+                userProgramsPermissions &&
+                userProgramsPermissions[20]?.Permission === 1
                   ? "/HR/listPromotions"
                   : "/no-permission",
             },
@@ -386,7 +407,8 @@ const _nav = {
               _tag: "CSidebarNavItem",
               name: "Training",
               to:
-                userProgramsPermissions[21].Permission === 1
+                userProgramsPermissions &&
+                userProgramsPermissions[21]?.Permission === 1
                   ? "/HR/listTraining"
                   : "/no-permission",
             },
@@ -396,7 +418,8 @@ const _nav = {
           _tag: "CSidebarNavItem",
           name: "Loan Management",
           to:
-            userProgramsPermissions[22].Permission === 1
+            userProgramsPermissions &&
+            userProgramsPermissions[22]?.Permission === 1
               ? "/HR/loanManagement"
               : "/no-permission",
           icon: (
@@ -407,7 +430,8 @@ const _nav = {
           _tag: "CSidebarNavItem",
           name: "Leave Management",
           to:
-            userProgramsPermissions[23].Permission === 1
+            userProgramsPermissions &&
+            userProgramsPermissions[23]?.Permission === 1
               ? "/HR/Leavemanagement"
               : "/no-permission",
           icon: (
@@ -424,7 +448,8 @@ const _nav = {
           _tag: "CSidebarNavItem",
           name: "Health Management",
           to:
-            userProgramsPermissions[24].Permission === 1
+            userProgramsPermissions &&
+            userProgramsPermissions[24]?.Permission === 1
               ? "/HR/HealthManagement"
               : "/no-permission",
           icon: (
@@ -436,7 +461,8 @@ const _nav = {
           name: "Discipline Management",
           to: "/HR/disciplinemanagement",
           to:
-            userProgramsPermissions[25].Permission === 1
+            userProgramsPermissions &&
+            userProgramsPermissions[25]?.Permission === 1
               ? "/HR/disciplinemanagement"
               : "/no-permission",
           icon: (
@@ -450,7 +476,7 @@ const _nav = {
       _tag: "CSidebarNavDropdown",
       name: "Store Management",
       to:
-        userProgramsPermissions[26].Permission === 1
+        userProgramsPermissions && userProgramsPermissions[26]?.Permission === 1
           ? "/base"
           : "/no-permission",
       icon: "cil-puzzle",

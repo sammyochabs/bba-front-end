@@ -12,7 +12,12 @@ import { deletePunishment } from "src/actions/punishment";
 import PunishmentModal from "./PunishmentModal";
 import DeleteDialog from "src/reusable/DeleteDialog";
 
-const PunishmentTable = ({ punishments, userID }) => {
+const PunishmentTable = ({
+  punishments,
+  userID,
+  editPermission,
+  deletePermission,
+}) => {
   const [modal, setModal] = useState(false);
   const [delete_modal, setDeleteModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState({});
@@ -67,13 +72,26 @@ const PunishmentTable = ({ punishments, userID }) => {
                   </CDropdownToggle>
                   <CDropdownMenu>
                     <CDropdownItem
-                      onClick={() => handleUpdate(item.PunishmentID, item)}
+                      onClick={() => {
+                        if (editPermission === 1) {
+                          handleUpdate(item.PunishmentID, item);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Edit className="c-iconmd-lg mr-3" />
                       Edit
                     </CDropdownItem>
                     <CDropdownItem
                       onClick={() => handleDelete(item.PunishmentID)}
+                      onClick={() => {
+                        if (deletePermission === 1) {
+                          handleDelete(item.PunishmentID);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Trash className="c-icon-lg mr-3" />
                       Delete

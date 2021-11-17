@@ -76,7 +76,7 @@ const MasterPage = () => {
               bgColor="#5998c2"
               path="/dashboard"
               moduleName="Administration"
-              permission={permissions[1]?.Permission}
+              permission={permissions && permissions[1]?.Permission}
             />
             {/* <Card
               icon={usersIcon}
@@ -92,7 +92,7 @@ const MasterPage = () => {
               bgColor="#556eef"
               path="/dashboard"
               moduleName="Planning and Development"
-              permission={permissions[2]?.Permission}
+              permission={permissions && permissions[2]?.Permission}
             />
             {/* <Card icon={calendarIcon} module="Project Manager" bgColor="#485ed7" path="/dashboard" moduleName="Project Manager" /> */}
             <Card
@@ -101,7 +101,7 @@ const MasterPage = () => {
               bgColor="#364bb8"
               path="/dashboard"
               moduleName="Operating & Maintenance"
-              permission={permissions[3]?.Permission}
+              permission={permissions && permissions[3]?.Permission}
             />
             <Card
               icon={dollarIcon}
@@ -109,7 +109,7 @@ const MasterPage = () => {
               bgColor="#8980ff"
               path="/dashboard"
               moduleName="Finance and Accounts wing" //"Finance and Accounts"
-              permission={permissions[4]?.Permission}
+              permission={permissions && permissions[4]?.Permission}
             />
 
             {/* <Card
@@ -130,7 +130,7 @@ const MasterPage = () => {
               bgColor="#6c5ce7"
               path="/dashboard"
               moduleName="Technical"
-              permission={permissions[5]?.Permission}
+              permission={permissions && permissions[5]?.Permission}
             />
           </div>
         </div>

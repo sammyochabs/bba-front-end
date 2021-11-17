@@ -12,7 +12,12 @@ import { deleteDistrict } from "../../../../../actions/district";
 import DistrictModal from "./DistrictModal";
 import DeleteDialog from "src/reusable/DeleteDialog";
 
-const DistrictTable = ({ districts, userID }) => {
+const DistrictTable = ({
+  districts,
+  userID,
+  editPermission,
+  deletePermission,
+}) => {
   const [modal, setModal] = useState(false);
   const [delete_modal, setDeleteModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState();
@@ -67,13 +72,25 @@ const DistrictTable = ({ districts, userID }) => {
                   </CDropdownToggle>
                   <CDropdownMenu>
                     <CDropdownItem
-                      onClick={() => handleUpdate(item.DISTRICT_ID, item)}
+                      onClick={() => {
+                        if (editPermission === 1) {
+                          handleUpdate(item.DISTRICT_ID, item);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Edit className="c-iconmd-lg mr-3" />
                       Edit
                     </CDropdownItem>
                     <CDropdownItem
-                      onClick={() => handleDelete(item.DISTRICT_ID)}
+                      onClick={() => {
+                        if (deletePermission === 1) {
+                          handleDelete(item.DISTRICT_ID);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Trash className="c-icon-lg mr-3" />
                       Delete

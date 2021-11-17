@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 
 import {
   CBadge,
@@ -11,87 +11,108 @@ import {
   CDropdownItem,
   CDropdownMenu,
   CCard,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+} from "@coreui/react";
+import CIcon from "@coreui/icons-react";
 import {
   deleteEmployee,
   fetchEmployees,
   getFile,
   fetchEmployeeImg,
-} from 'src/actions/employee'
-import { useDispatch, useSelector } from 'react-redux'
-import SettingPageTitle from 'src/reusable/SettingPageTitle'
-import LeavesModal from './LeaveModal'
+} from "src/actions/employee";
+import { useDispatch, useSelector } from "react-redux";
+import SettingPageTitle from "src/reusable/SettingPageTitle";
+import LeavesModal from "./LeaveModal";
 
 const ListEmployee = () => {
-  const dispatch = useDispatch()
-  const history = useHistory()
-  const userID = localStorage.getItem('userID')
-  const [modal, setModal] = useState(false)
-  const [selectedEmpId, setSelectedEmpId] = useState(null)
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const userID = localStorage.getItem("userID");
+  const [modal, setModal] = useState(false);
+  const [selectedEmpId, setSelectedEmpId] = useState(null);
 
   const toggle = (employeeId) => {
-    setModal(!modal)
-    setSelectedEmpId(employeeId)
-  }
+    setModal(!modal);
+    setSelectedEmpId(employeeId);
+  };
   useEffect(() => {
-    dispatch(fetchEmployees(userID))
-  }, [dispatch])
-  const { employees = [] } = useSelector((state) => state.employees)
+    dispatch(fetchEmployees(userID));
+  }, [dispatch]);
+  const { employees = [] } = useSelector((state) => state.employees);
   useEffect(() => {
     employees?.forEach((item) => {
-      dispatch(fetchEmployeeImg(item.EmployeeID, userID))
-    })
-  }, [employees])
-  const formData = new FormData()
+      dispatch(fetchEmployeeImg(item.EmployeeID, userID));
+    });
+  }, [employees]);
+  const formData = new FormData();
   const handleDelete = (employeeID, userID) => {
-    formData.append('EmployeeID', employeeID)
+    formData.append("EmployeeID", employeeID);
     // console.log(formData.get("EmployeeID"))
-    dispatch(deleteEmployee(formData, userID))
-  }
+    dispatch(deleteEmployee(formData, userID));
+  };
   const fields = [
     // { key: "image", _style: { width: "20%" } },
-    { key: 'Photo', label: 'Photo' },
-    { key: 'RegistrationNumber' },
-    { key: 'NameEnglish', _style: { width: '18%' } },
-    { key: 'Designation' },
-    { key: 'Department' },
-    { key: 'DateBirth' },
-    { key: 'JoigningDate' },
-    { key: 'status' },
-    { key: 'Phone' },
-    { key: 'Email' },
+    { key: "Photo", label: "Photo" },
+    { key: "RegistrationNumber" },
+    { key: "NameEnglish", _style: { width: "18%" } },
+    { key: "Designation" },
+    { key: "Department" },
+    { key: "DateBirth" },
+    { key: "JoigningDate" },
+    { key: "status" },
+    { key: "Phone" },
+    { key: "Email" },
     {
-      key: 'action',
-      label: 'Action',
-      _style: { width: '5%' },
+      key: "action",
+      label: "Action",
+      _style: { width: "5%" },
       sorter: false,
       filter: false,
     },
-  ]
+  ];
   const getBadge = (status) => {
     switch (status) {
       case 1:
-        return 'success'
+        return "success";
       case 0:
-        return 'secondary'
+        return "secondary";
       default:
-        return 'primary'
+        return "primary";
     }
-  }
+  };
   // employee show table
   // photo. id .name english .designation .departement .date birth. joinging date
   // Marital Status ,phone number. email adress, status
+
+  let userProgramsPermissions;
+
+  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
+    userProgramsPermissions = JSON.parse(
+      localStorage.getItem("userProgramsPermissions")
+    );
+  }
+
+  // console.log(userProgramsPermissions);
   return (
     <div>
       <CCard className="p-5">
         <div className="hr-header">
           <SettingPageTitle title="All Employees" />
-          <Link to="/HR/AddEmployee">
+          <div
+            onClick={() => {
+              if (
+                userProgramsPermissions &&
+                userProgramsPermissions[18]?.Add === 1
+              ) {
+                history.push("/HR/AddEmployee");
+              } else {
+                alert("You dont have this permission");
+              }
+            }}
+          >
             <CButton color="info" size="lg" onClick={() => {}}>
               + Add Employee
             </CButton>
-          </Link>
+          </div>
         </div>
 
         <CDataTable
@@ -111,9 +132,9 @@ const ListEmployee = () => {
                     style={{
                       width: 100,
                       height: 100,
-                      borderRadius: '100%',
+                      borderRadius: "100%",
                     }}
-                    src={item.Photo || item.employeeImage || ''}
+                    src={item.Photo || item.employeeImage || ""}
                   />
                 </td>
               ) : (
@@ -123,7 +144,7 @@ const ListEmployee = () => {
             status: (item) => (
               <td>
                 <CBadge color={getBadge(item.Active)} alt="hello">
-                  {item.Active !== 1 ? 'Inactive' : 'Active'}
+                  {item.Active !== 1 ? "Inactive" : "Active"}
                 </CBadge>
               </td>
             ),
@@ -136,23 +157,46 @@ const ListEmployee = () => {
                     </CDropdownToggle>
                     <CDropdownMenu>
                       <CDropdownItem
-                        onClick={() =>
-                          history.push(`/HR/UpdateEmployee/${item.EmployeeID}`)
-                        }
+                        onClick={() => {
+                          if (
+                            userProgramsPermissions &&
+                            userProgramsPermissions[18]?.Edit === 1
+                          ) {
+                            history.push(
+                              `/HR/UpdateEmployee/${item.EmployeeID}`
+                            );
+                          } else {
+                            alert("You dont have this permission");
+                          }
+                        }}
                       >
                         Update
                       </CDropdownItem>
                       <CDropdownItem
-                        onClick={() =>
-                          history.push(`/HR/ViewEmployee/${item.EmployeeID}`)
-                        }
+                        onClick={() => {
+                          if (
+                            userProgramsPermissions &&
+                            userProgramsPermissions[18]?.View === 1
+                          ) {
+                            history.push(`/HR/ViewEmployee/${item.EmployeeID}`);
+                          } else {
+                            alert("You dont have this permission");
+                          }
+                        }}
                       >
                         View
                       </CDropdownItem>
                       <CDropdownItem
                         onClick={() => {
-                          if (window.confirm('are you sure!'))
-                            handleDelete(item.EmployeeID, userID)
+                          if (
+                            userProgramsPermissions &&
+                            userProgramsPermissions[18]?.Delete === 1
+                          ) {
+                            if (window.confirm("are you sure!"))
+                              handleDelete(item.EmployeeID, userID);
+                          } else {
+                            alert("You dont have this permission");
+                          }
                         }}
                       >
                         Delete
@@ -163,7 +207,7 @@ const ListEmployee = () => {
                     </CDropdownMenu>
                   </CDropdown>
                 </td>
-              )
+              );
             },
           }}
         />
@@ -172,12 +216,12 @@ const ListEmployee = () => {
           toggle={toggle}
           selectedEmpId={selectedEmpId}
           modal={modal}
-          type={'Add'}
-          title={'Add new leaves'}
+          type={"Add"}
+          title={"Add new leaves"}
         />
       </CCard>
     </div>
-  )
-}
+  );
+};
 
-export default ListEmployee
+export default ListEmployee;

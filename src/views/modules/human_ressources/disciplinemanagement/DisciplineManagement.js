@@ -1,57 +1,92 @@
-import { CButton, CCard } from '@coreui/react'
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchDisciplines } from 'src/actions/HumanRessource/disciplines'
-import DisciplineEditModal from 'src/views/modules/human_ressources/disciplinemanagement/DisciplineEditModal'
-import SettingPageTitle from 'src/reusable/SettingPageTitle'
-import DisciplinesTable from './DisciplinesTable'
-import { getEmployeeList } from 'src/actions/HumanRessource/employees'
-import { getPunishmentList } from 'src/actions/HumanRessource/punishmentList'
+import { CButton, CCard } from "@coreui/react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDisciplines } from "src/actions/HumanRessource/disciplines";
+import DisciplineEditModal from "src/views/modules/human_ressources/disciplinemanagement/DisciplineEditModal";
+import SettingPageTitle from "src/reusable/SettingPageTitle";
+import DisciplinesTable from "./DisciplinesTable";
+import { getEmployeeList } from "src/actions/HumanRessource/employees";
+import { getPunishmentList } from "src/actions/HumanRessource/punishmentList";
 
 const DisciplineManagement = () => {
-  const dispatch = useDispatch()
-  const userID = localStorage.getItem('userID')
+  const dispatch = useDispatch();
+  const userID = localStorage.getItem("userID");
   useEffect(() => {
-    dispatch(fetchDisciplines(userID))
-  }, [dispatch])
-  const { disciplines } = useSelector((state) => state.disciplines)
-  const [modal, setModal] = useState(false)
-  const [employeeList, setEmployeeList] = useState([])
-  const [data, setData] = useState('')
-  const [punishmentList, setPunishmentList] = useState([])
+    dispatch(fetchDisciplines(userID));
+  }, [dispatch]);
+  const { disciplines } = useSelector((state) => state.disciplines);
+  const [modal, setModal] = useState(false);
+  const [employeeList, setEmployeeList] = useState([]);
+  const [data, setData] = useState("");
+  const [punishmentList, setPunishmentList] = useState([]);
 
   const toggle = () => {
-    setModal(!modal)
+    setModal(!modal);
     getEmployeeList((employeeListResult) => {
-      setEmployeeList(employeeListResult)
-    })
+      setEmployeeList(employeeListResult);
+    });
 
     getPunishmentList((punishmentListResult) => {
-      setPunishmentList(punishmentListResult)
-    })
+      setPunishmentList(punishmentListResult);
+    });
+  };
+
+  let userProgramsPermissions;
+
+  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
+    userProgramsPermissions = JSON.parse(
+      localStorage.getItem("userProgramsPermissions")
+    );
   }
+
+  console.log(userProgramsPermissions);
   return (
     <CCard className="p-5">
       <div className="hr-header">
         <SettingPageTitle title="Disciplines" />
-        <CButton onClick={toggle} color="info">
+        <CButton
+          onClick={() => {
+            if (
+              userProgramsPermissions &&
+              userProgramsPermissions[25]?.Add === 1
+            ) {
+              // history.push("/HR/AddEducation");
+              toggle();
+            } else {
+              alert("You dont have this permission");
+            }
+          }}
+          color="info"
+        >
           + Add new discipline
         </CButton>
       </div>
-      <DisciplinesTable disciplines={disciplines} userID={userID} />
+      <DisciplinesTable
+        disciplines={disciplines}
+        userID={userID}
+        editPermission={
+          userProgramsPermissions && userProgramsPermissions[24]?.Edit
+        }
+        viewPermission={
+          userProgramsPermissions && userProgramsPermissions[24]?.View
+        }
+        deletePermission={
+          userProgramsPermissions && userProgramsPermissions[24]?.Delete
+        }
+      />
       <DisciplineEditModal
         userID={userID}
         toggle={toggle}
         modal={modal}
-        type={'Add'}
-        title={'Add new discipline'}
+        type={"Add"}
+        title={"Add new discipline"}
         employeeList={employeeList}
         punishmentList={punishmentList}
         data={data}
         setData={setData}
       />
     </CCard>
-  )
-}
+  );
+};
 
-export default DisciplineManagement
+export default DisciplineManagement;

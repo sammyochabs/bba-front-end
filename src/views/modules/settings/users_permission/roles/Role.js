@@ -132,6 +132,15 @@ const Role = () => {
   };
   // render selected role module
   const renderRoles = roleModules.map((module, index) => {
+    let userProgramsPermissions;
+
+    if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
+      userProgramsPermissions = JSON.parse(
+        localStorage.getItem("userProgramsPermissions")
+      );
+    }
+
+    console.log(userProgramsPermissions);
     return (
       <CListGroup key={index}>
         <CListGroupItem className="d-flex justify-content-between">
@@ -240,6 +249,16 @@ const Role = () => {
     );
   });
 
+  let userProgramsPermissions;
+
+  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
+    userProgramsPermissions = JSON.parse(
+      localStorage.getItem("userProgramsPermissions")
+    );
+  }
+
+  console.log(userProgramsPermissions);
+
   return (
     <CCard className="p-5">
       <div className="hr-header">
@@ -248,7 +267,21 @@ const Role = () => {
       <CRow>
         {/* roles */}
         <CCol md="4">
-          <CButton onClick={toggle} color="info" className="col-md-12 mb-3">
+          <CButton
+            onClick={() => {
+              if (
+                userProgramsPermissions &&
+                userProgramsPermissions[13]?.Add === 1
+              ) {
+                // history.push("/HR/AddEducation");
+                toggle();
+              } else {
+                alert("You dont have this permission");
+              }
+            }}
+            color="info"
+            className="col-md-12 mb-3"
+          >
             + Add new role
           </CButton>
           <RoleTable

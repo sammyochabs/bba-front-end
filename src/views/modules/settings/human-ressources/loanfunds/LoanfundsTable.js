@@ -12,7 +12,12 @@ import { deleteLoanFund } from "src/actions/loanfunds";
 import LoanfundsModal from "./LoanfundsModal";
 import DeleteDialog from "src/reusable/DeleteDialog";
 
-const LoanFundsTable = ({ loanfunds, userID }) => {
+const LoanFundsTable = ({
+  loanfunds,
+  userID,
+  deletePermission,
+  editPermission,
+}) => {
   const [modal, setModal] = useState(false);
   const [delete_modal, setDeleteModal] = useState(false);
   const [loanFundId, setCurrentLoanFundId] = useState();
@@ -67,13 +72,26 @@ const LoanFundsTable = ({ loanfunds, userID }) => {
                   </CDropdownToggle>
                   <CDropdownMenu>
                     <CDropdownItem
-                      onClick={() => handleUpdate(item.LOAN_FUNDS_ID, item)}
+                      onClick={() => {
+                        if (editPermission === 1) {
+                          handleUpdate(item.LOAN_FUNDS_ID, item);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Edit className="c-iconmd-lg mr-3" />
                       Edit
                     </CDropdownItem>
                     <CDropdownItem
                       onClick={() => handleDelete(item.LOAN_FUNDS_ID)}
+                      onClick={() => {
+                        if (deletePermission === 1) {
+                          handleDelete(item.LOAN_FUNDS_ID);
+                        } else {
+                          alert("you dont have permission");
+                        }
+                      }}
                     >
                       <Trash className="c-icon-lg mr-3" />
                       Delete
