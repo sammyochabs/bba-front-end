@@ -76,17 +76,17 @@ const Login = () => {
             localStorage.getItem("roleid")
           ).then((res) => {
             console.log(res);
-            localStorage.setItem("userPermissions", JSON.stringify(res));
+            // localStorage.setItem("userPermissions", JSON.stringify(res));
           });
           getUserProgramsPermisions(
             localStorage.getItem("userID"),
             localStorage.getItem("roleid")
           ).then((res) => {
             console.log(res);
-            localStorage.setItem(
-              "userProgramsPermissions",
-              JSON.stringify(res)
-            );
+            // localStorage.setItem(
+            //   "userProgramsPermissions",
+            //   JSON.stringify(res)
+            // );
             setPermissions(res);
             history.push({
               pathname: "/modules",
