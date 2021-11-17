@@ -5,6 +5,10 @@ import { fetchAcrType } from "../../../../../actions/acrtype";
 import SettingPageTitle from "../../../../../reusable/SettingPageTitle";
 import AcrTypeModal from "./AcrTypeModal";
 import AcrTypeTable from "./AcrTypeTable";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 
 const AcrType = () => {
   const dispatch = useDispatch();
@@ -14,18 +18,20 @@ const AcrType = () => {
   }, [dispatch]);
   const { acrType } = useSelector((state) => state.acrType);
   const [modal, setModal] = useState(false);
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
 
   const toggle = () => {
     setModal(!modal);
   };
 
-  let userProgramsPermissions;
-
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   console.log(userProgramsPermissions);
   return (

@@ -16,20 +16,20 @@ import {
   CDropdownItem,
   CLink,
   CTextarea,
-} from '@coreui/react'
-import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { getFile } from 'src/actions/HumanRessource/downloadFile'
+} from "@coreui/react";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getFile } from "src/actions/HumanRessource/downloadFile";
 import {
   addHealthRecord,
   updateHealthRecord,
-} from 'src/actions/HumanRessource/healthrecords'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
+} from "src/actions/HumanRessource/healthrecords";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-import { addHealthFile } from 'src/actions/HumanRessource/setHealthFile'
-import './HealthEditModal.css'
-import moment from 'moment'
+import { addHealthFile } from "src/actions/HumanRessource/setHealthFile";
+import "./HealthEditModal.css";
+import moment from "moment";
 const HealthEditModal = ({
   toggle,
   modal,
@@ -42,22 +42,21 @@ const HealthEditModal = ({
   data,
   setData,
 }) => {
-  const [selectedEmployee, setSelectedEmployee] = useState('Employee')
-  const [selectedHealthInformation, setSelectedHealthInformation] = useState(
-    'Health Info',
-  )
-  const [empty, setEmpty] = useState('')
+  const [selectedEmployee, setSelectedEmployee] = useState("Employee");
+  const [selectedHealthInformation, setSelectedHealthInformation] =
+    useState("Health Info");
+  const [empty, setEmpty] = useState("");
 
   useEffect(() => {
     if (data && !selectedEmployee && employeeList) {
       setSelectedEmployee(
-        employeeList.find((emp) => emp.EmployeeID === data?.EmployeeID)?.Name,
-      )
+        employeeList.find((emp) => emp.EmployeeID === data?.EmployeeID)?.Name
+      );
     }
     if (data && !selectedHealthInformation && healthInfoList) {
-      setSelectedHealthInformation(data?.HealthInfo)
+      setSelectedHealthInformation(data?.HealthInfo);
     }
-  }, [data])
+  }, [data]);
 
   // if (healthView) {
 
@@ -80,38 +79,38 @@ const HealthEditModal = ({
   // if(selectedItem){
   //   setData(selectedItem)
   // }
-  const dispatch = useDispatch()
-  var formData = new FormData()
-  var formDataForFile = new FormData()
-  var formDataForRealaseFile = new FormData()
+  const dispatch = useDispatch();
+  var formData = new FormData();
+  var formDataForFile = new FormData();
+  var formDataForRealaseFile = new FormData();
 
   const handleInputData = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value })
+    setData({ ...data, [e.target.name]: e.target.value });
 
-    return console.log(data)
-  }
+    return console.log(data);
+  };
 
   const handleInputFile = (e) => {
-    setData({ ...data, [e.target.name]: e.target.files[0] })
+    setData({ ...data, [e.target.name]: e.target.files[0] });
     // formData.append([e.target.name],e.target.files[0],e.target.value)
-    return console.log(e)
-  }
+    return console.log(e);
+  };
 
   const handleSelect = (name, id) => {
-    setData({ ...data, [name]: id })
-  }
+    setData({ ...data, [name]: id });
+  };
 
   const handleSubmit = (e, type) => {
-    e.preventDefault()
+    e.preventDefault();
     switch (type) {
-      case 'Add':
-        console.log('data', data)
+      case "Add":
+        console.log("data", data);
         //Object.keys(data).forEach((key) => formData.append(key, data[key]))
         Object.keys(data).forEach((key) => {
-          if (key != 'FromDate' && key != 'ToDate')
-            formData.append(key, data[key])
-        })
-        debugger
+          if (key != "FromDate" && key != "ToDate")
+            formData.append(key, data[key]);
+        });
+        //
         //formData.append('EmployeeID', data['EmployeeID'])
         // formData.append('healthInfoId', healthInfoId)
         // formData.append('Height', Height)
@@ -125,51 +124,51 @@ const HealthEditModal = ({
         // formData.append('HealthWeakness', HealthWeakness)
 
         formData.append(
-          'FromDate',
-          moment(data.FromDate || '').format('DD/MM/YYYY'),
-        )
+          "FromDate",
+          moment(data.FromDate || "").format("DD/MM/YYYY")
+        );
 
         formData.append(
-          'ToDate',
-          moment(data.ToDate || '').format('DD/MM/YYYY'),
-        )
-        dispatch(addHealthRecord(formData, userID))
-        setData(empty)
-        console.log('empty', data)
-        break
-      case 'Update':
-        if (!data['HealthInfoID']) {
+          "ToDate",
+          moment(data.ToDate || "").format("DD/MM/YYYY")
+        );
+        dispatch(addHealthRecord(formData, userID));
+        setData(empty);
+        console.log("empty", data);
+        break;
+      case "Update":
+        if (!data["HealthInfoID"]) {
           let healthInfoId = healthInfoList.find(
-            (x) => x.HealthInfo === data['HealthInfo'],
-          ).HealthInfoID
-          formData.append('HealthInfoID', healthInfoId)
+            (x) => x.HealthInfo === data["HealthInfo"]
+          ).HealthInfoID;
+          formData.append("HealthInfoID", healthInfoId);
         }
 
-        formData.append('userID', userID)
+        formData.append("userID", userID);
 
         Object.keys(data).forEach((key) => {
-          if (key != 'ECG' && key != 'XRay') formData.append(key, data[key])
-        })
+          if (key != "ECG" && key != "XRay") formData.append(key, data[key]);
+        });
         //  formData.append("HealthView", data);
-        dispatch(updateHealthRecord(formData, userID))
-        console.log('formdata', formData)
+        dispatch(updateHealthRecord(formData, userID));
+        console.log("formdata", formData);
 
-        formDataForFile.append('userID', userID)
-        formDataForFile.append('HealthID', data?.HealthID)
-        formDataForFile.append('XRay', data?.XRay)
-        dispatch(addHealthFile(formDataForFile, '/Health/setXRay'))
+        formDataForFile.append("userID", userID);
+        formDataForFile.append("HealthID", data?.HealthID);
+        formDataForFile.append("XRay", data?.XRay);
+        dispatch(addHealthFile(formDataForFile, "/Health/setXRay"));
 
-        formDataForRealaseFile.append('userID', userID)
-        formDataForRealaseFile.append('HealthID', data?.HealthID)
-        formDataForRealaseFile.append('ECG', data?.ECG)
-        dispatch(addHealthFile(formDataForRealaseFile, '/Health/setECG'))
+        formDataForRealaseFile.append("userID", userID);
+        formDataForRealaseFile.append("HealthID", data?.HealthID);
+        formDataForRealaseFile.append("ECG", data?.ECG);
+        dispatch(addHealthFile(formDataForRealaseFile, "/Health/setECG"));
 
-        break
+        break;
 
       default:
-        break
+        break;
     }
-  }
+  };
   return (
     <CModal show={modal} onClose={toggle} centered size="lg">
       <CModalHeader closeButton>{title}</CModalHeader>
@@ -190,12 +189,12 @@ const HealthEditModal = ({
                         size="xl"
                         key={employee.EmployeeID}
                         onClick={() => {
-                          handleSelect('EmployeeID', employee.EmployeeID)
-                          setSelectedEmployee(employee.Name)
+                          handleSelect("EmployeeID", employee.EmployeeID);
+                          setSelectedEmployee(employee.Name);
                         }}
                         href="#"
                         value={employee.Name}
-                        eventKey={'option-' + employee.EmployeeID}
+                        eventKey={"option-" + employee.EmployeeID}
                         active={data?.EmployeeID === employee.EmployeeID}
                       >
                         {employee.Name}
@@ -218,12 +217,12 @@ const HealthEditModal = ({
                         size="xl"
                         key={healthInfo.HealthInfoID}
                         onClick={() => {
-                          handleSelect('HealthInfoID', healthInfo.HealthInfoID)
-                          setSelectedHealthInformation(healthInfo.HealthInfo)
+                          handleSelect("HealthInfoID", healthInfo.HealthInfoID);
+                          setSelectedHealthInformation(healthInfo.HealthInfo);
                         }}
                         href="#"
                         value={healthInfo.HealthInfoID}
-                        eventKey={'option-' + healthInfo.HealthInfoID}
+                        eventKey={"option-" + healthInfo.HealthInfoID}
                       >
                         {healthInfo.HealthInfo}
                       </CDropdownItem>
@@ -405,16 +404,16 @@ const HealthEditModal = ({
             <CCol>
               <CFormGroup>
                 <CLabel htmlFor="nfhealthRecord">
-                  X-ray Report{data?.HealthID ? ' : ' : ''}
+                  X-ray Report{data?.HealthID ? " : " : ""}
                 </CLabel>
                 <CLink
                   onClick={() => {
                     getFile(
-                      'HealthID',
+                      "HealthID",
                       data?.HealthID,
                       data?.FileXRAY,
-                      'Health/GetXRAY',
-                    )
+                      "Health/GetXRAY"
+                    );
                   }}
                 >
                   {data?.FileECG}
@@ -433,16 +432,16 @@ const HealthEditModal = ({
             <CCol>
               <CFormGroup>
                 <CLabel htmlFor="nfhealthRecord">
-                  ECG Report{data?.HealthID ? ' : ' : ''}
+                  ECG Report{data?.HealthID ? " : " : ""}
                 </CLabel>
                 <CLink
                   onClick={() => {
                     getFile(
-                      'HealthID',
+                      "HealthID",
                       data?.HealthID,
                       data?.FileECG,
-                      'Health/GetECG',
-                    )
+                      "Health/GetECG"
+                    );
                   }}
                 >
                   {data?.FileECG}
@@ -464,16 +463,16 @@ const HealthEditModal = ({
       <CModalFooter>
         <CButton color="info" onClick={(e) => handleSubmit(e, type)}>
           {type}
-        </CButton>{' '}
+        </CButton>{" "}
         <CButton color="secondary" onClick={toggle}>
           Close
         </CButton>
       </CModalFooter>
     </CModal>
-  )
-}
+  );
+};
 
-export default HealthEditModal
+export default HealthEditModal;
 // a) Employee => Dropdown[]
 // b) From Date (DD/MM/YYYY)=>Date Picker
 // c) To Date (DD/MM/YYYY)=>Date Picker

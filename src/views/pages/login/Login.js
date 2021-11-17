@@ -29,8 +29,10 @@ import {
   getUserPermissions,
   getUserProgramsPermisions,
 } from "src/services/apiCalls";
+import { GetterFunction } from "src/containers/_nav";
 
 const Login = () => {
+  const [permissions, setPermissions] = useState([]);
   const [data, setData] = useState({});
   const [response, setResponse] = useState("");
   const dispatch = useDispatch();
@@ -85,6 +87,7 @@ const Login = () => {
               "userProgramsPermissions",
               JSON.stringify(res)
             );
+            setPermissions(res);
             history.push({
               pathname: "/modules",
               state: {
@@ -126,6 +129,10 @@ const Login = () => {
               <CCard className="p-4">
                 <CCardBody>
                   <CForm onSubmit={handleSubmit}>
+                    {/* <GetterFunction
+                      setUserProgramsPermissions={setUserProgramsPermissions}
+                      userProgramsPermissions={userProgramsPermissions}
+                    /> */}
                     <h1>Login</h1>
                     <p className="text-muted">Sign In to your account</p>
                     <CInputGroup className="mb-3">

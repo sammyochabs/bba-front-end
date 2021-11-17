@@ -24,6 +24,10 @@ import {
 import SettingPageTitle from "src/reusable/SettingPageTitle";
 import RoleModal from "./RoleModal";
 import RoleTable from "./RoleTable";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 
 const Role = () => {
   const dispatch = useDispatch();
@@ -39,6 +43,8 @@ const Role = () => {
   let [currentModuleID, setCurrentModuleID] = useState(null);
   let [checkedModulePermission, setCheckedModulePermission] =
     useState(roleModules);
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+
   const formData = new FormData();
   useEffect(() => {
     dispatch(fetchRoles(userID));
@@ -113,7 +119,7 @@ const Role = () => {
     module_name
   ) => {
     //if (module_permission === 1) {
-    debugger;
+    //;
     dispatch(fetchProgramPermissions(current_role_id, current_module_id));
     setCurrentModule(module_name);
     setCurrentModuleID(current_module_id);
@@ -249,13 +255,14 @@ const Role = () => {
     );
   });
 
-  let userProgramsPermissions;
-
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   console.log(userProgramsPermissions);
 

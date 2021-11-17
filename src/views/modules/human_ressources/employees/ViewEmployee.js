@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import {
   CButton,
   CCard,
@@ -11,24 +11,24 @@ import {
   CNavLink,
   CTabContent,
   CTabs,
-} from '@coreui/react'
-import { deleteEmployee, fetchEmployee } from 'src/actions/employee'
-import EmployeeViewTab from './tabs/EmployeeViewTab'
-import DocsTab from './tabs/DocsTab'
-import ChildrenTab from './tabs/ChildrenTab'
-import JobViewTab from './tabs/JobViewTab'
-import GeneralViewTab from './tabs/GeneralViewTab'
-import AdressViewTab from './tabs/AddressViewTab'
-import SpouseViewTab from './tabs/SpouseViewTab'
-import { useDispatch } from 'react-redux'
+} from "@coreui/react";
+import { deleteEmployee, fetchEmployee } from "src/actions/employee";
+import EmployeeViewTab from "./tabs/EmployeeViewTab";
+import DocsTab from "./tabs/DocsTab";
+import ChildrenTab from "./tabs/ChildrenTab";
+import JobViewTab from "./tabs/JobViewTab";
+import GeneralViewTab from "./tabs/GeneralViewTab";
+import AdressViewTab from "./tabs/AddressViewTab";
+import SpouseViewTab from "./tabs/SpouseViewTab";
+import { useDispatch } from "react-redux";
 
 const toBase64 = (file) =>
   new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => resolve(reader.result)
-    reader.onerror = (error) => reject(error)
-  })
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
 
 const ViewEmployee = ({
   match: {
@@ -36,26 +36,26 @@ const ViewEmployee = ({
   },
   history,
 }) => {
-  const [data, setData] = useState({})
-  const [singleEmp, setSingleEmp] = useState()
-  const dispatch = useDispatch()
-  const userID = localStorage.getItem('userID')
+  const [data, setData] = useState({});
+  const [singleEmp, setSingleEmp] = useState();
+  const dispatch = useDispatch();
+  const userID = localStorage.getItem("userID");
   const handleDelete = (employeeID, userID) => {
-    if (window.confirm('are you sure!')) {
-      const formData = new FormData()
-      formData.append('EmployeeID', employeeID)
+    if (window.confirm("are you sure!")) {
+      const formData = new FormData();
+      formData.append("EmployeeID", employeeID);
       // console.log(formData.get("EmployeeID"))
-      dispatch(deleteEmployee(formData, userID))
+      dispatch(deleteEmployee(formData, userID));
       setTimeout(() => {
-        history.push('/HR/listEmployee')
-      }, 500)
+        history.push("/HR/listEmployee");
+      }, 500);
     }
-  }
+  };
   useEffect(() => {
     if (empId)
       fetchEmployee(userID, empId, (empData) => {
-        setSingleEmp(empData)
-        debugger
+        setSingleEmp(empData);
+        //
         setData({
           employee_photo: empData?.Photo,
           employee_name_english: empData?.NameEnglish,
@@ -99,9 +99,9 @@ const ViewEmployee = ({
           spouse_name: empData?.SpouseName,
           spouse_nationality: empData?.SpouseNationality,
           spouse_national_id_number: empData?.SpouseCardID,
-        })
-      })
-  }, [empId])
+        });
+      });
+  }, [empId]);
   return (
     <div>
       <CRow>
@@ -112,9 +112,9 @@ const ViewEmployee = ({
                 color="info"
                 size="lg"
                 onClick={(e) => {
-                  history.goBack()
+                  history.goBack();
                 }}
-                style={{ float: 'left' }}
+                style={{ float: "left" }}
               >
                 Back
               </CButton>
@@ -184,7 +184,7 @@ const ViewEmployee = ({
         </CCol>
       </CRow>
     </div>
-  )
-}
+  );
+};
 
-export default ViewEmployee
+export default ViewEmployee;

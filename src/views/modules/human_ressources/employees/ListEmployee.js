@@ -22,6 +22,10 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import SettingPageTitle from "src/reusable/SettingPageTitle";
 import LeavesModal from "./LeaveModal";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 
 const ListEmployee = () => {
   const dispatch = useDispatch();
@@ -29,6 +33,7 @@ const ListEmployee = () => {
   const userID = localStorage.getItem("userID");
   const [modal, setModal] = useState(false);
   const [selectedEmpId, setSelectedEmpId] = useState(null);
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
 
   const toggle = (employeeId) => {
     setModal(!modal);
@@ -83,13 +88,14 @@ const ListEmployee = () => {
   // photo. id .name english .designation .departement .date birth. joinging date
   // Marital Status ,phone number. email adress, status
 
-  let userProgramsPermissions;
-
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   // console.log(userProgramsPermissions);
   return (

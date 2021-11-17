@@ -5,6 +5,10 @@ import { fetchDistricts } from "../../../../../actions/district";
 import SettingPageTitle from "../../../../../reusable/SettingPageTitle";
 import DistrictModal from "./DistrictModal";
 import DistrictTable from "./DistrictTable";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 
 const District = () => {
   const dispatch = useDispatch();
@@ -14,17 +18,19 @@ const District = () => {
   }, [dispatch]);
   const { districts } = useSelector((state) => state.districts);
   const [modal, setModal] = useState(false);
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
 
   const toggle = () => {
     setModal(!modal);
   };
-  let userProgramsPermissions;
-
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   console.log(userProgramsPermissions);
   return (

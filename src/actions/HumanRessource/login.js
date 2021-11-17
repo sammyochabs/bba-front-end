@@ -19,7 +19,7 @@ export const LoginCheck = (formData) => {
 //     }
 //     //  dispatch(fetchGetRequest());
 //     //const history = useHistory()
-//     debugger
+//     //
 //     apiClient
 //       .post('/auth/login', formData, { 'Content-Type': 'multipart/form-data' })
 //       .then((res) => {
@@ -34,7 +34,7 @@ export const LoginCheck = (formData) => {
 //         if (res.data.status != '200') {
 //           alert(res.data.status + ' ' + res.data.message)
 //         }
-//         debugger
+//         //
 //         if (res.data.status == '200') {
 //           console.log(res.data, 'res.data')
 //           let history = useHistory()

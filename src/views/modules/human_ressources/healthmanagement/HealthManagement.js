@@ -7,6 +7,10 @@ import SettingPageTitle from "src/reusable/SettingPageTitle";
 import HealthRecordTable from "./HealthRecordTable";
 import { getEmployeeList } from "src/actions/HumanRessource/employees";
 import { getHealthInfoList } from "src/actions/HumanRessource/healthInfo";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 
 const HealthManagement = () => {
   const dispatch = useDispatch();
@@ -19,6 +23,8 @@ const HealthManagement = () => {
   const [employeeList, setEmployeeList] = useState([]);
   const [data, setData] = useState("");
   const [healthInfoList, setHealthInfoList] = useState([]);
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+
   const toggle = () => {
     setModal(!modal);
     getEmployeeList((employeeListResult) => {
@@ -29,13 +35,14 @@ const HealthManagement = () => {
     });
   };
 
-  let userProgramsPermissions;
-
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   console.log(userProgramsPermissions);
   return (

@@ -5,6 +5,10 @@ import { fetchLoanFunds } from "src/actions/loanfunds";
 import SettingPageTitle from "src/reusable/SettingPageTitle";
 import LoanfundsModal from "./LoanfundsModal";
 import LoanfundsTable from "./LoanfundsTable";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 
 const LoanFunds = () => {
   const dispatch = useDispatch();
@@ -14,18 +18,20 @@ const LoanFunds = () => {
   }, [dispatch]);
   const { loanfunds } = useSelector((state) => state.loanfunds);
   const [modal, setModal] = useState(false);
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
 
   const toggle = () => {
     setModal(!modal);
   };
 
-  let userProgramsPermissions;
-
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   console.log(userProgramsPermissions);
   return (

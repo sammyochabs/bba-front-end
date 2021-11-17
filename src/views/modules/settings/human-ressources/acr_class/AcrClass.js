@@ -5,6 +5,10 @@ import { fetchAcrClasses } from "../../../../../actions/acrClass";
 import SettingPageTitle from "../../../../../reusable/SettingPageTitle";
 import AcrClassModal from "./AcrClassModal";
 import AcrClassTable from "./AcrClassTable";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 
 const Designation = () => {
   const dispatch = useDispatch();
@@ -14,17 +18,19 @@ const Designation = () => {
   }, [dispatch]);
   const { acrClass } = useSelector((state) => state.acrClass);
   const [modal, setModal] = useState(false);
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
 
   const toggle = () => {
     setModal(!modal);
   };
-  let userProgramsPermissions;
-
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   console.log(userProgramsPermissions);
   return (

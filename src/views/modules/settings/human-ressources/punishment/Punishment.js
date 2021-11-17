@@ -5,6 +5,10 @@ import { fetchPunishments } from "src/actions/punishment";
 import SettingPageTitle from "src/reusable/SettingPageTitle";
 import PunishmentModal from "./PunishmentModal";
 import PunishmentTable from "./PunishmentTable";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 
 const Punishment = () => {
   const dispatch = useDispatch();
@@ -14,18 +18,20 @@ const Punishment = () => {
   }, [dispatch]);
   const { punishments } = useSelector((state) => state.punishments);
   const [modal, setModal] = useState(false);
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
 
   const toggle = () => {
     setModal(!modal);
   };
 
-  let userProgramsPermissions;
-
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   console.log(userProgramsPermissions);
   return (

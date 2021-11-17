@@ -82,19 +82,24 @@ export const getUserPermissions = (userID, roleid) => {
     });
 };
 
-export const getUserProgramsPermisions = (userID, roleid) => {
-  return apiClient
+export const getUserProgramsPermisions = async (userID, roleid) => {
+  const response = await apiClient
     .get("/role/program", {
       params: {
         userID,
         roleid,
       },
     })
-    .then((res) => {
-      console.log(res);
-      return res.data.Program;
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+    .catch((err) => console.log(err));
+
+  console.log(response);
+  return response.data.Program;
+
+  // .then((res) => {
+  //   console.log(res);
+  //   return res.data.Program;
+  // })
+  // .catch((err) => {
+  //   console.error(err);
+  // });
 };

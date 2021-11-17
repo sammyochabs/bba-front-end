@@ -13,14 +13,19 @@ import {
 } from "@coreui/react";
 
 // sidebar nav config
-import navigation from "./_nav";
+import mainNavigation from "./_nav";
+
+console.log(mainNavigation);
 
 const TheSidebar = () => {
   const dispatch = useDispatch();
   const { sidebarShow } = useSelector((state) => state.theme);
   const currentModule = localStorage.getItem("currentModule");
   const [module, setModule] = useState(currentModule);
+  const [navigation, setNavigation] = useState({});
+
   const [navigationList, setNavigationList] = useState([]);
+
   const getNavigation = () => {
     switch (currentModule) {
       case "Settings":
@@ -47,10 +52,21 @@ const TheSidebar = () => {
         return false;
     }
   };
+
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setNavigation(res);
+    });
+  }, [mainNavigation]);
+
   useEffect(() => {
     setModule(module);
     getNavigation();
-  }, [module]);
+  }, [module, navigation]);
+
+  console.log(navigationList);
+
   return (
     <CSidebar
       show={sidebarShow}

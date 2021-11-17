@@ -9,6 +9,10 @@ import {
 import SettingPageTitle from "src/reusable/SettingPageTitle";
 import EmpLeaveModal from "./EmpLeaveModal";
 import EmpLeaveTable from "./EmpLeaveTable";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 
 const EmpLeave = () => {
   const dispatch = useDispatch();
@@ -27,18 +31,20 @@ const EmpLeave = () => {
   console.log(leavelist, "leavelist555");
 
   const [modal, setModal] = useState(false);
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
 
   const toggle = () => {
     setModal(!modal);
   };
 
-  let userProgramsPermissions;
-
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   console.log(userProgramsPermissions);
   return (

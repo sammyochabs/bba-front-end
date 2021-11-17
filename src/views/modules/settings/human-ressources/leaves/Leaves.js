@@ -5,6 +5,10 @@ import { fetchLeaves } from "src/actions/leaves";
 import SettingPageTitle from "src/reusable/SettingPageTitle";
 import LeavesModal from "./LeavesModal";
 import LeavesTable from "./LeavesTable";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 
 const Leaves = () => {
   const dispatch = useDispatch();
@@ -14,18 +18,20 @@ const Leaves = () => {
   }, [dispatch]);
   const { leaves } = useSelector((state) => state.leaves);
   const [modal, setModal] = useState(false);
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
 
   const toggle = () => {
     setModal(!modal);
   };
 
-  let userProgramsPermissions;
-
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   console.log(userProgramsPermissions);
   return (

@@ -5,6 +5,10 @@ import { fetchGrades } from "../../../../../actions/grades";
 import SettingPageTitle from "../../../../../reusable/SettingPageTitle";
 import GradesModal from "./GradesModal";
 import GradesTable from "./GradesTable";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 
 const Grades = () => {
   const dispatch = useDispatch();
@@ -14,18 +18,20 @@ const Grades = () => {
   }, [dispatch]);
   const { grades } = useSelector((state) => state.grades);
   const [modal, setModal] = useState(false);
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
 
   const toggle = () => {
     setModal(!modal);
   };
 
-  let userProgramsPermissions;
-
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   console.log(userProgramsPermissions);
   return (

@@ -1,5 +1,5 @@
-import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   CHeader,
   CToggler,
@@ -14,38 +14,52 @@ import {
   CDropdownToggle,
   CDropdownMenu,
   CDropdownItem,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+} from "@coreui/react";
+import CIcon from "@coreui/icons-react";
 
 // routes config
-import routes from '../routes'
+import routes from "../routes";
 
 import {
   TheHeaderDropdown,
   TheHeaderDropdownMssg,
   TheHeaderDropdownNotif,
   TheHeaderDropdownTasks,
-} from './index'
+} from "./index";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 
 const TheHeader = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { asideShow, darkMode, sidebarShow } = useSelector(
-    (state) => state.theme,
-  )
+    (state) => state.theme
+  );
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
 
   const toggleSidebar = () => {
-    const val = [true, 'responsive'].includes(sidebarShow)
+    const val = [true, "responsive"].includes(sidebarShow)
       ? false
-      : 'responsive'
-    dispatch({ type: 'set', sidebarShow: val })
-  }
+      : "responsive";
+    dispatch({ type: "set", sidebarShow: val });
+  };
 
   const toggleSidebarMobile = () => {
-    const val = [false, 'responsive'].includes(sidebarShow)
+    const val = [false, "responsive"].includes(sidebarShow)
       ? true
-      : 'responsive'
-    dispatch({ type: 'set', sidebarShow: val })
-  }
+      : "responsive";
+    dispatch({ type: "set", sidebarShow: val });
+  };
+
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   return (
     <CHeader withSubheader className="master-page-header">
@@ -79,7 +93,7 @@ const TheHeader = () => {
         <CToggler
           inHeader
           className="ml-3 d-md-down-none c-d-legacy-none"
-          onClick={() => dispatch({ type: 'set', darkMode: !darkMode })}
+          onClick={() => dispatch({ type: "set", darkMode: !darkMode })}
           title="Toggle Light/Dark Mode"
         >
           <CIcon
@@ -118,10 +132,17 @@ const TheHeader = () => {
           inHeader
           className="d-md-down-none"
           // onClick={() => dispatch({ type: 'set', asideShow: !asideShow })}
-          onClick={() => (
-            localStorage.setItem('currentModule', 'Settings'),
-            (window.location = '/#/dashboard')
-          )}
+          onClick={() => {
+            if (
+              userProgramsPermissions &&
+              userProgramsPermissions[0]?.Permission === 1
+            ) {
+              localStorage.setItem("currentModule", "Settings");
+              window.location = "/#/dashboard";
+            } else {
+              alert("you dont have access");
+            }
+          }}
         >
           <CIcon className="mr-2" size="lg" name="cil-applications-settings" />
         </CToggler>
@@ -151,7 +172,7 @@ const TheHeader = () => {
         </div>
       </CSubheader> */}
     </CHeader>
-  )
-}
+  );
+};
 
-export default TheHeader
+export default TheHeader;

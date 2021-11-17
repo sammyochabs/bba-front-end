@@ -8,6 +8,10 @@ import EmpLoanTable from "./EmpLoanTable";
 import { fetchEmpDropdown } from "src/actions/HumanRessource/empleave";
 import { fetchLoanTypes } from "src/actions/loantypes";
 import { fetchLoanFunds } from "src/actions/loanfunds";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 const EmpLoan = () => {
   const dispatch = useDispatch();
   const userID = localStorage.getItem("userID");
@@ -26,18 +30,20 @@ const EmpLoan = () => {
   const { loantypes } = useSelector((state) => state.loantype);
   const { loanfunds } = useSelector((state) => state.loanfunds);
   const [modal, setModal] = useState(false);
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
 
   const toggle = () => {
     setModal(!modal);
   };
 
-  let userProgramsPermissions;
-
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   console.log(userProgramsPermissions);
   return (

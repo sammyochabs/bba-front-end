@@ -20,6 +20,10 @@ import {
 import PromotionTable from "./promotionTable";
 import PromotionModal from "./promotionModal";
 import { ExportCSV } from "src/actions/ExportCSV";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 const Promotion = () => {
   // const dispatch = useDispatch();
   const [promotionList, setpromotionList] = useState([]);
@@ -38,6 +42,7 @@ const Promotion = () => {
   const [promotionDate, setPromotionDate] = useState(new Date());
   const [GradeORPayscale, setGradeORPayscale] = useState("");
   const [Grade, setGrade] = useState("");
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
 
   const userID = localStorage.getItem("userID");
   useEffect(async () => {
@@ -70,13 +75,15 @@ const Promotion = () => {
     setpromotionList(await fetchEducationlist(userID));
   };
 
-  let userProgramsPermissions;
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
   return (
     <CCard className="p-5">
       <div className="hr-header">

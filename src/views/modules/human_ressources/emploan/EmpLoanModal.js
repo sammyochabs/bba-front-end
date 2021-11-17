@@ -12,12 +12,12 @@ import {
   CRow,
   CSelect,
   CTextarea,
-} from '@coreui/react'
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { addEmpLoan, updateEmpLoan } from 'src/actions/HumanRessource/emploan'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
+} from "@coreui/react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addEmpLoan, updateEmpLoan } from "src/actions/HumanRessource/emploan";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const EmpLoanModal = ({
   toggle,
@@ -31,126 +31,128 @@ const EmpLoanModal = ({
   loanfunds,
   loan_selected_obj,
 }) => {
-  const [data, setData] = useState({})
-  const [sactionDate, setSactionDate] = useState(new Date())
-  const [terimationDate, setTerminationDate] = useState(new Date())
-  const [paidDate, setPaidDate] = useState(new Date())
-  const dispatch = useDispatch()
-  var formData = new FormData()
-  console.log(type, 'type')
-  if (type == 'Update') {
+  const [data, setData] = useState({});
+  const [sactionDate, setSactionDate] = useState(new Date());
+  const [terimationDate, setTerminationDate] = useState(new Date());
+  const [paidDate, setPaidDate] = useState(new Date());
+  const dispatch = useDispatch();
+  var formData = new FormData();
+  console.log(type, "type");
+  if (type == "Update") {
   }
   const handleInput = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value })
-    if (type == 'Update') {
+    setData({ ...data, [e.target.name]: e.target.value });
+    if (type == "Update") {
       loan_selected_obj.EmployeeID =
-        e.target.name == 'empid' ? e.target.value : loan_selected_obj.EmployeeID
+        e.target.name == "empid"
+          ? e.target.value
+          : loan_selected_obj.EmployeeID;
 
       loan_selected_obj.LoanTypeID =
-        e.target.name == 'LoanTypeID'
+        e.target.name == "LoanTypeID"
           ? e.target.value
-          : loan_selected_obj.LoanTypeID
+          : loan_selected_obj.LoanTypeID;
 
       loan_selected_obj.LoanFundsID =
-        e.target.name == 'LoanFundsID'
+        e.target.name == "LoanFundsID"
           ? e.target.value
-          : loan_selected_obj.LoanFundsID
+          : loan_selected_obj.LoanFundsID;
 
-      loan_selected_obj.SanctionDate = formatDate(sactionDate)
+      loan_selected_obj.SanctionDate = formatDate(sactionDate);
 
       loan_selected_obj.Memo =
-        e.target.name == 'Memo' ? e.target.value : loan_selected_obj.Memo
+        e.target.name == "Memo" ? e.target.value : loan_selected_obj.Memo;
 
       loan_selected_obj.LoanAmount =
-        e.target.name == 'LoanAmount'
+        e.target.name == "LoanAmount"
           ? e.target.value
-          : loan_selected_obj.LoanAmount
+          : loan_selected_obj.LoanAmount;
 
       loan_selected_obj.LoanAmountWord =
-        e.target.name == 'LoanAmountWord'
+        e.target.name == "LoanAmountWord"
           ? e.target.value
-          : loan_selected_obj.LoanAmountWord
+          : loan_selected_obj.LoanAmountWord;
 
       loan_selected_obj.NumberMonth =
-        e.target.name == 'NumberMonth'
+        e.target.name == "NumberMonth"
           ? e.target.value
-          : loan_selected_obj.NumberMonth
+          : loan_selected_obj.NumberMonth;
 
       loan_selected_obj.Installment =
-        e.target.name == 'Installment'
+        e.target.name == "Installment"
           ? e.target.value
-          : loan_selected_obj.Installment
+          : loan_selected_obj.Installment;
 
-      loan_selected_obj.TerminateDate = formatDate(terimationDate)
+      loan_selected_obj.TerminateDate = formatDate(terimationDate);
 
       loan_selected_obj.EmployeeMemo =
-        e.target.name == 'EmployeeMemo'
+        e.target.name == "EmployeeMemo"
           ? e.target.value
-          : loan_selected_obj.EmployeeMemo
+          : loan_selected_obj.EmployeeMemo;
     }
-    return console.log(data)
-  }
+    return console.log(data);
+  };
   function formatDate(date) {
     var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear()
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
 
-    if (month.length < 2) month = '0' + month
-    if (day.length < 2) day = '0' + day
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
 
-    return [day, month, year].join('/')
+    return [day, month, year].join("/");
   }
   const handleSubmit = (e, type) => {
-    e.preventDefault()
+    e.preventDefault();
     switch (type) {
-      case 'Add':
-        formData.append('UserID', localStorage.getItem('userID'))
-        formData.append('EmployeeID', data.empid)
-        formData.append('LoanTypeID', data.LoanTypeID)
-        formData.append('LoanFundsID', data.LoanFundsID)
-        debugger
-        formData.append('SanctionDate', formatDate(sactionDate))
-        formData.append('Memo', data.Memo)
-        formData.append('LoanAmount', data.LoanAmount)
-        formData.append('LoanAmountWord', data.LoanAmountWord)
-        formData.append('NumberMonth', data.NumberMonth)
-        formData.append('Installment', data.Installment)
-        formData.append('TerminateDate', formatDate(terimationDate))
-        formData.append('EmployeeMemo', data.EmployeeMemo)
-        dispatch(addEmpLoan(formData, userID))
+      case "Add":
+        formData.append("UserID", localStorage.getItem("userID"));
+        formData.append("EmployeeID", data.empid);
+        formData.append("LoanTypeID", data.LoanTypeID);
+        formData.append("LoanFundsID", data.LoanFundsID);
+        //
+        formData.append("SanctionDate", formatDate(sactionDate));
+        formData.append("Memo", data.Memo);
+        formData.append("LoanAmount", data.LoanAmount);
+        formData.append("LoanAmountWord", data.LoanAmountWord);
+        formData.append("NumberMonth", data.NumberMonth);
+        formData.append("Installment", data.Installment);
+        formData.append("TerminateDate", formatDate(terimationDate));
+        formData.append("EmployeeMemo", data.EmployeeMemo);
+        dispatch(addEmpLoan(formData, userID));
         setTimeout(() => {
-          window.location.reload()
-        }, 1000)
+          window.location.reload();
+        }, 1000);
 
-        break
-      case 'Update':
-        console.log(loan_selected_obj, 'loan_selected_obj')
-        formData.append('UserID', localStorage.getItem('userID'))
-        formData.append('EmployeeID', loan_selected_obj.EmployeeID)
-        formData.append('LoanID', currentValue)
-        formData.append('LoanTypeID', loan_selected_obj.LoanTypeID)
-        formData.append('LoanFundsID', loan_selected_obj.LoanFundsID)
-        formData.append('SanctionDate', formatDate(sactionDate))
-        formData.append('Memo', loan_selected_obj.Memo)
-        formData.append('LoanAmount', loan_selected_obj.LoanAmount)
-        formData.append('LoanAmountWord', loan_selected_obj.LoanAmountWord)
-        formData.append('NumberMonth', loan_selected_obj.NumberMonth)
-        formData.append('Installment', loan_selected_obj.Installment)
-        formData.append('TerminateDate', formatDate(terimationDate))
-        formData.append('EmployeeMemo', loan_selected_obj.EmployeeMemo)
-        dispatch(updateEmpLoan(formData, localStorage.getItem('userID')))
+        break;
+      case "Update":
+        console.log(loan_selected_obj, "loan_selected_obj");
+        formData.append("UserID", localStorage.getItem("userID"));
+        formData.append("EmployeeID", loan_selected_obj.EmployeeID);
+        formData.append("LoanID", currentValue);
+        formData.append("LoanTypeID", loan_selected_obj.LoanTypeID);
+        formData.append("LoanFundsID", loan_selected_obj.LoanFundsID);
+        formData.append("SanctionDate", formatDate(sactionDate));
+        formData.append("Memo", loan_selected_obj.Memo);
+        formData.append("LoanAmount", loan_selected_obj.LoanAmount);
+        formData.append("LoanAmountWord", loan_selected_obj.LoanAmountWord);
+        formData.append("NumberMonth", loan_selected_obj.NumberMonth);
+        formData.append("Installment", loan_selected_obj.Installment);
+        formData.append("TerminateDate", formatDate(terimationDate));
+        formData.append("EmployeeMemo", loan_selected_obj.EmployeeMemo);
+        dispatch(updateEmpLoan(formData, localStorage.getItem("userID")));
         setTimeout(() => {
-          window.location.reload()
-        }, 1000)
-        break
+          window.location.reload();
+        }, 1000);
+        break;
 
       default:
-        break
+        break;
     }
-  }
+  };
   return (
-    <CModal show={modal} onClose={toggle} size={'xl'} centered>
+    <CModal show={modal} onClose={toggle} size={"xl"} centered>
       <CModalHeader closeButton>{title}</CModalHeader>
       <CModalBody>
         <CForm onSubmit={handleSubmit}>
@@ -414,18 +416,18 @@ const EmpLoanModal = ({
       </CModalBody>
       <CModalFooter>
         <CButton
-          hidden={type == 'View'}
+          hidden={type == "View"}
           color="info"
           onClick={(e) => handleSubmit(e, type)}
         >
           {type}
-        </CButton>{' '}
+        </CButton>{" "}
         <CButton color="secondary" onClick={toggle}>
           Close
         </CButton>
       </CModalFooter>
     </CModal>
-  )
-}
+  );
+};
 
-export default EmpLoanModal
+export default EmpLoanModal;

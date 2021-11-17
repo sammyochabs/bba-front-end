@@ -5,6 +5,10 @@ import { fetchDocumentType } from "../../../../../actions/documentType";
 import SettingPageTitle from "../../../../../reusable/SettingPageTitle";
 import DocumentTypeModal from "./DocumentTypeModal";
 import DocumentTypeTable from "./DocumentTypeTable";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 
 const DocumentType = () => {
   const dispatch = useDispatch();
@@ -14,18 +18,20 @@ const DocumentType = () => {
   }, [dispatch]);
   const { documentTypes } = useSelector((state) => state.documentTypes);
   const [modal, setModal] = useState(false);
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
 
   const toggle = () => {
     setModal(!modal);
   };
 
-  let userProgramsPermissions;
-
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   console.log(userProgramsPermissions);
   return (

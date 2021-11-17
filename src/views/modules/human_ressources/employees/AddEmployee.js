@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import {
   CButton,
   CCard,
@@ -11,34 +11,34 @@ import {
   CNavLink,
   CTabContent,
   CTabs,
-} from '@coreui/react'
-import { useSelector } from 'react-redux'
-import * as _ from 'lodash'
-import DocsTab from './tabs/DocsTab'
-import JobTab from './tabs/JobTab'
-import GeneralTab from './tabs/GeneralTab'
-import EmployeeTab from './tabs/EmployeeTab'
-import AdressTab from './tabs/AdressTab'
-import SpouseTab from './tabs/SpouseTab'
-import ChildrenTab from './tabs/ChildrenTab'
-import { fetchDepartments } from 'src/actions/department'
-import { fetchDesignations } from 'src/actions/designation'
-import { useDispatch } from 'react-redux'
-import { fetchDistricts } from 'src/actions/district'
-import { addEmployee } from 'src/actions/employee'
-import moment from 'moment'
-import { fetchEmployee, updateEmployee } from 'src/actions/employee'
-import { fetchChildren } from './../../../../actions/children'
-import { fetchDocs } from './../../../../actions/employee'
+} from "@coreui/react";
+import { useSelector } from "react-redux";
+import * as _ from "lodash";
+import DocsTab from "./tabs/DocsTab";
+import JobTab from "./tabs/JobTab";
+import GeneralTab from "./tabs/GeneralTab";
+import EmployeeTab from "./tabs/EmployeeTab";
+import AdressTab from "./tabs/AdressTab";
+import SpouseTab from "./tabs/SpouseTab";
+import ChildrenTab from "./tabs/ChildrenTab";
+import { fetchDepartments } from "src/actions/department";
+import { fetchDesignations } from "src/actions/designation";
+import { useDispatch } from "react-redux";
+import { fetchDistricts } from "src/actions/district";
+import { addEmployee } from "src/actions/employee";
+import moment from "moment";
+import { fetchEmployee, updateEmployee } from "src/actions/employee";
+import { fetchChildren } from "./../../../../actions/children";
+import { fetchDocs } from "./../../../../actions/employee";
 
 const toBase64 = (file) =>
   file &&
   new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => resolve(reader.result)
-    reader.onerror = (error) => reject(error)
-  })
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
 
 const AddEmployee = ({
   match: {
@@ -46,72 +46,72 @@ const AddEmployee = ({
   },
   history,
 }) => {
-  const [data, setData] = useState({})
-  const [errors, setErrors] = useState({})
-  const [singleEmp, setSingleEmp] = useState()
-  const userID = localStorage.getItem('userID')
-  var formData = new FormData()
-  const [birthDate, setBirthDate] = useState()
+  const [data, setData] = useState({});
+  const [errors, setErrors] = useState({});
+  const [singleEmp, setSingleEmp] = useState();
+  const userID = localStorage.getItem("userID");
+  var formData = new FormData();
+  const [birthDate, setBirthDate] = useState();
   const handleInput = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value })
-  }
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
   function formatDate(date) {
-    debugger
+    //
     var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear()
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
 
-    if (month.length < 2) month = '0' + month
-    if (day.length < 2) day = '0' + day
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
 
-    return [day, month, year].join('/')
+    return [day, month, year].join("/");
   }
   const handleInputBirthDate = (e) => {
-    setData({ ...data, employee_date_of_birth: formatDate(e) })
-  }
+    setData({ ...data, employee_date_of_birth: formatDate(e) });
+  };
   const handleInputJoiningDate = (e) => {
-    setData({ ...data, job_joining_date: formatDate(e) })
-  }
+    setData({ ...data, job_joining_date: formatDate(e) });
+  };
   const handleInputConfirmationDate = (e) => {
-    setData({ ...data, job_confirmation_date: formatDate(e) })
-  }
+    setData({ ...data, job_confirmation_date: formatDate(e) });
+  };
   const handleInputLRPDate = (e) => {
-    setData({ ...data, job_lrp_date: formatDate(e) })
-  }
+    setData({ ...data, job_lrp_date: formatDate(e) });
+  };
   const handleFile = async (e) => {
-    console.log('handleFile', e.target.name, e.target.files[0])
+    console.log("handleFile", e.target.name, e.target.files[0]);
     setData({
       ...data,
       [e.target.name]: await toBase64(e.target.files[0]),
       [`${e.target.name}_file`]: e.target.files[0],
-    })
-  }
+    });
+  };
   const verifyCheckbox = (checkbox) => {
-    return !checkbox ? 0 : 1
-  }
+    return !checkbox ? 0 : 1;
+  };
   const handleValidate = (fields) => {
-    let errs = {}
+    let errs = {};
     fields.forEach((field) => {
       if (!data[field]) {
-        errs[field] = `${_.startCase(field)} is required!`
+        errs[field] = `${_.startCase(field)} is required!`;
       }
-    })
-    setErrors(errs)
-    return !Object.keys(errs).length
-  }
+    });
+    setErrors(errs);
+    return !Object.keys(errs).length;
+  };
   useEffect(() => {
-    console.log('errors', errors)
+    console.log("errors", errors);
     if (Object.keys(errors).length)
-      alert('mandatory fields should be filled on each tab')
-  }, [errors])
+      alert("mandatory fields should be filled on each tab");
+  }, [errors]);
   const handleSubmit = async (e) => {
-    debugger
-    e.preventDefault()
-    console.log('data', data)
+    //
+    e.preventDefault();
+    console.log("data", data);
     const isValid = handleValidate([
-      'employee_registration_number',
-      'employee_name_english',
+      "employee_registration_number",
+      "employee_name_english",
       //'employee_fathers_name_english',
       //'employee_fathers_name_bangla',
       // 'employee_name_bangla',
@@ -128,140 +128,149 @@ const AddEmployee = ({
       // 'job_phone',
       // 'job_joining_date',
       // 'job_confirmation_date',
-    ])
-    console.log('isValid', { isValid })
-    if (!isValid) return
+    ]);
+    console.log("isValid", { isValid });
+    if (!isValid) return;
     //employee
     data?.employee_photo_file &&
       formData.append(
-        'Photo',
+        "Photo",
         //data.employee_photo
         //  ? singleEmp?.Photo === data.employee_photo
         //    ? undefined
         //    : await toBase64(data?.employee_photo)
         //  : undefined
-        data?.employee_photo_file,
-      )
+        data?.employee_photo_file
+      );
     data?.employee_name_english &&
-      formData.append('NameEnglish', data.employee_name_english || '')
+      formData.append("NameEnglish", data.employee_name_english || "");
     data?.employee_name_bangla &&
-      formData.append('NameBangla', data.employee_name_bangla || '')
+      formData.append("NameBangla", data.employee_name_bangla || "");
     data?.employee_fathers_name_english &&
-      formData.append('FatherEnglish', data.employee_fathers_name_english || '')
+      formData.append(
+        "FatherEnglish",
+        data.employee_fathers_name_english || ""
+      );
     data?.employee_fathers_name_bangla &&
-      formData.append('FatherBangla', data.employee_fathers_name_bangla || '')
+      formData.append("FatherBangla", data.employee_fathers_name_bangla || "");
     data?.employee_mothers_name_english &&
-      formData.append('MotherEnglish', data.employee_mothers_name_english || '')
+      formData.append(
+        "MotherEnglish",
+        data.employee_mothers_name_english || ""
+      );
     data?.employee_mothers_name_bangla &&
-      formData.append('MotherBangla', data.employee_mothers_name_bangla || '')
-    debugger
+      formData.append("MotherBangla", data.employee_mothers_name_bangla || "");
+    //
     data?.employee_date_of_birth &&
       formData.append(
-        'DateBirth',
-        moment(data.employee_date_of_birth || '').format('DD/MM/YYYY'),
-      )
+        "DateBirth",
+        moment(data.employee_date_of_birth || "").format("DD/MM/YYYY")
+      );
 
     // data?.employee_date_of_birth &&
     //   formData.append('DateBirth', data.employee_date_of_birth)
     data?.employee_registration_number &&
       formData.append(
-        'RegistrationNumber',
-        data.employee_registration_number || '',
-      )
+        "RegistrationNumber",
+        data.employee_registration_number || ""
+      );
     data?.employee_card_id &&
-      formData.append('CardID', data.employee_card_id || '')
+      formData.append("CardID", data.employee_card_id || "");
     data?.employee_mobile_number &&
-      formData.append('Mobile', data.employee_mobile_number || '')
+      formData.append("Mobile", data.employee_mobile_number || "");
 
     //job
     data?.job_designation &&
-      formData.append('DesignationID', data.job_designation || '')
+      formData.append("DesignationID", data.job_designation || "");
     data?.job_department &&
-      formData.append('DepartmentID', data.job_department || '')
-    data?.job_cadre && formData.append('Cadre', data.job_cadre || '')
-    data?.job_email && formData.append('Email', data.job_email || '')
-    data?.job_phone && formData.append('Phone', data.job_phone || '')
+      formData.append("DepartmentID", data.job_department || "");
+    data?.job_cadre && formData.append("Cadre", data.job_cadre || "");
+    data?.job_email && formData.append("Email", data.job_email || "");
+    data?.job_phone && formData.append("Phone", data.job_phone || "");
     //formData.append('mobile', '236234')
     data?.job_joining_date &&
       formData.append(
-        'JoigningDate',
-        moment(data.job_joining_date || '').format('DD/MM/YYYY'),
-      )
+        "JoigningDate",
+        moment(data.job_joining_date || "").format("DD/MM/YYYY")
+      );
     //
     data?.job_confirmation_date &&
       formData.append(
-        'ConfirmationDate',
-        moment(data.job_confirmation_date || '').format('DD/MM/YYYY'),
-      )
+        "ConfirmationDate",
+        moment(data.job_confirmation_date || "").format("DD/MM/YYYY")
+      );
     data.job_lrp_date &&
       formData.append(
-        'LRPDate',
-        moment(data.job_lrp_date || '').format('DD/MM/YYYY'),
-      )
+        "LRPDate",
+        moment(data.job_lrp_date || "").format("DD/MM/YYYY")
+      );
     //general
     data?.general_employee_blood &&
-      formData.append('BloodGroup', data.general_employee_blood || '')
+      formData.append("BloodGroup", data.general_employee_blood || "");
     data?.general_employee_religion &&
-      formData.append('Religion', data.general_employee_religion || '')
+      formData.append("Religion", data.general_employee_religion || "");
     data?.general_employee_gender &&
-      formData.append('Gender', data.general_employee_gender || '')
+      formData.append("Gender", data.general_employee_gender || "");
     data?.general_employee_freedom_fighter &&
       formData.append(
-        'FreedomFighter',
-        verifyCheckbox(data.general_employee_freedom_fighter || ''),
-      )
+        "FreedomFighter",
+        verifyCheckbox(data.general_employee_freedom_fighter || "")
+      );
     data?.general_employee_children_freedom_fighter &&
       formData.append(
-        'Grandchild',
-        verifyCheckbox(data.general_employee_children_freedom_fighter || ''),
-      )
+        "Grandchild",
+        verifyCheckbox(data.general_employee_children_freedom_fighter || "")
+      );
     data?.general_employee_tribal &&
       formData.append(
-        'Tribal',
-        verifyCheckbox(data.general_employee_tribal || ''),
-      )
+        "Tribal",
+        verifyCheckbox(data.general_employee_tribal || "")
+      );
     data?.general_employee_nationality &&
-      formData.append('Nationality', data.general_employee_nationality || '')
+      formData.append("Nationality", data.general_employee_nationality || "");
     //adress
     data?.present_adress_village_house &&
-      formData.append('PresentAdress', data.present_adress_village_house || '')
+      formData.append("PresentAdress", data.present_adress_village_house || "");
     data?.present_adress_post_office &&
-      formData.append('PresentPO', data.present_adress_post_office || '')
+      formData.append("PresentPO", data.present_adress_post_office || "");
     data?.present_adress_upazila &&
-      formData.append('PresentUpazilla', data.present_adress_upazila || '')
+      formData.append("PresentUpazilla", data.present_adress_upazila || "");
     data?.present_adress_district &&
-      formData.append('PresentDistrictID', data.present_adress_district || '')
+      formData.append("PresentDistrictID", data.present_adress_district || "");
     data?.permanent_adress_village_house &&
       formData.append(
-        'PermanentAdress',
-        data.permanent_adress_village_house || '',
-      )
+        "PermanentAdress",
+        data.permanent_adress_village_house || ""
+      );
     data?.permanent_adress_post_office &&
-      formData.append('PermanentPO', data.permanent_adress_post_office || '')
+      formData.append("PermanentPO", data.permanent_adress_post_office || "");
     data?.permanent_adress_upazila &&
-      formData.append('PermanentUpazilla', data.permanent_adress_upazila || '')
+      formData.append("PermanentUpazilla", data.permanent_adress_upazila || "");
     data?.permanent_adress_district &&
       formData.append(
-        'PermanentDistrictID',
-        data.permanent_adress_district || '',
-      )
+        "PermanentDistrictID",
+        data.permanent_adress_district || ""
+      );
     data?.official_adress_village_house &&
       formData.append(
-        'OfficialAdress',
-        data.official_adress_village_house || '',
-      )
+        "OfficialAdress",
+        data.official_adress_village_house || ""
+      );
     data?.official_adress_post_office &&
-      formData.append('OfficialPO', data.official_adress_post_office || '')
+      formData.append("OfficialPO", data.official_adress_post_office || "");
     data?.official_adress_upazila &&
-      formData.append('OfficialUpazilla', data.official_adress_upazila || '')
+      formData.append("OfficialUpazilla", data.official_adress_upazila || "");
     data?.official_adress_district &&
-      formData.append('OfficialDistrictID', data.official_adress_district || '')
+      formData.append(
+        "OfficialDistrictID",
+        data.official_adress_district || ""
+      );
     //spouse
-    data?.spouse_name && formData.append('SpouseName', data.spouse_name || '')
+    data?.spouse_name && formData.append("SpouseName", data.spouse_name || "");
     data?.spouse_nationality &&
-      formData.append('SpouseNationality', data.spouse_nationality || '')
+      formData.append("SpouseNationality", data.spouse_nationality || "");
     data?.spouse_national_id_number &&
-      formData.append('SpouseCardID', data.spouse_national_id_number || '')
+      formData.append("SpouseCardID", data.spouse_national_id_number || "");
     // console.log(data.employee_photo || '')
     //if (empId) formData.append("EmployeeID", empId);
     const empFormData = {
@@ -293,7 +302,7 @@ const AddEmployee = ({
       Gender: data?.general_employee_gender,
       FreedomFighter: verifyCheckbox(data?.general_employee_freedom_fighter),
       Grandchild: verifyCheckbox(
-        data?.general_employee_children_freedom_fighter,
+        data?.general_employee_children_freedom_fighter
       ),
       Tribal: verifyCheckbox(data?.general_employee_tribal),
       Nationality: data?.general_employee_nationality,
@@ -312,22 +321,23 @@ const AddEmployee = ({
       SpouseName: data?.spouse_name,
       SpouseNationality: data?.spouse_nationality,
       SpouseCardID: data?.spouse_national_id_number,
-    }
+    };
     return empId
       ? dispatch(updateEmployee(formData, userID, empId))
-      : dispatch(addEmployee(formData, userID))
-  }
-  const dispatch = useDispatch()
-  const employeeId = useSelector((state) => state.employees.employeeId) || empId
+      : dispatch(addEmployee(formData, userID));
+  };
+  const dispatch = useDispatch();
+  const employeeId =
+    useSelector((state) => state.employees.employeeId) || empId;
   useEffect(() => {
-    dispatch(fetchDepartments(userID))
-    dispatch(fetchDesignations(userID))
-    dispatch(fetchDistricts(userID))
-    if (employeeId) fetchChildren(employeeId, userID)
-    if (employeeId) fetchDocs(employeeId, userID)
+    dispatch(fetchDepartments(userID));
+    dispatch(fetchDesignations(userID));
+    dispatch(fetchDistricts(userID));
+    if (employeeId) fetchChildren(employeeId, userID);
+    if (employeeId) fetchDocs(employeeId, userID);
     if (empId)
       fetchEmployee(userID, empId, (empData) => {
-        setSingleEmp(empData)
+        setSingleEmp(empData);
         setData({
           employee_photo: empData?.Photo,
           employee_name_english: empData?.NameEnglish,
@@ -371,9 +381,9 @@ const AddEmployee = ({
           spouse_nationality: empData?.SpouseNationality,
           spouse_national_id_number: empData?.SpouseCardID,
           job_lrp_date: empData?.LRPDate,
-        })
-      })
-  }, [dispatch, empId])
+        });
+      });
+  }, [dispatch, empId]);
   return (
     <div>
       <CRow>
@@ -384,9 +394,9 @@ const AddEmployee = ({
                 color="info"
                 size="lg"
                 onClick={(e) => {
-                  history.goBack()
+                  history.goBack();
                 }}
-                style={{ float: 'left' }}
+                style={{ float: "left" }}
               >
                 Back
               </CButton>
@@ -394,8 +404,8 @@ const AddEmployee = ({
             <CCardBody>
               <form
                 onSubmit={(e) => {
-                  e.preventDefault()
-                  handleSubmit(e)
+                  e.preventDefault();
+                  handleSubmit(e);
                 }}
               >
                 <CTabs>
@@ -467,7 +477,7 @@ const AddEmployee = ({
                     />
                   </CTabContent>
                 </CTabs>
-                <div style={{ float: 'right' }}>
+                <div style={{ float: "right" }}>
                   <CButton
                     type="submit"
                     color="primary"
@@ -495,7 +505,7 @@ const AddEmployee = ({
         </CCol>
       </CRow>
     </div>
-  )
-}
+  );
+};
 
-export default AddEmployee
+export default AddEmployee;

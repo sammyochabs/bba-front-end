@@ -46,7 +46,7 @@ export const getEmployeeDoc = (doc) => {
 
 // get file
 export const getFile = (idName, idValue, fileName, fileUrl) => {
-  // debugger;
+  // //;
   apiClient
     .get("/" + fileUrl, {
       params: { userID: localStorage.getItem("userID"), [idName]: idValue },
@@ -70,7 +70,7 @@ export const getFile = (idName, idValue, fileName, fileUrl) => {
 };
 
 export const getChildFile = (idName, idValue, fileName, fileUrl) => {
-  // debugger;
+  // //;
   apiClient
     .get("/" + fileUrl, {
       params: { userID: localStorage.getItem("userID"), [idName]: idValue },
@@ -128,7 +128,7 @@ export const fetchEmployees = (userID) => {
 };
 
 export const fetchEmployee = (userID, empID, callback) => {
-  debugger;
+  //;
   apiClient
     .get("/employee/view", {
       params: { userID: userID, employeeID: empID },

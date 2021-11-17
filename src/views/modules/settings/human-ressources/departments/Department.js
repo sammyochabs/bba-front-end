@@ -5,6 +5,10 @@ import { fetchDepartments } from "../../../../../actions/department";
 import SettingPageTitle from "../../../../../reusable/SettingPageTitle";
 import DepartmentModal from "./DepartmentModal";
 import DepartmentTable from "./DepartmentTable";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 
 const Designation = () => {
   const dispatch = useDispatch();
@@ -14,17 +18,19 @@ const Designation = () => {
   }, [dispatch]);
   const { departments } = useSelector((state) => state.departments);
   const [modal, setModal] = useState(false);
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
 
   const toggle = () => {
     setModal(!modal);
   };
-  let userProgramsPermissions;
-
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   console.log(userProgramsPermissions);
   return (

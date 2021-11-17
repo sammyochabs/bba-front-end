@@ -5,6 +5,10 @@ import { fetchHealthInfos } from "src/actions/healthinfo";
 import SettingPageTitle from "src/reusable/SettingPageTitle";
 import HealthInfoModal from "./HealthInfoModal";
 import HealthInfoTable from "./HealthInfoTable";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 
 const HealthInfo = () => {
   const dispatch = useDispatch();
@@ -14,17 +18,19 @@ const HealthInfo = () => {
   }, [dispatch]);
   const { healthInfos } = useSelector((state) => state.healthInfos);
   const [modal, setModal] = useState(false);
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
 
   const toggle = () => {
     setModal(!modal);
   };
-  let userProgramsPermissions;
-
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   console.log(userProgramsPermissions);
   return (

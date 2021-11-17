@@ -7,6 +7,10 @@ import SettingPageTitle from "src/reusable/SettingPageTitle";
 import DisciplinesTable from "./DisciplinesTable";
 import { getEmployeeList } from "src/actions/HumanRessource/employees";
 import { getPunishmentList } from "src/actions/HumanRessource/punishmentList";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 
 const DisciplineManagement = () => {
   const dispatch = useDispatch();
@@ -19,6 +23,7 @@ const DisciplineManagement = () => {
   const [employeeList, setEmployeeList] = useState([]);
   const [data, setData] = useState("");
   const [punishmentList, setPunishmentList] = useState([]);
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
 
   const toggle = () => {
     setModal(!modal);
@@ -31,13 +36,22 @@ const DisciplineManagement = () => {
     });
   };
 
-  let userProgramsPermissions;
+  // let userProgramsPermissions;
 
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
+  // if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
+  //   userProgramsPermissions = JSON.parse(
+  //     localStorage.getItem("userProgramsPermissions")
+  //   );
+  // }
+
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   console.log(userProgramsPermissions);
   return (

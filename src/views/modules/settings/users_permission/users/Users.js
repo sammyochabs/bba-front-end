@@ -7,6 +7,10 @@ import { fetchUsers } from "src/actions/users";
 import SettingPageTitle from "src/reusable/SettingPageTitle";
 import UsersModal from "./UsersModal";
 import UsersTable from "./UsersTable";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -19,18 +23,20 @@ const Users = () => {
   }, [dispatch]);
   const { users } = useSelector((state) => state.users);
   const [modal, setModal] = useState(false);
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
 
   const toggle = () => {
     setModal(!modal);
   };
 
-  let userProgramsPermissions;
-
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   console.log(userProgramsPermissions);
   return (

@@ -18,6 +18,10 @@ import SettingPageTitle from "src/reusable/SettingPageTitle";
 import EducationTable from "./EducationTable";
 import EducationModal from "./EducationModal";
 import { ExportCSV } from "src/actions/ExportCSV";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 const Education = () => {
   const dispatch = useDispatch();
   const [educationlist, seteducationlist] = useState([]);
@@ -46,6 +50,8 @@ const Education = () => {
   }, []);
   //  const { loantypes } = useSelector(state => state.loantype)
   const [modal, setModal] = useState(false);
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+
   const [responseModal, setResponseModal] = useState(false);
   const toggle = () => {
     setModal(!modal);
@@ -71,13 +77,14 @@ const Education = () => {
     }
   };
 
-  let userProgramsPermissions;
-
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   return (
     <CCard className="p-5">

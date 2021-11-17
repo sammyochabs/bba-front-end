@@ -10,6 +10,10 @@ import {
 import TrainerTable from "./TrainerTable";
 import TrainerModal from "./TrainerModal";
 import { ExportCSV } from "src/actions/ExportCSV";
+import {
+  getUserPermissions,
+  getUserProgramsPermisions,
+} from "src/services/apiCalls";
 const Trainer = () => {
   // const dispatch = useDispatch();
   const [trainerList, setTrainer] = useState([]);
@@ -22,6 +26,8 @@ const Trainer = () => {
   //  const { loantypes } = useSelector(state => state.loantype)
   const [modal, setModal] = useState(false);
   const [responseModal, setResponseModal] = useState(false);
+  const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+
   const toggle = () => {
     setResponseModal(false);
     setModal(!modal);
@@ -31,13 +37,14 @@ const Trainer = () => {
     setTrainer(await fetchEducationlist(userID));
   };
 
-  let userProgramsPermissions;
-
-  if (localStorage.getItem("userProgramsPermissions") !== "undefined") {
-    userProgramsPermissions = JSON.parse(
-      localStorage.getItem("userProgramsPermissions")
-    );
-  }
+  useEffect(() => {
+    getUserProgramsPermisions(
+      localStorage.getItem("userID"),
+      localStorage.getItem("roleid")
+    ).then((res) => {
+      setUserProgramsPermissions(res);
+    });
+  }, []);
 
   return (
     <CCard className="p-5">

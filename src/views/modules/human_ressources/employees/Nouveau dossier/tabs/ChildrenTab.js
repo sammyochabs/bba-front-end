@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   CButton,
   CCard,
@@ -18,58 +18,58 @@ import {
   CDropdownMenu,
   CDropdownItem,
   CLink,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { addChild, deleteChild } from 'src/actions/children'
-import { useDispatch, useSelector } from 'react-redux'
-import moment from 'moment'
-import SettingPageTitle from 'src/reusable/SettingPageTitle'
+} from "@coreui/react";
+import CIcon from "@coreui/icons-react";
+import { addChild, deleteChild } from "src/actions/children";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
+import SettingPageTitle from "src/reusable/SettingPageTitle";
 //import { getFile } from 'src/actions/employee'
-import { getFile } from 'src/actions/HumanRessource/downloadFile'
+import { getFile } from "src/actions/HumanRessource/downloadFile";
 const ChildrenTab = ({ handleInput, handleFile, data }) => {
-  const dispatch = useDispatch()
-  const userID = 1
-  const formData = new FormData()
-  const { employeeId } = useSelector((state) => state.employees)
-  const { children } = useSelector((state) => state.children)
+  const dispatch = useDispatch();
+  const userID = 1;
+  const formData = new FormData();
+  const { employeeId } = useSelector((state) => state.employees);
+  const { children } = useSelector((state) => state.children);
 
   const handleDelete = (id, employeeId, userID) => {
-    formData.append('ChildID', id)
-    dispatch(deleteChild(formData, employeeId, userID))
-  }
+    formData.append("ChildID", id);
+    dispatch(deleteChild(formData, employeeId, userID));
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    debugger
+    e.preventDefault();
+    //
     // children
-    formData.append('EmployeeID', employeeId)
-    formData.append('Name', data.children_name)
+    formData.append("EmployeeID", employeeId);
+    formData.append("Name", data.children_name);
     formData.append(
-      'BirthDate',
-      moment(data.children_date_of_birth).format('DD/MM/YYYY'),
-    )
-    formData.append('Gender', data.children_gender)
-    formData.append('School', data.children_school)
-    formData.append('Class', data.children_class)
-    formData.append('Certificate', data.children_certificate)
-    formData.append('Photo', data.children_photo)
+      "BirthDate",
+      moment(data.children_date_of_birth).format("DD/MM/YYYY")
+    );
+    formData.append("Gender", data.children_gender);
+    formData.append("School", data.children_school);
+    formData.append("Class", data.children_class);
+    formData.append("Certificate", data.children_certificate);
+    formData.append("Photo", data.children_photo);
     // Files
     // formData.append("Photo", data.children_photo);
     // formData.append("Certificate", data.children_certificate);
     return !employeeId
-      ? alert('Please add an employee first.')
-      : dispatch(addChild(formData, employeeId, userID))
-  }
+      ? alert("Please add an employee first.")
+      : dispatch(addChild(formData, employeeId, userID));
+  };
   const fields = [
-    { key: 'Name' },
-    { key: 'Gender' },
-    { key: 'BirthDate' },
-    { key: 'School' },
-    { key: 'Class' },
-    'Photo',
-    'Certificate',
-    'Action',
-  ]
+    { key: "Name" },
+    { key: "Gender" },
+    { key: "BirthDate" },
+    { key: "School" },
+    { key: "Class" },
+    "Photo",
+    "Certificate",
+    "Action",
+  ];
   return (
     <CTabPane>
       <CCard>
@@ -81,9 +81,9 @@ const ChildrenTab = ({ handleInput, handleFile, data }) => {
             color="info"
             size="lg"
             onClick={(e) => {
-              handleSubmit(e)
+              handleSubmit(e);
             }}
-            style={{ float: 'right' }}
+            style={{ float: "right" }}
           >
             + Save Child
           </CButton>
@@ -94,7 +94,7 @@ const ChildrenTab = ({ handleInput, handleFile, data }) => {
             <CCol md="5">
               <form
                 onSubmit={(e) => {
-                  handleSubmit(e)
+                  handleSubmit(e);
                 }}
               >
                 <CFormGroup row>
@@ -178,11 +178,11 @@ const ChildrenTab = ({ handleInput, handleFile, data }) => {
                       <CLink
                         onClick={() => {
                           getFile(
-                            'EmployeeID',
+                            "EmployeeID",
                             data?.employeeId,
                             data?.children_photo,
-                            'Child/GetPhoto',
-                          )
+                            "Child/GetPhoto"
+                          );
                         }}
                       >
                         {data?.children_photo}
@@ -209,13 +209,13 @@ const ChildrenTab = ({ handleInput, handleFile, data }) => {
                       <td className="py-2">
                         <CDropdown className="m-1">
                           <CDropdownToggle>
-                            <CIcon name={'cilSettings'} size={'lg'} />
+                            <CIcon name={"cilSettings"} size={"lg"} />
                           </CDropdownToggle>
                           <CDropdownMenu>
                             <CDropdownItem>Edit</CDropdownItem>
                             <CDropdownItem
                               onClick={() => {
-                                handleDelete(item.ChildID, employeeId, userID)
+                                handleDelete(item.ChildID, employeeId, userID);
                               }}
                             >
                               Delete
@@ -223,7 +223,7 @@ const ChildrenTab = ({ handleInput, handleFile, data }) => {
                           </CDropdownMenu>
                         </CDropdown>
                       </td>
-                    )
+                    );
                   },
                 }}
               />
@@ -232,7 +232,7 @@ const ChildrenTab = ({ handleInput, handleFile, data }) => {
         </CCardBody>
       </CCard>
     </CTabPane>
-  )
-}
+  );
+};
 
-export default ChildrenTab
+export default ChildrenTab;

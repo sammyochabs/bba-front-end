@@ -48,7 +48,7 @@ const TheSidebar11 = () => {
     //console.log(currentRoleID)
     //lsetPrg_id(dispatch(fetchProgramPermissions(currentRoleID)))
     //console.log(prg_id, 'prg id')
-    debugger;
+    //;
     //console.log(fetchProgramPermissions(2, null))
     // const pp = []
     // pp.push(fetchProgramPermissions(2, ''))
@@ -57,7 +57,7 @@ const TheSidebar11 = () => {
     //if (roleid[0][1] == 1) {
 
     /**const fetchPrograms = (roleID) => {
-      //debugger
+      ////
       //fetchGetRequest()
        apiClient
         .get('/role/program', {
