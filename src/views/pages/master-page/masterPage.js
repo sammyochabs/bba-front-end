@@ -39,33 +39,41 @@ const MasterPage = () => {
   }, []);
 
   useEffect(() => {
+    let holderObject = {};
     permissions &&
       permissions.forEach((module) => {
+        console.log(module);
         if (module.ModuleID === 1) {
-          setModules(Object.assign({}, modules, { settings: module }));
+          // setModules({ ...modules, settings: module });
+          // console.log(modules);
+          holderObject = { ...holderObject, settings: module };
         }
         if (module.ModuleID === 2) {
-          setModules(Object.assign({}, modules, { systemAdminWing: module }));
+          // setModules({ ...modules, systemAdminWing: module });
+          holderObject = { ...holderObject, systemAdminWing: module };
         }
         if (module.ModuleID === 3) {
-          setModules(
-            Object.assign({}, modules, { planningAndDevelopmentWing: module })
-          );
+          // setModules({ ...modules, planningAndDevelopmentWing: module });
+          holderObject = {
+            ...holderObject,
+            planningAndDevelopmentWing: module,
+          };
         }
         if (module.ModuleID === 4) {
-          setModules(
-            Object.assign({}, modules, { operationAndMaintanance: module })
-          );
+          // setModules({ ...modules, operationAndMaintanance: module });
+          holderObject = { ...holderObject, operationAndMaintanance: module };
         }
         if (module.ModuleID === 5) {
-          setModules(
-            Object.assign({}, modules, { financeAndAccountsWing: module })
-          );
+          // setModules({ ...modules, financeAndAccountsWing: module });
+          holderObject = { ...holderObject, financeAndAccountsWing: module };
         }
         if (module.ModuleID === 6) {
-          setModules(Object.assign({}, modules, { technicalWing: module }));
+          setModules({ ...modules, technicalWing: module });
+          holderObject = { ...holderObject, technicalWing: module };
         }
       });
+
+    setModules(holderObject);
   }, [permissions]);
 
   console.log(permissions);

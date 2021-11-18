@@ -16,9 +16,9 @@ const Card = ({ icon, module, bgColor, path, moduleName, permission }) => {
   return (
     <div
       onClick={() => {
-        if (permission === 0) {
+        if (permission === 1) {
           history.push(path);
-        } else if (permission === 1) {
+        } else if (permission === 0) {
           alert("You dont have permision to access this module");
         }
         setModule(moduleName);
