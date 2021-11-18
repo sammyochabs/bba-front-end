@@ -34,7 +34,7 @@ const TheHeaderDropdown = () => {
         <CDropdownItem header tag="div" color="light" className="text-center">
           <strong>Account</strong>
         </CDropdownItem>
-        <CDropdownItem style={{ flexDirection: "column" }}>
+        <CDropdownItem style={{ flexDirection: "column", marginTop: "4px" }}>
           <Link
             style={{ textDecoration: "none", marginBottom: 10 }}
             to="/profile"
@@ -42,6 +42,8 @@ const TheHeaderDropdown = () => {
             <CIcon name="cil-user" className="mfe-2" />
             Profile
           </Link>
+        </CDropdownItem>
+        <CDropdownItem style={{ flexDirection: "column" }}>
           <Link
             onClick={resetLocalStorage}
             style={{ textDecoration: "none" }}
