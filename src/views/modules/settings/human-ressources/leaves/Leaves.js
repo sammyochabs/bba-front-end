@@ -9,6 +9,7 @@ import {
   getUserPermissions,
   getUserProgramsPermisions,
 } from "src/services/apiCalls";
+import mainNavigation from "src/containers/_nav";
 
 const Leaves = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const Leaves = () => {
   const { leaves } = useSelector((state) => state.leaves);
   const [modal, setModal] = useState(false);
   const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+  const [programs, setPrograms] = useState({});
 
   const toggle = () => {
     setModal(!modal);
@@ -33,6 +35,13 @@ const Leaves = () => {
     });
   }, []);
 
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setPrograms(res.programs);
+    });
+  }, [mainNavigation]);
+
   console.log(userProgramsPermissions);
   return (
     <CCard className="p-5">
@@ -40,10 +49,7 @@ const Leaves = () => {
         <SettingPageTitle title="Leaves & duration" />
         <CButton
           onClick={() => {
-            if (
-              userProgramsPermissions &&
-              userProgramsPermissions[3]?.Add === 1
-            ) {
+            if (programs && programs.leaveManagement.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {
@@ -58,12 +64,8 @@ const Leaves = () => {
       <LeavesTable
         leaves={leaves}
         userID={userID}
-        editPermission={
-          userProgramsPermissions && userProgramsPermissions[3]?.Edit
-        }
-        deletePermission={
-          userProgramsPermissions && userProgramsPermissions[3]?.Delete
-        }
+        editPermission={programs && programs.leaveManagement?.Edit}
+        deletePermission={programs && programs.leaveManagement?.Delete}
       />
       <LeavesModal
         userID={userID}

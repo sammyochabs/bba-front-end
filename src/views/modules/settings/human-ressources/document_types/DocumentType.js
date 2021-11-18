@@ -9,6 +9,7 @@ import {
   getUserPermissions,
   getUserProgramsPermisions,
 } from "src/services/apiCalls";
+import mainNavigation from "src/containers/_nav";
 
 const DocumentType = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const DocumentType = () => {
   const { documentTypes } = useSelector((state) => state.documentTypes);
   const [modal, setModal] = useState(false);
   const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+  const [programs, setPrograms] = useState({});
 
   const toggle = () => {
     setModal(!modal);
@@ -33,6 +35,13 @@ const DocumentType = () => {
     });
   }, []);
 
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setPrograms(res.programs);
+    });
+  }, [mainNavigation]);
+
   console.log(userProgramsPermissions);
   return (
     <CCard className="p-5">
@@ -40,10 +49,7 @@ const DocumentType = () => {
         <SettingPageTitle title="Document type" />
         <CButton
           onClick={() => {
-            if (
-              userProgramsPermissions &&
-              userProgramsPermissions[12]?.Add === 1
-            ) {
+            if (programs && programs.documentTypes.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {
@@ -58,12 +64,8 @@ const DocumentType = () => {
       <DocumentTypeTable
         documentTypes={documentTypes}
         userID={userID}
-        editPermission={
-          userProgramsPermissions && userProgramsPermissions[12]?.Edit
-        }
-        deletePermission={
-          userProgramsPermissions && userProgramsPermissions[12]?.Delete
-        }
+        editPermission={programs && programs.documentTypes?.Edit}
+        deletePermission={programs && programs.documentTypes?.Delete}
       />
       <DocumentTypeModal
         userID={userID}

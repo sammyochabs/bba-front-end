@@ -9,6 +9,7 @@ import {
   getUserPermissions,
   getUserProgramsPermisions,
 } from "src/services/apiCalls";
+import mainNavigation from "src/containers/_nav";
 
 const HealthInfo = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const HealthInfo = () => {
   const { healthInfos } = useSelector((state) => state.healthInfos);
   const [modal, setModal] = useState(false);
   const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+  const [programs, setPrograms] = useState({});
 
   const toggle = () => {
     setModal(!modal);
@@ -32,6 +34,13 @@ const HealthInfo = () => {
     });
   }, []);
 
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setPrograms(res.programs);
+    });
+  }, [mainNavigation]);
+
   console.log(userProgramsPermissions);
   return (
     <CCard className="p-5">
@@ -39,10 +48,7 @@ const HealthInfo = () => {
         <SettingPageTitle title="Health information" />
         <CButton
           onClick={() => {
-            if (
-              userProgramsPermissions &&
-              userProgramsPermissions[11]?.Add === 1
-            ) {
+            if (programs && programs.healthInfo.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {
@@ -57,12 +63,8 @@ const HealthInfo = () => {
       <HealthInfoTable
         healthInfos={healthInfos}
         userID={userID}
-        editPermission={
-          userProgramsPermissions && userProgramsPermissions[11]?.Edit
-        }
-        deletePermission={
-          userProgramsPermissions && userProgramsPermissions[11]?.Delete
-        }
+        editPermission={programs && programs.healthInfo?.Edit}
+        deletePermission={programs && programs.healthInfo?.Delete}
       />
       <HealthInfoModal
         userID={userID}

@@ -9,6 +9,7 @@ import {
   getUserPermissions,
   getUserProgramsPermisions,
 } from "src/services/apiCalls";
+import mainNavigation from "src/containers/_nav";
 
 const Designation = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const Designation = () => {
   const { designations } = useSelector((state) => state.designations);
   const [modal, setModal] = useState(false);
   const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+  const [programs, setPrograms] = useState({});
 
   const toggle = () => {
     setModal(!modal);
@@ -33,6 +35,13 @@ const Designation = () => {
     });
   }, []);
 
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setPrograms(res.programs);
+    });
+  }, [mainNavigation]);
+
   console.log(userProgramsPermissions);
   return (
     <CCard className="p-5">
@@ -40,10 +49,7 @@ const Designation = () => {
         <SettingPageTitle title="Designations" />
         <CButton
           onClick={() => {
-            if (
-              userProgramsPermissions &&
-              userProgramsPermissions[6]?.Add === 1
-            ) {
+            if (programs && programs.designations.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {
@@ -58,12 +64,8 @@ const Designation = () => {
       <DesignationTable
         designations={designations}
         userID={userID}
-        editPermission={
-          userProgramsPermissions && userProgramsPermissions[6]?.Edit
-        }
-        deletePermission={
-          userProgramsPermissions && userProgramsPermissions[6]?.Delete
-        }
+        editPermission={programs && programs.designations.Add.Edit}
+        deletePermission={programs && programs.designations.Add.Delete}
       />
       <DesignationModal
         userID={userID}

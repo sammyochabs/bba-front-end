@@ -12,6 +12,8 @@ import {
   getUserPermissions,
   getUserProgramsPermisions,
 } from "src/services/apiCalls";
+import mainNavigation from "src/containers/_nav";
+
 const EmpLoan = () => {
   const dispatch = useDispatch();
   const userID = localStorage.getItem("userID");
@@ -31,6 +33,7 @@ const EmpLoan = () => {
   const { loanfunds } = useSelector((state) => state.loanfunds);
   const [modal, setModal] = useState(false);
   const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+  const [programs, setPrograms] = useState({});
 
   const toggle = () => {
     setModal(!modal);
@@ -45,6 +48,12 @@ const EmpLoan = () => {
     });
   }, []);
 
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setPrograms(res.programs);
+    });
+  }, [mainNavigation]);
   console.log(userProgramsPermissions);
   return (
     <CCard className="p-5">
@@ -52,10 +61,7 @@ const EmpLoan = () => {
         <SettingPageTitle title="Employee Loan Request" />
         <CButton
           onClick={() => {
-            if (
-              userProgramsPermissions &&
-              userProgramsPermissions[22]?.Add === 1
-            ) {
+            if (programs && programs.loanManagement.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {
@@ -68,21 +74,11 @@ const EmpLoan = () => {
         </CButton>
       </div>
       <EmpLoanTable
-        editPermission={
-          userProgramsPermissions && userProgramsPermissions[22]?.Edit
-        }
-        viewPermission={
-          userProgramsPermissions && userProgramsPermissions[22]?.View
-        }
-        deletePermission={
-          userProgramsPermissions && userProgramsPermissions[22]?.Delete
-        }
-        approvePermission={
-          userProgramsPermissions && userProgramsPermissions[22]?.Permission
-        }
-        declinePermission={
-          userProgramsPermissions && userProgramsPermissions[22]?.Permission
-        }
+        editPermission={programs && programs.loanManagement.Edit}
+        viewPermission={programs && programs.loanManagement.View}
+        deletePermission={programs && programs.loanManagement.Delete}
+        approvePermission={programs && programs.loanManagement.Permission}
+        declinePermission={programs && programs.loanManagement.Permission}
         empLoan={empLoan}
         userID={userID}
         emplist={emplist}

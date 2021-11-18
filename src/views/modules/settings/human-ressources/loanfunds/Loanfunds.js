@@ -9,6 +9,7 @@ import {
   getUserPermissions,
   getUserProgramsPermisions,
 } from "src/services/apiCalls";
+import mainNavigation from "src/containers/_nav";
 
 const LoanFunds = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const LoanFunds = () => {
   const { loanfunds } = useSelector((state) => state.loanfunds);
   const [modal, setModal] = useState(false);
   const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+  const [programs, setPrograms] = useState({});
 
   const toggle = () => {
     setModal(!modal);
@@ -33,6 +35,13 @@ const LoanFunds = () => {
     });
   }, []);
 
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setPrograms(res.programs);
+    });
+  }, [mainNavigation]);
+
   console.log(userProgramsPermissions);
   return (
     <CCard className="p-5">
@@ -40,10 +49,7 @@ const LoanFunds = () => {
         <SettingPageTitle title="Loan Funds" />
         <CButton
           onClick={() => {
-            if (
-              userProgramsPermissions &&
-              userProgramsPermissions[4]?.Add === 1
-            ) {
+            if (programs && programs.loanFunds.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {
@@ -58,12 +64,8 @@ const LoanFunds = () => {
       <LoanfundsTable
         loanfunds={loanfunds}
         userID={userID}
-        editPermission={
-          userProgramsPermissions && userProgramsPermissions[4]?.Edit
-        }
-        deletePermission={
-          userProgramsPermissions && userProgramsPermissions[4]?.Delete
-        }
+        editPermission={programs && programs.loanFunds?.Edit}
+        deletePermission={programs && programs.loanFunds?.Delete}
       />
       <LoanfundsModal
         userID={userID}

@@ -26,6 +26,7 @@ import {
   getUserPermissions,
   getUserProgramsPermisions,
 } from "src/services/apiCalls";
+import mainNavigation from "src/containers/_nav";
 
 const ListEmployee = () => {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const ListEmployee = () => {
   const [modal, setModal] = useState(false);
   const [selectedEmpId, setSelectedEmpId] = useState(null);
   const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+  const [programs, setPrograms] = useState({});
 
   const toggle = (employeeId) => {
     setModal(!modal);
@@ -48,6 +50,7 @@ const ListEmployee = () => {
       dispatch(fetchEmployeeImg(item.EmployeeID, userID));
     });
   }, [employees]);
+
   const formData = new FormData();
   const handleDelete = (employeeID, userID) => {
     formData.append("EmployeeID", employeeID);
@@ -97,6 +100,13 @@ const ListEmployee = () => {
     });
   }, []);
 
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setPrograms(res.programs);
+    });
+  }, [mainNavigation]);
+
   // console.log(userProgramsPermissions);
   return (
     <div>
@@ -105,10 +115,7 @@ const ListEmployee = () => {
           <SettingPageTitle title="All Employees" />
           <div
             onClick={() => {
-              if (
-                userProgramsPermissions &&
-                userProgramsPermissions[18]?.Add === 1
-              ) {
+              if (programs && programs.allEmployee.Add === 1) {
                 history.push("/HR/AddEmployee");
               } else {
                 alert("You dont have this permission");
@@ -164,10 +171,7 @@ const ListEmployee = () => {
                     <CDropdownMenu>
                       <CDropdownItem
                         onClick={() => {
-                          if (
-                            userProgramsPermissions &&
-                            userProgramsPermissions[18]?.Edit === 1
-                          ) {
+                          if (programs && programs.allEmployee.Edit === 1) {
                             history.push(
                               `/HR/UpdateEmployee/${item.EmployeeID}`
                             );
@@ -180,10 +184,7 @@ const ListEmployee = () => {
                       </CDropdownItem>
                       <CDropdownItem
                         onClick={() => {
-                          if (
-                            userProgramsPermissions &&
-                            userProgramsPermissions[18]?.View === 1
-                          ) {
+                          if (programs && programs.allEmployee.View === 1) {
                             history.push(`/HR/ViewEmployee/${item.EmployeeID}`);
                           } else {
                             alert("You dont have this permission");
@@ -194,10 +195,7 @@ const ListEmployee = () => {
                       </CDropdownItem>
                       <CDropdownItem
                         onClick={() => {
-                          if (
-                            userProgramsPermissions &&
-                            userProgramsPermissions[18]?.Delete === 1
-                          ) {
+                          if (programs && programs.allEmployee.Delete === 1) {
                             if (window.confirm("are you sure!"))
                               handleDelete(item.EmployeeID, userID);
                           } else {

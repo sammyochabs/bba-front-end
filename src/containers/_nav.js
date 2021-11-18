@@ -15,13 +15,101 @@ const MyFunction = async () => {
 
   console.log(res);
 
+  let programs = {};
+
+  res.forEach((program) => {
+    if (program.ProgramID === 1) {
+      programs.dashboardAdmin = program;
+    }
+    if (program.ProgramID === 2) {
+      programs.loanType = program;
+    }
+    if (program.ProgramID === 3) {
+      programs.grades = program;
+    }
+    if (program.ProgramID === 4) {
+      programs.leavesTypes = program;
+    }
+    if (program.ProgramID === 5) {
+      programs.loanFunds = program;
+    }
+    if (program.ProgramID === 6) {
+      programs.districts = program;
+    }
+    if (program.ProgramID === 7) {
+      programs.designations = program;
+    }
+    if (program.ProgramID === 8) {
+      programs.departments = program;
+    }
+    if (program.ProgramID === 9) {
+      programs.punishments = program;
+    }
+    if (program.ProgramID === 10) {
+      programs.acrClass = program;
+    }
+    if (program.ProgramID === 11) {
+      programs.acrTypes = program;
+    }
+    if (program.ProgramID === 12) {
+      programs.healthInfo = program;
+    }
+    if (program.ProgramID === 13) {
+      programs.documentTypes = program;
+    }
+    if (program.ProgramID === 14) {
+      programs.roles = program;
+    }
+    if (program.ProgramID === 15) {
+      programs.users = program;
+    }
+    if (program.ProgramID === 16) {
+      programs.events = program;
+    }
+    if (program.ProgramID === 17) {
+      programs.DashboardAdmin = program;
+    }
+    if (program.ProgramID === 18) {
+      programs.dashboardEmployee = program;
+    }
+    if (program.ProgramID === 19) {
+      programs.allEmployee = program;
+    }
+    if (program.ProgramID === 20) {
+      programs.education = program;
+    }
+    if (program.ProgramID === 21) {
+      programs.promotion = program;
+    }
+    if (program.ProgramID === 22) {
+      programs.training = program;
+    }
+    if (program.ProgramID === 23) {
+      programs.loanManagement = program;
+    }
+    if (program.ProgramID === 24) {
+      programs.leaveManagement = program;
+    }
+    if (program.ProgramID === 25) {
+      programs.healthManagement = program;
+    }
+    if (program.ProgramID === 26) {
+      programs.disciplineManagement = program;
+    }
+    if (program.ProgramID === 27) {
+      programs.storeManagement = program;
+    }
+  });
+
+  console.log(programs);
+
   const _nav = {
     settings: [
       {
         _tag: "CSidebarNavItem",
         name: "Dashboard Admin",
         to:
-          res?.length > 0 && res[0]?.Permission === 1
+          res?.length > 0 && programs.dashboardAdmin?.Permission === 1
             ? "/dashboard"
             : "/no-permission",
         icon: (
@@ -44,7 +132,7 @@ const MyFunction = async () => {
             name: "Loan Type",
             programid: "1",
             to:
-              res?.length > 0 && res[1]?.Permission === 1
+              res?.length > 0 && programs.loanType?.Permission === 1
                 ? "/settings/loantype"
                 : "/no-permission",
           },
@@ -52,7 +140,7 @@ const MyFunction = async () => {
             _tag: "CSidebarNavItem",
             name: "Grades",
             to:
-              res && res[2]?.Permission === 1
+              res?.length > 0 && programs.grades?.Permission === 1
                 ? "/settings/Grades"
                 : "/no-permission",
           },
@@ -60,7 +148,7 @@ const MyFunction = async () => {
             _tag: "CSidebarNavItem",
             name: "Leave types & duration",
             to:
-              res && res[3]?.Permission === 1
+              res?.length > 0 && programs.leavesTypes?.Permission === 1
                 ? "/settings/leaves"
                 : "/no-permission",
           },
@@ -68,7 +156,7 @@ const MyFunction = async () => {
             _tag: "CSidebarNavItem",
             name: "Loan Funds",
             to:
-              res && res[4]?.Permission === 1
+              res?.length > 0 && programs.loanFunds?.Permission === 1
                 ? "/settings/loanfunds"
                 : "/no-permission",
           },
@@ -76,7 +164,7 @@ const MyFunction = async () => {
             _tag: "CSidebarNavItem",
             name: "Districts",
             to:
-              res && res[5]?.Permission === 1
+              res?.length > 0 && programs.districts?.Permission === 1
                 ? "/settings/district"
                 : "/no-permission",
           },
@@ -85,7 +173,7 @@ const MyFunction = async () => {
             name: "Designations",
             to: "/settings/designation",
             to:
-              res && res[6]?.Permission === 1
+              res?.length > 0 && programs.designations?.Permission === 1
                 ? "/settings/designation"
                 : "/no-permission",
           },
@@ -93,7 +181,7 @@ const MyFunction = async () => {
             _tag: "CSidebarNavItem",
             name: "Departments",
             to:
-              res && res[7]?.Permission === 1
+              res?.length > 0 && programs.departments?.Permission === 1
                 ? "/settings/department"
                 : "/no-permission",
           },
@@ -102,7 +190,7 @@ const MyFunction = async () => {
             name: "Punishment",
             to: "/settings/punishment",
             to:
-              res && res[8]?.Permission === 1
+              res?.length > 0 && programs.punishments?.Permission === 1
                 ? "/settings/punishment"
                 : "/no-permission",
           },
@@ -110,7 +198,7 @@ const MyFunction = async () => {
             _tag: "CSidebarNavItem",
             name: "ACRClass",
             to:
-              res && res[9]?.Permission === 1
+              res?.length > 0 && programs.acrClass?.Permission === 1
                 ? "/settings/acrclass"
                 : "/no-permission",
           },
@@ -119,7 +207,7 @@ const MyFunction = async () => {
             name: "ACRType",
             to: "/settings/acrtype",
             to:
-              res && res[10]?.Permission === 1
+              res?.length > 0 && programs.acrTypes?.Permission === 1
                 ? "/settings/arctype"
                 : "/no-permission",
           },
@@ -128,7 +216,7 @@ const MyFunction = async () => {
             name: "Health Infos",
             to: "/settings/health_info",
             to:
-              res && res[11]?.Permission === 1
+              res?.length > 0 && programs.healthInfo?.Permission === 1
                 ? "/settings/health_info"
                 : "/no-permission",
           },
@@ -136,7 +224,7 @@ const MyFunction = async () => {
             _tag: "CSidebarNavItem",
             name: "Document type",
             to:
-              res && res[12]?.Permission === 1
+              res?.length > 0 && programs.documentTypes?.Permission === 1
                 ? "/settings/document_type"
                 : "/no-permission",
           },
@@ -157,7 +245,7 @@ const MyFunction = async () => {
             name: "Users",
 
             to:
-              res && res[14]?.Permission === 1
+              res?.length > 0 && programs.users?.Permission === 1
                 ? "/settings/users"
                 : "/no-permission",
           },
@@ -166,7 +254,7 @@ const MyFunction = async () => {
             name: "Roles",
             to: "/settings/role",
             to:
-              res && res[13]?.Permission === 1
+              res?.length > 0 && programs.roles?.Permission === 1
                 ? "/settings/role"
                 : "/no-permission",
           },
@@ -351,7 +439,10 @@ const MyFunction = async () => {
         _tag: "CSidebarNavItem",
         name: "Dashboard",
 
-        to: res && res[0]?.Permission === 1 ? "/dashboard" : "/no-permission",
+        to:
+          res && programs.dashboardAdmin.Permission === 1
+            ? "/dashboard"
+            : "/no-permission",
         icon: (
           <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />
         ),
@@ -360,7 +451,7 @@ const MyFunction = async () => {
         _tag: "CSidebarNavItem",
         name: "Dashboard Employee",
         to:
-          res && res[17]?.Permission === 1
+          res && programs.dashboardEmployee.Permission === 1
             ? "/dashboardEmployee"
             : "/no-permission",
         icon: (
@@ -383,7 +474,7 @@ const MyFunction = async () => {
                 _tag: "CSidebarNavItem",
                 name: "All Employees",
                 to:
-                  res && res[18]?.Permission === 1
+                  res && programs.allEmployee.Permission === 1
                     ? "/HR/listEmployee"
                     : "/no-permission",
               },
@@ -391,7 +482,7 @@ const MyFunction = async () => {
                 _tag: "CSidebarNavItem",
                 name: "Education",
                 to:
-                  res && res[19]?.Permission === 1
+                  res && programs.education.Permission === 1
                     ? "/HR/listEducations"
                     : "/no-permission",
               },
@@ -400,7 +491,7 @@ const MyFunction = async () => {
                 name: "Promotion/Change",
 
                 to:
-                  res && res[20]?.Permission === 1
+                  res && programs.promotion.Permission === 1
                     ? "/HR/listPromotions"
                     : "/no-permission",
               },
@@ -408,7 +499,7 @@ const MyFunction = async () => {
                 _tag: "CSidebarNavItem",
                 name: "Training",
                 to:
-                  res && res[21]?.Permission === 1
+                  res && programs.training.Permission === 1
                     ? "/HR/listTraining"
                     : "/no-permission",
               },
@@ -418,7 +509,7 @@ const MyFunction = async () => {
             _tag: "CSidebarNavItem",
             name: "Loan Management",
             to:
-              res && res[22]?.Permission === 1
+              res && programs.loanManagement.Permission === 1
                 ? "/HR/loanManagement"
                 : "/no-permission",
             icon: (
@@ -432,7 +523,7 @@ const MyFunction = async () => {
             _tag: "CSidebarNavItem",
             name: "Leave Management",
             to:
-              res && res[23]?.Permission === 1
+              res && programs.leaveManagement.Permission === 1
                 ? "/HR/Leavemanagement"
                 : "/no-permission",
             icon: (
@@ -452,7 +543,7 @@ const MyFunction = async () => {
             _tag: "CSidebarNavItem",
             name: "Health Management",
             to:
-              res && res[24]?.Permission === 1
+              res && programs.healthManagement.Permission === 1
                 ? "/HR/HealthManagement"
                 : "/no-permission",
             icon: (
@@ -467,7 +558,7 @@ const MyFunction = async () => {
             name: "Discipline Management",
             to: "/HR/disciplinemanagement",
             to:
-              res && res[25]?.Permission === 1
+              res && programs.healthManagement.Permission === 1
                 ? "/HR/disciplinemanagement"
                 : "/no-permission",
             icon: (
@@ -483,7 +574,10 @@ const MyFunction = async () => {
       {
         _tag: "CSidebarNavDropdown",
         name: "Store Management",
-        to: res && res[26]?.Permission === 1 ? "/base" : "/no-permission",
+        to:
+          res && programs.storeManagement.Permission === 1
+            ? "/base"
+            : "/no-permission",
         icon: "cil-puzzle",
         _children: [
           {
@@ -650,7 +744,10 @@ const MyFunction = async () => {
     ],
   };
 
-  return _nav;
+  return {
+    _nav,
+    programs,
+  };
 };
 
 export default MyFunction();

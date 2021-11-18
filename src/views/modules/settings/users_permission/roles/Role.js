@@ -28,6 +28,7 @@ import {
   getUserPermissions,
   getUserProgramsPermisions,
 } from "src/services/apiCalls";
+import mainNavigation from "src/containers/_nav";
 
 const Role = () => {
   const dispatch = useDispatch();
@@ -44,6 +45,7 @@ const Role = () => {
   let [checkedModulePermission, setCheckedModulePermission] =
     useState(roleModules);
   const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+  const [programs, setPrograms] = useState({});
 
   const formData = new FormData();
   useEffect(() => {
@@ -264,6 +266,13 @@ const Role = () => {
     });
   }, []);
 
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setPrograms(res.programs);
+    });
+  }, [mainNavigation]);
+
   console.log(userProgramsPermissions);
 
   return (
@@ -276,10 +285,7 @@ const Role = () => {
         <CCol md="4">
           <CButton
             onClick={() => {
-              if (
-                userProgramsPermissions &&
-                userProgramsPermissions[13]?.Add === 1
-              ) {
+              if (programs && programs.roles?.Add === 1) {
                 // history.push("/HR/AddEducation");
                 toggle();
               } else {

@@ -11,6 +11,7 @@ import {
   getUserPermissions,
   getUserProgramsPermisions,
 } from "src/services/apiCalls";
+import mainNavigation from "src/containers/_nav";
 
 const HealthManagement = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const HealthManagement = () => {
   const [data, setData] = useState("");
   const [healthInfoList, setHealthInfoList] = useState([]);
   const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+  const [programs, setPrograms] = useState({});
 
   const toggle = () => {
     setModal(!modal);
@@ -44,6 +46,13 @@ const HealthManagement = () => {
     });
   }, []);
 
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setPrograms(res.programs);
+    });
+  }, [mainNavigation]);
+
   console.log(userProgramsPermissions);
   return (
     <CCard className="p-5">
@@ -51,10 +60,7 @@ const HealthManagement = () => {
         <SettingPageTitle title="Health Records" />
         <CButton
           onClick={() => {
-            if (
-              userProgramsPermissions &&
-              userProgramsPermissions[24]?.Add === 1
-            ) {
+            if (programs && programs.healthManagement.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {
@@ -69,15 +75,9 @@ const HealthManagement = () => {
       <HealthRecordTable
         healthRecords={healthRecords}
         userID={userID}
-        editPermission={
-          userProgramsPermissions && userProgramsPermissions[24]?.Edit
-        }
-        viewPermission={
-          userProgramsPermissions && userProgramsPermissions[24]?.View
-        }
-        deletePermission={
-          userProgramsPermissions && userProgramsPermissions[24]?.Delete
-        }
+        editPermission={programs && programs.healthManagement?.Edit}
+        viewPermission={programs && programs.healthManagement?.View}
+        deletePermission={programs && programs.healthManagement?.Delete}
       />
       <HealthEditModal
         userID={userID}

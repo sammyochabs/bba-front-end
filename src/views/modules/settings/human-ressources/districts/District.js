@@ -9,6 +9,7 @@ import {
   getUserPermissions,
   getUserProgramsPermisions,
 } from "src/services/apiCalls";
+import mainNavigation from "src/containers/_nav";
 
 const District = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const District = () => {
   const { districts } = useSelector((state) => state.districts);
   const [modal, setModal] = useState(false);
   const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+  const [programs, setPrograms] = useState({});
 
   const toggle = () => {
     setModal(!modal);
@@ -32,6 +34,13 @@ const District = () => {
     });
   }, []);
 
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setPrograms(res.programs);
+    });
+  }, [mainNavigation]);
+
   console.log(userProgramsPermissions);
   return (
     <CCard className="p-5">
@@ -39,10 +48,7 @@ const District = () => {
         <SettingPageTitle title="District" />
         <CButton
           onClick={() => {
-            if (
-              userProgramsPermissions &&
-              userProgramsPermissions[5]?.Add === 1
-            ) {
+            if (programs && programs.districts.Add === 1) {
               toggle();
             } else {
               alert("You dont have this permission");
@@ -56,12 +62,8 @@ const District = () => {
       <DistrictTable
         districts={districts}
         userID={userID}
-        editPermission={
-          userProgramsPermissions && userProgramsPermissions[5]?.Edit
-        }
-        deletePermission={
-          userProgramsPermissions && userProgramsPermissions[5]?.Delete
-        }
+        editPermission={programs && programs.districts.Edit}
+        deletePermission={programs && programs.districts.Delete}
       />
       <DistrictModal
         userID={userID}

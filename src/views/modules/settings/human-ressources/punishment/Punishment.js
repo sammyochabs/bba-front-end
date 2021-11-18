@@ -9,6 +9,7 @@ import {
   getUserPermissions,
   getUserProgramsPermisions,
 } from "src/services/apiCalls";
+import mainNavigation from "src/containers/_nav";
 
 const Punishment = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const Punishment = () => {
   const { punishments } = useSelector((state) => state.punishments);
   const [modal, setModal] = useState(false);
   const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+  const [programs, setPrograms] = useState({});
 
   const toggle = () => {
     setModal(!modal);
@@ -33,6 +35,13 @@ const Punishment = () => {
     });
   }, []);
 
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setPrograms(res.programs);
+    });
+  }, [mainNavigation]);
+
   console.log(userProgramsPermissions);
   return (
     <CCard className="p-5">
@@ -40,10 +49,7 @@ const Punishment = () => {
         <SettingPageTitle title="Punishments" />
         <CButton
           onClick={() => {
-            if (
-              userProgramsPermissions &&
-              userProgramsPermissions[8]?.Add === 1
-            ) {
+            if (programs && programs.punishments?.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {
@@ -58,12 +64,8 @@ const Punishment = () => {
       <PunishmentTable
         punishments={punishments}
         userID={userID}
-        editPermission={
-          userProgramsPermissions && userProgramsPermissions[1]?.Edit
-        }
-        deletePermission={
-          userProgramsPermissions && userProgramsPermissions[1]?.Delete
-        }
+        editPermission={programs && programs.punishments?.Edit}
+        deletePermission={programs && programs.punishments?.Delete}
       />
       <PunishmentModal
         userID={userID}

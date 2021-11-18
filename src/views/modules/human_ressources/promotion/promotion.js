@@ -24,6 +24,8 @@ import {
   getUserPermissions,
   getUserProgramsPermisions,
 } from "src/services/apiCalls";
+import mainNavigation from "src/containers/_nav";
+
 const Promotion = () => {
   // const dispatch = useDispatch();
   const [promotionList, setpromotionList] = useState([]);
@@ -43,6 +45,7 @@ const Promotion = () => {
   const [GradeORPayscale, setGradeORPayscale] = useState("");
   const [Grade, setGrade] = useState("");
   const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+  const [programs, setPrograms] = useState({});
 
   const userID = localStorage.getItem("userID");
   useEffect(async () => {
@@ -84,6 +87,13 @@ const Promotion = () => {
     });
   }, []);
 
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setPrograms(res.programs);
+    });
+  }, [mainNavigation]);
+
   return (
     <CCard className="p-5">
       <div className="hr-header">
@@ -93,10 +103,7 @@ const Promotion = () => {
             <CFormGroup className={"mr-1"}>
               <CButton
                 onClick={() => {
-                  if (
-                    userProgramsPermissions &&
-                    userProgramsPermissions[20]?.Add === 1
-                  ) {
+                  if (programs && programs.promotion.Add === 1) {
                     toggle();
                   } else {
                     alert("You dont have permission to do this");
@@ -110,9 +117,7 @@ const Promotion = () => {
                 color="info"
                 csvData={promotionList}
                 fileName={"Promotion-charge-list"}
-                permission={
-                  userProgramsPermissions && userProgramsPermissions[20]?.Export
-                }
+                permission={programs && programs.promotion.Export}
               />
             </CFormGroup>
           </CCol>
@@ -120,15 +125,9 @@ const Promotion = () => {
       </div>
 
       <PromotionTable
-        editPermission={
-          userProgramsPermissions && userProgramsPermissions[20]?.Edit
-        }
-        viewPermission={
-          userProgramsPermissions && userProgramsPermissions[20]?.View
-        }
-        deletePermission={
-          userProgramsPermissions && userProgramsPermissions[20]?.Delete
-        }
+        editPermission={programs && programs.promotion?.Edit}
+        viewPermission={programs && programs.promotion?.View}
+        deletePermission={programs && programs.promotion?.Delete}
         employeeList={promotionList}
         userID={userID}
         employeedropdown={employeeList}

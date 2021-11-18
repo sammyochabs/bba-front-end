@@ -22,6 +22,8 @@ import {
   getUserPermissions,
   getUserProgramsPermisions,
 } from "src/services/apiCalls";
+import mainNavigation from "src/containers/_nav";
+
 const Education = () => {
   const dispatch = useDispatch();
   const [educationlist, seteducationlist] = useState([]);
@@ -51,6 +53,7 @@ const Education = () => {
   //  const { loantypes } = useSelector(state => state.loantype)
   const [modal, setModal] = useState(false);
   const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+  const [programs, setPrograms] = useState({});
 
   const [responseModal, setResponseModal] = useState(false);
   const toggle = () => {
@@ -86,6 +89,13 @@ const Education = () => {
     });
   }, []);
 
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setPrograms(res.programs);
+    });
+  }, [mainNavigation]);
+
   return (
     <CCard className="p-5">
       <div className="hr-header">
@@ -95,10 +105,7 @@ const Education = () => {
             <CButton
               // onClick={toggle}
               onClick={() => {
-                if (
-                  userProgramsPermissions &&
-                  userProgramsPermissions[19]?.Add === 1
-                ) {
+                if (programs && programs.education?.Add === 1) {
                   // history.push("/HR/AddEducation");
                   toggle();
                 } else {
@@ -113,9 +120,7 @@ const Education = () => {
               color="info"
               csvData={educationlist}
               fileName={"Education-list"}
-              permission={
-                userProgramsPermissions && userProgramsPermissions[19]?.Export
-              }
+              permission={programs && programs.education?.Export}
             />
           </CCol>
         </CRow>

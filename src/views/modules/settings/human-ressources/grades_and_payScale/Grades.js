@@ -9,6 +9,7 @@ import {
   getUserPermissions,
   getUserProgramsPermisions,
 } from "src/services/apiCalls";
+import mainNavigation from "src/containers/_nav";
 
 const Grades = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const Grades = () => {
   const { grades } = useSelector((state) => state.grades);
   const [modal, setModal] = useState(false);
   const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+  const [programs, setPrograms] = useState({});
 
   const toggle = () => {
     setModal(!modal);
@@ -33,6 +35,13 @@ const Grades = () => {
     });
   }, []);
 
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setPrograms(res.programs);
+    });
+  }, [mainNavigation]);
+
   console.log(userProgramsPermissions);
   return (
     <CCard className="p-5">
@@ -40,10 +49,7 @@ const Grades = () => {
         <SettingPageTitle title="Grades / Pay scales" />
         <CButton
           onClick={() => {
-            if (
-              userProgramsPermissions &&
-              userProgramsPermissions[2]?.Add === 1
-            ) {
+            if (programs && programs.grades.Add === 1) {
               toggle();
             } else {
               alert("You dont have this permission");
@@ -57,12 +63,8 @@ const Grades = () => {
       <GradesTable
         grades={grades}
         userID={userID}
-        editPermission={
-          userProgramsPermissions && userProgramsPermissions[2]?.Edit
-        }
-        deletePermission={
-          userProgramsPermissions && userProgramsPermissions[2]?.Delete
-        }
+        editPermission={programs && programs.grades?.Edit}
+        deletePermission={programs && programs.grades?.Delete}
       />
       <GradesModal
         userID={userID}

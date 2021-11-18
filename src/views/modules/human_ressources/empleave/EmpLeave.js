@@ -13,9 +13,11 @@ import {
   getUserPermissions,
   getUserProgramsPermisions,
 } from "src/services/apiCalls";
+import mainNavigation from "src/containers/_nav";
 
 const EmpLeave = () => {
   const dispatch = useDispatch();
+  const [programs, setPrograms] = useState({});
 
   const userID = localStorage.getItem("userID");
   useEffect(() => {
@@ -46,6 +48,13 @@ const EmpLeave = () => {
     });
   }, []);
 
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setPrograms(res.programs);
+    });
+  }, [mainNavigation]);
+
   console.log(userProgramsPermissions);
   return (
     <CCard className="p-5">
@@ -53,10 +62,7 @@ const EmpLeave = () => {
         <SettingPageTitle title="Employee Leave Request" />
         <CButton
           onClick={() => {
-            if (
-              userProgramsPermissions &&
-              userProgramsPermissions[23]?.Add === 1
-            ) {
+            if (programs && programs.leaveManagement.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {
@@ -69,21 +75,11 @@ const EmpLeave = () => {
         </CButton>
       </div>
       <EmpLeaveTable
-        editPermission={
-          userProgramsPermissions && userProgramsPermissions[23]?.Edit
-        }
-        viewPermission={
-          userProgramsPermissions && userProgramsPermissions[23]?.View
-        }
-        deletePermission={
-          userProgramsPermissions && userProgramsPermissions[23]?.Delete
-        }
-        approvePermission={
-          userProgramsPermissions && userProgramsPermissions[23]?.Permission
-        }
-        declinePermission={
-          userProgramsPermissions && userProgramsPermissions[23]?.Permission
-        }
+        editPermission={programs && programs.leaveManagement.Edit}
+        viewPermission={programs && programs.leaveManagement.View}
+        deletePermission={programs && programs.leaveManagement.Delete}
+        approvePermission={programs && programs.leaveManagement.Permission}
+        declinePermission={programs && programs.leaveManagement.Permission}
         leavesData={empleave}
         userID={userID}
         emplist={emplist}

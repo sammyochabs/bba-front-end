@@ -11,6 +11,7 @@ import {
   getUserPermissions,
   getUserProgramsPermisions,
 } from "src/services/apiCalls";
+import mainNavigation from "src/containers/_nav";
 
 const DisciplineManagement = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const DisciplineManagement = () => {
   const [data, setData] = useState("");
   const [punishmentList, setPunishmentList] = useState([]);
   const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+  const [programs, setPrograms] = useState({});
 
   const toggle = () => {
     setModal(!modal);
@@ -53,6 +55,15 @@ const DisciplineManagement = () => {
     });
   }, []);
 
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setPrograms(res.programs);
+    });
+  }, [mainNavigation]);
+
+  console.log(programs);
+
   console.log(userProgramsPermissions);
   return (
     <CCard className="p-5">
@@ -60,10 +71,7 @@ const DisciplineManagement = () => {
         <SettingPageTitle title="Disciplines" />
         <CButton
           onClick={() => {
-            if (
-              userProgramsPermissions &&
-              userProgramsPermissions[25]?.Add === 1
-            ) {
+            if (programs && programs.disciplineManagement.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {
@@ -78,15 +86,9 @@ const DisciplineManagement = () => {
       <DisciplinesTable
         disciplines={disciplines}
         userID={userID}
-        editPermission={
-          userProgramsPermissions && userProgramsPermissions[24]?.Edit
-        }
-        viewPermission={
-          userProgramsPermissions && userProgramsPermissions[24]?.View
-        }
-        deletePermission={
-          userProgramsPermissions && userProgramsPermissions[24]?.Delete
-        }
+        editPermission={programs && programs.disciplineManagement?.Edit}
+        viewPermission={programs && programs.disciplineManagement?.Edit.View}
+        deletePermission={programs && programs.disciplineManagement?.Delete}
       />
       <DisciplineEditModal
         userID={userID}

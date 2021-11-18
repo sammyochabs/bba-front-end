@@ -20,6 +20,7 @@ import { useLocation } from "react-router-dom";
 import { getUserPermissions } from "src/services/apiCalls";
 const MasterPage = () => {
   const [permissions, setPermissions] = useState([]);
+  const [modules, setModules] = useState({});
   const currentDate = moment().format("MMMM Do YYYY");
 
   var loggedInUser = localStorage.userName;
@@ -37,7 +38,39 @@ const MasterPage = () => {
     fetchPermissions();
   }, []);
 
+  useEffect(() => {
+    permissions &&
+      permissions.forEach((module) => {
+        if (module.ModuleID === 1) {
+          setModules(Object.assign({}, modules, { settings: module }));
+        }
+        if (module.ModuleID === 2) {
+          setModules(Object.assign({}, modules, { systemAdminWing: module }));
+        }
+        if (module.ModuleID === 3) {
+          setModules(
+            Object.assign({}, modules, { planningAndDevelopmentWing: module })
+          );
+        }
+        if (module.ModuleID === 4) {
+          setModules(
+            Object.assign({}, modules, { operationAndMaintanance: module })
+          );
+        }
+        if (module.ModuleID === 5) {
+          setModules(
+            Object.assign({}, modules, { financeAndAccountsWing: module })
+          );
+        }
+        if (module.ModuleID === 6) {
+          setModules(Object.assign({}, modules, { technicalWing: module }));
+        }
+      });
+  }, [permissions]);
+
   console.log(permissions);
+
+  console.log(modules);
 
   return (
     <div className="master-page-container">
@@ -76,7 +109,7 @@ const MasterPage = () => {
               bgColor="#5998c2"
               path="/dashboard"
               moduleName="Administration"
-              permission={permissions && permissions[1]?.Permission}
+              permission={modules && modules.systemAdminWing?.Permission}
             />
             {/* <Card
               icon={usersIcon}
@@ -92,7 +125,9 @@ const MasterPage = () => {
               bgColor="#556eef"
               path="/dashboard"
               moduleName="Planning and Development"
-              permission={permissions && permissions[2]?.Permission}
+              permission={
+                modules && modules.planningAndDevelopmentWing?.Permission
+              }
             />
             {/* <Card icon={calendarIcon} module="Project Manager" bgColor="#485ed7" path="/dashboard" moduleName="Project Manager" /> */}
             <Card
@@ -101,7 +136,9 @@ const MasterPage = () => {
               bgColor="#364bb8"
               path="/dashboard"
               moduleName="Operating & Maintenance"
-              permission={permissions && permissions[3]?.Permission}
+              permission={
+                modules && modules.operationAndMaintanance?.Permission
+              }
             />
             <Card
               icon={dollarIcon}
@@ -109,7 +146,7 @@ const MasterPage = () => {
               bgColor="#8980ff"
               path="/dashboard"
               moduleName="Finance and Accounts wing" //"Finance and Accounts"
-              permission={permissions && permissions[4]?.Permission}
+              permission={modules && modules.financeAndAccountsWing?.Permission}
             />
 
             {/* <Card
@@ -130,7 +167,7 @@ const MasterPage = () => {
               bgColor="#6c5ce7"
               path="/dashboard"
               moduleName="Technical"
-              permission={permissions && permissions[5]?.Permission}
+              permission={modules && modules.technicalWing?.Permission}
             />
           </div>
         </div>

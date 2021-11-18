@@ -14,6 +14,8 @@ import {
   getUserPermissions,
   getUserProgramsPermisions,
 } from "src/services/apiCalls";
+import mainNavigation from "src/containers/_nav";
+
 const Trainer = () => {
   // const dispatch = useDispatch();
   const [trainerList, setTrainer] = useState([]);
@@ -27,6 +29,7 @@ const Trainer = () => {
   const [modal, setModal] = useState(false);
   const [responseModal, setResponseModal] = useState(false);
   const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+  const [programs, setPrograms] = useState({});
 
   const toggle = () => {
     setResponseModal(false);
@@ -46,6 +49,13 @@ const Trainer = () => {
     });
   }, []);
 
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setPrograms(res.programs);
+    });
+  }, [mainNavigation]);
+
   return (
     <CCard className="p-5">
       <div className="hr-header">
@@ -54,10 +64,7 @@ const Trainer = () => {
           <CCol sm="12">
             <CButton
               onClick={() => {
-                if (
-                  userProgramsPermissions &&
-                  userProgramsPermissions[21]?.Add === 1
-                ) {
+                if (programs && programs.training.Add === 1) {
                   // history.push("/HR/AddEducation");
                   toggle();
                 } else {
@@ -72,24 +79,16 @@ const Trainer = () => {
               color="info"
               csvData={trainerList}
               fileName={"Trainer-list"}
-              permission={
-                userProgramsPermissions && userProgramsPermissions[21]?.Export
-              }
+              permission={programs && programs.training?.Export}
             />
           </CCol>
         </CRow>
       </div>
 
       <TrainerTable
-        editPermission={
-          userProgramsPermissions && userProgramsPermissions[21]?.Edit
-        }
-        viewPermission={
-          userProgramsPermissions && userProgramsPermissions[21]?.View
-        }
-        deletePermission={
-          userProgramsPermissions && userProgramsPermissions[21]?.Delete
-        }
+        editPermission={programs && programs.training?.Edit}
+        viewPermission={programs && programs.training?.View}
+        deletePermission={programs && programs.training?.Delete}
         employeeList={trainerList}
         userID={userID}
         employeedropdown={employeeList}

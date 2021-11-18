@@ -9,6 +9,7 @@ import {
   getUserPermissions,
   getUserProgramsPermisions,
 } from "src/services/apiCalls";
+import mainNavigation from "src/containers/_nav";
 
 const AcrType = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const AcrType = () => {
   const { acrType } = useSelector((state) => state.acrType);
   const [modal, setModal] = useState(false);
   const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
+  const [programs, setPrograms] = useState({});
 
   const toggle = () => {
     setModal(!modal);
@@ -33,6 +35,13 @@ const AcrType = () => {
     });
   }, []);
 
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setPrograms(res.programs);
+    });
+  }, [mainNavigation]);
+
   console.log(userProgramsPermissions);
   return (
     <CCard className="p-5">
@@ -40,10 +49,7 @@ const AcrType = () => {
         <SettingPageTitle title="ACRType" />
         <CButton
           onClick={() => {
-            if (
-              userProgramsPermissions &&
-              userProgramsPermissions[10]?.Add === 1
-            ) {
+            if (programs && programs.acrTypes.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {
@@ -58,12 +64,8 @@ const AcrType = () => {
       <AcrTypeTable
         acrType={acrType}
         userID={userID}
-        editPermission={
-          userProgramsPermissions && userProgramsPermissions[10]?.Edit
-        }
-        deletePermission={
-          userProgramsPermissions && userProgramsPermissions[10]?.Delete
-        }
+        editPermission={programs && programs.acrTypes.Add.Edit}
+        deletePermission={programs && programs.acrTypes.Add.Delete}
       />
       <AcrTypeModal
         userID={userID}

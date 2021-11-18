@@ -16,6 +16,7 @@ import {
   CDropdownItem,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
+import mainNavigation from "src/containers/_nav";
 
 // routes config
 import routes from "../routes";
@@ -36,6 +37,7 @@ const TheHeader = () => {
   const { asideShow, darkMode, sidebarShow } = useSelector(
     (state) => state.theme
   );
+  const [programs, setPrograms] = useState({});
   const [userProgramsPermissions, setUserProgramsPermissions] = useState([]);
 
   const toggleSidebar = () => {
@@ -60,6 +62,15 @@ const TheHeader = () => {
       setUserProgramsPermissions(res);
     });
   }, []);
+
+  useEffect(() => {
+    mainNavigation.then((res) => {
+      console.log(res);
+      setPrograms(res.programs);
+    });
+  }, [mainNavigation]);
+
+  console.log(programs);
 
   return (
     <CHeader withSubheader className="master-page-header">
@@ -133,10 +144,7 @@ const TheHeader = () => {
           className="d-md-down-none"
           // onClick={() => dispatch({ type: 'set', asideShow: !asideShow })}
           onClick={() => {
-            if (
-              userProgramsPermissions &&
-              userProgramsPermissions[0]?.Permission === 1
-            ) {
+            if (programs && programs.dashboardAdmin.Permission === 1) {
               localStorage.setItem("currentModule", "Settings");
               window.location = "/#/dashboard";
             } else {

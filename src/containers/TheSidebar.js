@@ -56,7 +56,7 @@ const TheSidebar = () => {
   useEffect(() => {
     mainNavigation.then((res) => {
       console.log(res);
-      setNavigation(res);
+      setNavigation(res._nav);
     });
   }, [mainNavigation]);
 
