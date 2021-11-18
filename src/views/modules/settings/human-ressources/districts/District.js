@@ -48,7 +48,7 @@ const District = () => {
         <SettingPageTitle title="District" />
         <CButton
           onClick={() => {
-            if (programs && programs.districts.Add === 1) {
+            if (programs && programs.districts?.Add === 1) {
               toggle();
             } else {
               alert("You dont have this permission");
@@ -62,8 +62,8 @@ const District = () => {
       <DistrictTable
         districts={districts}
         userID={userID}
-        editPermission={programs && programs.districts.Edit}
-        deletePermission={programs && programs.districts.Delete}
+        editPermission={programs && programs.districts?.Edit}
+        deletePermission={programs && programs.districts?.Delete}
       />
       <DistrictModal
         userID={userID}

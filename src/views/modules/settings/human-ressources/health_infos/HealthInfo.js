@@ -48,7 +48,7 @@ const HealthInfo = () => {
         <SettingPageTitle title="Health information" />
         <CButton
           onClick={() => {
-            if (programs && programs.healthInfo.Add === 1) {
+            if (programs && programs.healthInfo?.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {

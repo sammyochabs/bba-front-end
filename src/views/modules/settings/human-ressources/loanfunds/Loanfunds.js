@@ -49,7 +49,7 @@ const LoanFunds = () => {
         <SettingPageTitle title="Loan Funds" />
         <CButton
           onClick={() => {
-            if (programs && programs.loanFunds.Add === 1) {
+            if (programs && programs.loanFunds?.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {

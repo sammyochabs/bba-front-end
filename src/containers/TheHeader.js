@@ -144,7 +144,7 @@ const TheHeader = () => {
           className="d-md-down-none"
           // onClick={() => dispatch({ type: 'set', asideShow: !asideShow })}
           onClick={() => {
-            if (programs && programs.dashboardAdmin.Permission === 1) {
+            if (programs && programs.dashboardAdmin?.Permission === 1) {
               localStorage.setItem("currentModule", "Settings");
               window.location = "/#/dashboard";
             } else {

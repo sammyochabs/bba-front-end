@@ -5,14 +5,13 @@ import {
   CDropdownToggle,
   CDropdownMenu,
   CDropdownItem,
-  CInputCheckbox
+  CInputCheckbox,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import { Edit, Trash } from "react-feather";
 import { deleteLoanType as deleteTaskType } from "src/actions/loantypes";
 import DeleteDialog from "src/reusable/DeleteDialog";
 import TodoListModal from "./TodoListModal";
-
 
 const TodoTable = ({ todolist, userID }) => {
   const [modal, setModal] = useState(false);
@@ -41,28 +40,28 @@ const TodoTable = ({ todolist, userID }) => {
   };
 
   const listToDosHandler = (values) => {
-    if (values && values.length > 0) {
+    if (values && values?.length > 0) {
       values.forEach((value) => {
         if (value.TITLE === null) {
-          value.TITLE = '';
+          value.TITLE = "";
         }
         if (value.DESCRIPTION === null) {
-          value.DESCRIPTION = '';
+          value.DESCRIPTION = "";
         }
         if (value.DateFrom === null) {
-          value.DateFrom = '';
+          value.DateFrom = "";
         }
         if (value.DateTo === null) {
-          value.DateTo = '';
+          value.DateTo = "";
         }
         if (value.TimeFrom === null) {
-          value.TimeFrom = '';
+          value.TimeFrom = "";
         }
         if (value.TimeTo === null) {
-          value.TimeTo = '';
+          value.TimeTo = "";
         }
         if (value.TITLE === null) {
-          value.TITLE = '';
+          value.TITLE = "";
         }
         if (value.AllDay === null) {
           value.AllDay = 1;
@@ -70,7 +69,7 @@ const TodoTable = ({ todolist, userID }) => {
       });
       return values;
     }
-  }
+  };
 
   return (
     <div>
@@ -108,10 +107,10 @@ const TodoTable = ({ todolist, userID }) => {
                   //   handleCheckInput(e);
                   // }}
                   defaultChecked={item?.allday}
-                // checked={checkedPermission}
+                  // checked={checkedPermission}
                 />
               </td>
-            )
+            );
           },
           Action: (item) => {
             return (

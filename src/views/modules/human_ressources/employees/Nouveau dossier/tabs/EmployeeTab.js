@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   CCard,
   CCardBody,
@@ -12,8 +12,8 @@ import {
   CLabel,
   CRow,
   CTabPane,
-} from '@coreui/react'
-import SettingPageTitle from 'src/reusable/SettingPageTitle'
+} from "@coreui/react";
+import SettingPageTitle from "src/reusable/SettingPageTitle";
 // import { Formik } from 'formik'
 // import * as Yup from 'yup'
 
@@ -59,7 +59,7 @@ import SettingPageTitle from 'src/reusable/SettingPageTitle'
 
 // const findFirstError = (formName, hasError) => {
 //   const form = document.forms[formName]
-//   for (let i = 0; i < form.length; i++) {
+//   for (let i = 0; i < form?.length; i++) {
 //     if (hasError(form[i].name)) {
 //       form[i].focus()
 //       break
@@ -138,7 +138,7 @@ const EmployeeTab = ({ handleInput, handleFile }) => {
                   <CCol md="3">
                     <CLabel htmlFor="text-input">Registration number</CLabel>
                   </CCol>
-                  <CCol xs="12" md="8" style={{ marginLeft: '40px' }}>
+                  <CCol xs="12" md="8" style={{ marginLeft: "40px" }}>
                     <CInput
                       onChange={handleInput}
                       type="number"
@@ -153,7 +153,7 @@ const EmployeeTab = ({ handleInput, handleFile }) => {
                   <CCol md="3">
                     <CLabel htmlFor="text-input">Card ID</CLabel>
                   </CCol>
-                  <CCol xs="12" md="8" style={{ marginLeft: '40px' }}>
+                  <CCol xs="12" md="8" style={{ marginLeft: "40px" }}>
                     <CInput
                       onChange={handleInput}
                       id="text-input"
@@ -172,11 +172,11 @@ const EmployeeTab = ({ handleInput, handleFile }) => {
                 </CRow>
               </CCol>
 
-              <CCol md="2" style={{ height: '100px' }}>
+              <CCol md="2" style={{ height: "100px" }}>
                 <CCol xs="12" md="12">
                   <div
                     className="custom-file-input-wrapper"
-                    style={{ float: 'right' }}
+                    style={{ float: "right" }}
                   >
                     <span>Upload photo</span>
                     <CInputFile
@@ -310,7 +310,7 @@ const EmployeeTab = ({ handleInput, handleFile }) => {
         </CCardBody>
       </CCard>
     </CTabPane>
-  )
-}
+  );
+};
 
-export default EmployeeTab
+export default EmployeeTab;

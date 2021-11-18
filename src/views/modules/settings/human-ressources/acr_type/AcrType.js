@@ -49,7 +49,7 @@ const AcrType = () => {
         <SettingPageTitle title="ACRType" />
         <CButton
           onClick={() => {
-            if (programs && programs.acrTypes.Add === 1) {
+            if (programs && programs.acrTypes?.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {
@@ -64,8 +64,8 @@ const AcrType = () => {
       <AcrTypeTable
         acrType={acrType}
         userID={userID}
-        editPermission={programs && programs.acrTypes.Add.Edit}
-        deletePermission={programs && programs.acrTypes.Add.Delete}
+        editPermission={programs && programs.acrTypes?.Add?.Edit}
+        deletePermission={programs && programs.acrTypes?.Add?.Delete}
       />
       <AcrTypeModal
         userID={userID}

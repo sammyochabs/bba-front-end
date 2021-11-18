@@ -71,7 +71,7 @@ const DisciplineManagement = () => {
         <SettingPageTitle title="Disciplines" />
         <CButton
           onClick={() => {
-            if (programs && programs.disciplineManagement.Add === 1) {
+            if (programs && programs.disciplineManagement?.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {
@@ -87,7 +87,7 @@ const DisciplineManagement = () => {
         disciplines={disciplines}
         userID={userID}
         editPermission={programs && programs.disciplineManagement?.Edit}
-        viewPermission={programs && programs.disciplineManagement?.Edit.View}
+        viewPermission={programs && programs.disciplineManagement?.Edit?.View}
         deletePermission={programs && programs.disciplineManagement?.Delete}
       />
       <DisciplineEditModal

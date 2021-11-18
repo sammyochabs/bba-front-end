@@ -12,16 +12,16 @@ import {
   CRow,
   CSelect,
   CTextarea,
-} from '@coreui/react'
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+} from "@coreui/react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   addOvertime,
   updateOvertime,
-} from 'src/actions/HumanRessource/empovertime'
-import SelectLoanType from './SelectLoanType'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
+} from "src/actions/HumanRessource/empovertime";
+import SelectLoanType from "./SelectLoanType";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const OvertimeModal = ({
   toggle,
@@ -35,95 +35,95 @@ const OvertimeModal = ({
   overtimestype,
   overtime_selected_obj,
 }) => {
-  const [data, setData] = useState({})
-  const [fromDate, setfromDate] = useState(new Date())
+  const [data, setData] = useState({});
+  const [fromDate, setfromDate] = useState(new Date());
 
-  const dispatch = useDispatch()
-  var formData = new FormData()
-  console.log(overtime_selected_obj, 'overtime_selected_obj modal ')
+  const dispatch = useDispatch();
+  var formData = new FormData();
+  console.log(overtime_selected_obj, "overtime_selected_obj modal ");
   const handleInput = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value })
-    console.log(type, 'typeeeeee')
-    if (type == 'Update') {
+    setData({ ...data, [e.target.name]: e.target.value });
+    console.log(type, "typeeeeee");
+    if (type == "Update") {
       overtime_selected_obj.EmployeeID =
-        e.target.name == 'empid'
+        e.target.name == "empid"
           ? e.target.value
-          : overtime_selected_obj.EmployeeID
+          : overtime_selected_obj.EmployeeID;
 
       overtime_selected_obj.OvertimeTypeID =
-        e.target.name == 'OvertimeTypeID'
+        e.target.name == "OvertimeTypeID"
           ? e.target.value
-          : overtime_selected_obj.OvertimeTypeID
+          : overtime_selected_obj.OvertimeTypeID;
 
-      overtime_selected_obj.OvertimeID = currentValue
+      overtime_selected_obj.OvertimeID = currentValue;
 
       overtime_selected_obj.Description =
-        e.target.name == 'Description'
+        e.target.name == "Description"
           ? e.target.value
-          : overtime_selected_obj.Description
+          : overtime_selected_obj.Description;
 
-      overtime_selected_obj.overtimeDate = formatDate(fromDate)
+      overtime_selected_obj.overtimeDate = formatDate(fromDate);
       overtime_selected_obj.Hours =
-        e.target.name == 'OvertimeHours'
+        e.target.name == "OvertimeHours"
           ? e.target.value
-          : overtime_selected_obj.Hours
+          : overtime_selected_obj.Hours;
 
       overtime_selected_obj.SuperiorMemo =
-        e.target.name == 'SuperiorMemo'
+        e.target.name == "SuperiorMemo"
           ? e.target.value
-          : overtime_selected_obj.SuperiorMemo
+          : overtime_selected_obj.SuperiorMemo;
     }
 
-    return console.log(data)
-  }
+    return console.log(data);
+  };
   function formatDate(date) {
     var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear()
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
 
-    if (month.length < 2) month = '0' + month
-    if (day.length < 2) day = '0' + day
+    if (month?.length < 2) month = "0" + month;
+    if (day?.length < 2) day = "0" + day;
 
-    return [day, month, year].join('/')
+    return [day, month, year].join("/");
   }
   const handleSubmit = (e, type) => {
-    e.preventDefault()
+    e.preventDefault();
     switch (type) {
-      case 'Add':
-        formData.append('UserID', 1)
-        formData.append('EmployeeID', data.empid)
-        formData.append('OvertimeTypeID', data.OvertimeTypeID)
-        formData.append('Description', data.Description)
-        formData.append('overtimeDate', formatDate(fromDate))
-        formData.append('OvertimeHours', data.OvertimeHours)
-        formData.append('SuperiorMemo', data.SuperiorMemo)
+      case "Add":
+        formData.append("UserID", 1);
+        formData.append("EmployeeID", data.empid);
+        formData.append("OvertimeTypeID", data.OvertimeTypeID);
+        formData.append("Description", data.Description);
+        formData.append("overtimeDate", formatDate(fromDate));
+        formData.append("OvertimeHours", data.OvertimeHours);
+        formData.append("SuperiorMemo", data.SuperiorMemo);
 
-        dispatch(addOvertime(formData, userID))
+        dispatch(addOvertime(formData, userID));
         setTimeout(() => {
-          window.location.reload()
-        }, 1000)
-        break
-      case 'Update':
-        formData.append('UserID', 1)
-        formData.append('EmployeeID', overtime_selected_obj.EmployeeID)
-        formData.append('OvertimeID', currentValue)
-        formData.append('OvertimeTypeID', overtime_selected_obj.OvertimeTypeID)
-        formData.append('Description', overtime_selected_obj.Description)
-        formData.append('overtimeDate', formatDate(fromDate))
-        formData.append('OvertimeHours', overtime_selected_obj.Hours)
-        formData.append('SuperiorMemo', overtime_selected_obj.SuperiorMemo)
-        dispatch(updateOvertime(formData, userID))
+          window.location.reload();
+        }, 1000);
+        break;
+      case "Update":
+        formData.append("UserID", 1);
+        formData.append("EmployeeID", overtime_selected_obj.EmployeeID);
+        formData.append("OvertimeID", currentValue);
+        formData.append("OvertimeTypeID", overtime_selected_obj.OvertimeTypeID);
+        formData.append("Description", overtime_selected_obj.Description);
+        formData.append("overtimeDate", formatDate(fromDate));
+        formData.append("OvertimeHours", overtime_selected_obj.Hours);
+        formData.append("SuperiorMemo", overtime_selected_obj.SuperiorMemo);
+        dispatch(updateOvertime(formData, userID));
         setTimeout(() => {
-          window.location.reload()
-        }, 1000)
+          window.location.reload();
+        }, 1000);
 
-        break
+        break;
 
       default:
-        break
+        break;
     }
-  }
+  };
   return (
     <CModal show={modal} size={size} onClose={toggle} centered>
       <CModalHeader closeButton>{type}</CModalHeader>
@@ -148,7 +148,7 @@ const OvertimeModal = ({
                     ? emplist.map((team) => (
                         <option value={team.EmployeeID}>{team.Name}</option>
                       ))
-                    : ''}
+                    : ""}
                 </CSelect>
                 {/* <SelectLoanType /> */}
               </CFormGroup>
@@ -170,10 +170,10 @@ const OvertimeModal = ({
                   {overtimestype != undefined
                     ? overtimestype.map((team) => (
                         <option value={team.OvertimeID}>
-                          {team.OverTime + '(' + team.HourlyRate + ')'}
+                          {team.OverTime + "(" + team.HourlyRate + ")"}
                         </option>
                       ))
-                    : ''}
+                    : ""}
                 </CSelect>
               </CFormGroup>
             </CCol>
@@ -256,18 +256,18 @@ const OvertimeModal = ({
       </CModalBody>
       <CModalFooter>
         <CButton
-          hidden={type == 'View'}
+          hidden={type == "View"}
           color="info"
           onClick={(e) => handleSubmit(e, type)}
         >
           {type}
-        </CButton>{' '}
+        </CButton>{" "}
         <CButton color="secondary" onClick={toggle}>
           Close
         </CButton>
       </CModalFooter>
     </CModal>
-  )
-}
+  );
+};
 
-export default OvertimeModal
+export default OvertimeModal;

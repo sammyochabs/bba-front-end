@@ -68,15 +68,15 @@ const TheSidebar11 = () => {
           //console.log(Program, 'program')
           console.log(Program)
           //return Program
-          loop1: for (let index1 = 0; index1 < { program }.length; index1++) {
+          loop1: for (let index1 = 0; index1 < { program }?.length; index1++) {
             let element = program[index1]
             console.log(element)
-            loop2: for (let index2 = 0; index2 < navsettings.length; index2++) {
+            loop2: for (let index2 = 0; index2 < navsettings?.length; index2++) {
               if (navsettings[index2]._children) {
                 let ns = navsettings[index2]
                 loop3: for (
                   let index3 = 0;
-                  index3 < ns._children.length;
+                  index3 < ns._children?.length;
                   index3++
                 ) {
                   if (ns._children[index3].name) {
@@ -99,13 +99,13 @@ const TheSidebar11 = () => {
     // })
     //}
 
-    /*  loop1: for (let index1 = 0; index1 < pp.length; index1++) {
+    /*  loop1: for (let index1 = 0; index1 < pp?.length; index1++) {
       let element = pp[index1]
       console.log(element)
-      loop2: for (let index2 = 0; index2 < navsettings.length; index2++) {
+      loop2: for (let index2 = 0; index2 < navsettings?.length; index2++) {
         if (navsettings[index2]._children) {
           let ns = navsettings[index2]
-          loop3: for (let index3 = 0; index3 < ns._children.length; index3++) {
+          loop3: for (let index3 = 0; index3 < ns._children?.length; index3++) {
             if (ns._children[index3].name) {
               let index = ns._children.indexOf(
                 (x) => x.name === element.Program,
@@ -139,7 +139,7 @@ const TheSidebar11 = () => {
   };
 
   const getNavigation = () => {
-    // if (programsPermission && programsPermission.length > 0) {
+    // if (programsPermission && programsPermission?.length > 0) {
     let permissions;
     switch (currentModule) {
       case "Settings":

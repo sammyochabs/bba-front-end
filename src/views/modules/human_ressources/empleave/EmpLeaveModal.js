@@ -12,19 +12,19 @@ import {
   CRow,
   CSelect,
   CTextarea,
-} from '@coreui/react'
-import { number } from 'prop-types'
-import React, { useState, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+} from "@coreui/react";
+import { number } from "prop-types";
+import React, { useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addEmpLeave,
   approveLeave,
   cancelLeave,
   updateEmpLeave,
-} from 'src/actions/HumanRessource/empleave'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-import { updateLeave } from 'src/actions/leaves'
+} from "src/actions/HumanRessource/empleave";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { updateLeave } from "src/actions/leaves";
 
 const EmpLeaveModal = ({
   toggle,
@@ -37,114 +37,114 @@ const EmpLeaveModal = ({
   leavelist,
   leave_selected_obj,
 }) => {
-  const empid = useRef(null)
-  const [data, setData] = useState({})
-  const dispatch = useDispatch()
+  const empid = useRef(null);
+  const [data, setData] = useState({});
+  const dispatch = useDispatch();
 
-  console.log(type, 'type')
-  if (type == 'Update') {
+  console.log(type, "type");
+  if (type == "Update") {
   }
 
-  const [fromDate, setfromDate] = useState(new Date())
-  const [toDate, setToDate] = useState(new Date())
-  let [noDays, setNoDays] = useState()
+  const [fromDate, setfromDate] = useState(new Date());
+  const [toDate, setToDate] = useState(new Date());
+  let [noDays, setNoDays] = useState();
 
   const handleInput = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value })
-    if (type == 'Update') {
+    setData({ ...data, [e.target.name]: e.target.value });
+    if (type == "Update") {
       leave_selected_obj.EmployeeID =
-        e.target.name == 'empid'
+        e.target.name == "empid"
           ? e.target.value
-          : leave_selected_obj.EmployeeID
+          : leave_selected_obj.EmployeeID;
       leave_selected_obj.LeaveID =
-        e.target.name == 'nameofleave'
+        e.target.name == "nameofleave"
           ? e.target.value
-          : leave_selected_obj.LeaveID
+          : leave_selected_obj.LeaveID;
 
       leave_selected_obj.Cause =
-        e.target.name == 'cause' ? e.target.value : leave_selected_obj.Cause
-      leave_selected_obj.FromDate = fromDate
-      leave_selected_obj.ToDate = toDate
-      leave_selected_obj.Duration = data.duration
+        e.target.name == "cause" ? e.target.value : leave_selected_obj.Cause;
+      leave_selected_obj.FromDate = fromDate;
+      leave_selected_obj.ToDate = toDate;
+      leave_selected_obj.Duration = data.duration;
       leave_selected_obj.EmployeeMemo =
-        e.target.name == 'EmployeeMemo'
+        e.target.name == "EmployeeMemo"
           ? e.target.value
-          : leave_selected_obj.EmployeeMemo
+          : leave_selected_obj.EmployeeMemo;
 
       leave_selected_obj.SuperiorMemo =
-        e.target.name == 'SuperiorMemo'
+        e.target.name == "SuperiorMemo"
           ? e.target.value
-          : leave_selected_obj.SuperiorMemo
+          : leave_selected_obj.SuperiorMemo;
 
-      console.log(e.target.name, 'e.target.name')
+      console.log(e.target.name, "e.target.name");
     }
-    console.log(data, 'data')
-    return data
-  }
+    console.log(data, "data");
+    return data;
+  };
 
   function formatDate(date) {
     var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear()
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
 
-    if (month.length < 2) month = '0' + month
-    if (day.length < 2) day = '0' + day
+    if (month?.length < 2) month = "0" + month;
+    if (day?.length < 2) day = "0" + day;
 
-    return [day, month, year].join('/')
+    return [day, month, year].join("/");
   }
 
   const setAndCalNumberOfDays = (e) => {
-    var formattedDate = formatDate(e)
-    setToDate(e)
-    const oneDay = 24 * 60 * 60 * 1000 // hours*minutes*seconds*milliseconds
-    const firstDate = new Date(fromDate)
-    const secondDate = new Date(e)
+    var formattedDate = formatDate(e);
+    setToDate(e);
+    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+    const firstDate = new Date(fromDate);
+    const secondDate = new Date(e);
 
-    const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay))
+    const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
 
-    var dif = diffDays
+    var dif = diffDays;
     if (isNaN(dif)) {
-      dif = 0
+      dif = 0;
     }
-    console.log(dif, 'dif')
+    console.log(dif, "dif");
 
-    setNoDays(dif)
-  }
+    setNoDays(dif);
+  };
 
   const handleSubmit = (e, type) => {
-    e.preventDefault()
-    var formData = new FormData()
+    e.preventDefault();
+    var formData = new FormData();
     switch (type) {
-      case 'Add':
-        formData.append('UserID', localStorage.getItem('userID'))
-        formData.append('EmployeeID', data.empid)
-        formData.append('LeaveTypeID', data.nameofleave)
-        formData.append('Cause', data.cause)
-        formData.append('FromDate', formatDate(fromDate))
-        formData.append('ToDate', formatDate(toDate))
-        formData.append('EmployeeMemo', data.EmployeeMemo)
-        formData.append('SuperiorMemo', data.SuperiorMemo)
+      case "Add":
+        formData.append("UserID", localStorage.getItem("userID"));
+        formData.append("EmployeeID", data.empid);
+        formData.append("LeaveTypeID", data.nameofleave);
+        formData.append("Cause", data.cause);
+        formData.append("FromDate", formatDate(fromDate));
+        formData.append("ToDate", formatDate(toDate));
+        formData.append("EmployeeMemo", data.EmployeeMemo);
+        formData.append("SuperiorMemo", data.SuperiorMemo);
 
-        console.log(formData, 'formData')
+        console.log(formData, "formData");
 
-        dispatch(addEmpLeave(formData, userID))
+        dispatch(addEmpLeave(formData, userID));
         setTimeout(() => {
-          window.location.reload()
-        }, 1000)
-        break
-      case 'Update':
-        console.log(data, 'data')
+          window.location.reload();
+        }, 1000);
+        break;
+      case "Update":
+        console.log(data, "data");
 
-        formData.append('UserID', localStorage.getItem('userID'))
-        formData.append('EmployeeID', leave_selected_obj.EmployeeID)
-        formData.append('LeaveID', currentValue)
-        formData.append('LeaveTypeID', leave_selected_obj.LeaveID)
-        formData.append('Cause', leave_selected_obj.Cause)
-        formData.append('FromDate', formatDate(fromDate))
-        formData.append('ToDate', formatDate(toDate))
-        formData.append('EmployeeMemo', leave_selected_obj.EmployeeMemo)
-        formData.append('SuperiorMemo', leave_selected_obj.SuperiorMemo)
+        formData.append("UserID", localStorage.getItem("userID"));
+        formData.append("EmployeeID", leave_selected_obj.EmployeeID);
+        formData.append("LeaveID", currentValue);
+        formData.append("LeaveTypeID", leave_selected_obj.LeaveID);
+        formData.append("Cause", leave_selected_obj.Cause);
+        formData.append("FromDate", formatDate(fromDate));
+        formData.append("ToDate", formatDate(toDate));
+        formData.append("EmployeeMemo", leave_selected_obj.EmployeeMemo);
+        formData.append("SuperiorMemo", leave_selected_obj.SuperiorMemo);
 
         // formData.append("UserID", 1);
         // formData.append("EmployeeID", data.empid);
@@ -155,29 +155,29 @@ const EmpLeaveModal = ({
         // formData.append("ToDate", formatDate(toDate));
         // formData.append("EmployeeMemo", data.EmployeeMemo);
         // formData.append("SuperiorMemo", data.SuperiorMemo);
-        dispatch(updateEmpLeave(formData, userID))
+        dispatch(updateEmpLeave(formData, userID));
         setTimeout(() => {
-          window.location.reload()
-        }, 1000)
-        break
+          window.location.reload();
+        }, 1000);
+        break;
 
-      case 'Approve':
-        formData.append('UserId', localStorage.getItem('userID'))
-        formData.append('LeaveId', currentValue)
-        dispatch(approveLeave(formData, userID))
-        window.location.reload()
-        break
+      case "Approve":
+        formData.append("UserId", localStorage.getItem("userID"));
+        formData.append("LeaveId", currentValue);
+        dispatch(approveLeave(formData, userID));
+        window.location.reload();
+        break;
 
-      case 'Cancel':
-        formData.append('UserId', localStorage.getItem('userID'))
-        formData.append('LeaveId', currentValue)
-        dispatch(cancelLeave(formData, userID))
-        window.location.reload()
-        break
+      case "Cancel":
+        formData.append("UserId", localStorage.getItem("userID"));
+        formData.append("LeaveId", currentValue);
+        dispatch(cancelLeave(formData, userID));
+        window.location.reload();
+        break;
       default:
-        break
+        break;
     }
-  }
+  };
   return (
     <CModal show={modal} onClose={toggle} centered>
       <CModalHeader closeButton>{title}</CModalHeader>
@@ -204,7 +204,7 @@ const EmpLeaveModal = ({
                     ? emplist.map((team) => (
                         <option value={team.EmployeeID}>{team.Name}</option>
                       ))
-                    : ''}
+                    : ""}
                 </CSelect>
 
                 <CLabel htmlFor="nf-grade">From Date</CLabel>
@@ -271,7 +271,7 @@ const EmpLeaveModal = ({
                     ? leavelist.map((team) => (
                         <option value={team.LEAVE_ID}>{team.LEAVE_TYPE}</option>
                       ))
-                    : ''}
+                    : ""}
                 </CSelect>
                 <CLabel htmlFor="nf-grade">Cause </CLabel>
                 <CInput
@@ -316,18 +316,18 @@ const EmpLeaveModal = ({
       </CModalBody>
       <CModalFooter>
         <CButton
-          hidden={type == 'View'}
+          hidden={type == "View"}
           color="info"
           onClick={(e) => handleSubmit(e, type)}
         >
           {type}
-        </CButton>{' '}
+        </CButton>{" "}
         <CButton color="secondary" onClick={toggle}>
           Close
         </CButton>
       </CModalFooter>
     </CModal>
-  )
-}
+  );
+};
 
-export default EmpLeaveModal
+export default EmpLeaveModal;

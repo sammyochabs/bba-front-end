@@ -48,7 +48,7 @@ const Designation = () => {
         <SettingPageTitle title="Departments" />
         <CButton
           onClick={() => {
-            if (programs && programs.departments.Add === 1) {
+            if (programs && programs.departments?.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {
@@ -63,8 +63,8 @@ const Designation = () => {
       <DepartmentTable
         departments={departments}
         userID={userID}
-        editPermission={programs && programs.departments.Add?.Edit}
-        deletePermission={programs && programs.departments.Add?.Delete}
+        editPermission={programs && programs.departments?.Add?.Edit}
+        deletePermission={programs && programs.departments?.Add?.Delete}
       />
       <DepartmentModal
         userID={userID}

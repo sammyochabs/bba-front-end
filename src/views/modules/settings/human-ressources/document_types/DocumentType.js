@@ -49,7 +49,7 @@ const DocumentType = () => {
         <SettingPageTitle title="Document type" />
         <CButton
           onClick={() => {
-            if (programs && programs.documentTypes.Add === 1) {
+            if (programs && programs.documentTypes?.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {

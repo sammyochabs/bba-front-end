@@ -62,7 +62,7 @@ const EmpLeave = () => {
         <SettingPageTitle title="Employee Leave Request" />
         <CButton
           onClick={() => {
-            if (programs && programs.leaveManagement.Add === 1) {
+            if (programs && programs.leaveManagement?.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {
@@ -75,11 +75,11 @@ const EmpLeave = () => {
         </CButton>
       </div>
       <EmpLeaveTable
-        editPermission={programs && programs.leaveManagement.Edit}
-        viewPermission={programs && programs.leaveManagement.View}
-        deletePermission={programs && programs.leaveManagement.Delete}
-        approvePermission={programs && programs.leaveManagement.Permission}
-        declinePermission={programs && programs.leaveManagement.Permission}
+        editPermission={programs && programs.leaveManagement?.Edit}
+        viewPermission={programs && programs.leaveManagement?.View}
+        deletePermission={programs && programs.leaveManagement?.Delete}
+        approvePermission={programs && programs.leaveManagement?.Permission}
+        declinePermission={programs && programs.leaveManagement?.Permission}
         leavesData={empleave}
         userID={userID}
         emplist={emplist}

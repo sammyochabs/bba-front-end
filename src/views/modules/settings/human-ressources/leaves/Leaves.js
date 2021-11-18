@@ -49,7 +49,7 @@ const Leaves = () => {
         <SettingPageTitle title="Leaves & duration" />
         <CButton
           onClick={() => {
-            if (programs && programs.leaveManagement.Add === 1) {
+            if (programs && programs.leaveManagement?.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {

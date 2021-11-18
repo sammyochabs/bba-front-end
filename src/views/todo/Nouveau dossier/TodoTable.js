@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
   CDataTable,
   CDropdown,
@@ -6,70 +6,70 @@ import {
   CDropdownMenu,
   CDropdownItem,
   CInputCheckbox,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { Edit, Trash } from 'react-feather'
-import { deleteLoanType as deleteTaskType } from 'src/actions/loantypes'
-import DeleteDialog from 'src/reusable/DeleteDialog'
-import TodoListModal from './TodoListModal'
+} from "@coreui/react";
+import CIcon from "@coreui/icons-react";
+import { Edit, Trash } from "react-feather";
+import { deleteLoanType as deleteTaskType } from "src/actions/loantypes";
+import DeleteDialog from "src/reusable/DeleteDialog";
+import TodoListModal from "./TodoListModal";
 
 const TodoTable = ({ todolist, userID }) => {
-  const [modal, setModal] = useState(false)
-  const [delete_modal, setDeleteModal] = useState(false)
-  const [selectedItem, setSelectedItem] = useState({})
-  const [taskId, setCurrentTaskId] = useState()
+  const [modal, setModal] = useState(false);
+  const [delete_modal, setDeleteModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState({});
+  const [taskId, setCurrentTaskId] = useState();
   const handleUpdate = (id, item) => {
-    setModal(!modal)
-    setCurrentTaskId(id)
-    setSelectedItem(item)
-  }
+    setModal(!modal);
+    setCurrentTaskId(id);
+    setSelectedItem(item);
+  };
   const fields = [
-    { key: 'TITLE', sorter: false, filter: false, _style: { width: '20%' } },
-    { key: 'DESCRIPTION', _style: { width: '20%' } },
-    { key: 'DateFrom', _style: { width: '15%' } },
-    { key: 'DateTo', _style: { width: '15%' } },
-    { key: 'TimeFrom', sorter: false, filter: false, _style: { width: '10%' } },
-    { key: 'TimeTo', sorter: false, filter: false, _style: { width: '10%' } },
-    { key: 'AllDay', filter: false, _style: { width: '10%' } },
-    { key: 'Action', _style: { width: '20%' } },
-  ]
+    { key: "TITLE", sorter: false, filter: false, _style: { width: "20%" } },
+    { key: "DESCRIPTION", _style: { width: "20%" } },
+    { key: "DateFrom", _style: { width: "15%" } },
+    { key: "DateTo", _style: { width: "15%" } },
+    { key: "TimeFrom", sorter: false, filter: false, _style: { width: "10%" } },
+    { key: "TimeTo", sorter: false, filter: false, _style: { width: "10%" } },
+    { key: "AllDay", filter: false, _style: { width: "10%" } },
+    { key: "Action", _style: { width: "20%" } },
+  ];
 
   const handleDelete = (id) => {
-    setCurrentTaskId(id)
-    setDeleteModal(!delete_modal)
-  }
+    setCurrentTaskId(id);
+    setDeleteModal(!delete_modal);
+  };
 
   const listToDosHandler = (values) => {
-    if (values && values.length > 0) {
+    if (values && values?.length > 0) {
       values.forEach((value) => {
         if (value.TITLE === null) {
-          value.TITLE = ''
+          value.TITLE = "";
         }
         if (value.DESCRIPTION === null) {
-          value.DESCRIPTION = ''
+          value.DESCRIPTION = "";
         }
         if (value.DateFrom === null) {
-          value.DateFrom = ''
+          value.DateFrom = "";
         }
         if (value.DateTo === null) {
-          value.DateTo = ''
+          value.DateTo = "";
         }
         if (value.TimeFrom === null) {
-          value.TimeFrom = ''
+          value.TimeFrom = "";
         }
         if (value.TimeTo === null) {
-          value.TimeTo = ''
+          value.TimeTo = "";
         }
         if (value.TITLE === null) {
-          value.TITLE = ''
+          value.TITLE = "";
         }
         if (value.AllDay === null) {
-          value.AllDay = 1
+          value.AllDay = 1;
         }
-      })
-      return values
+      });
+      return values;
     }
-  }
+  };
 
   return (
     <div>
@@ -110,14 +110,14 @@ const TodoTable = ({ todolist, userID }) => {
                   // checked={checkedPermission}
                 />
               </td>
-            )
+            );
           },
           Action: (item) => {
             return (
               <td className="py-2">
                 <CDropdown className="m-1">
                   <CDropdownToggle>
-                    <CIcon name={'cilSettings'} size={'lg'} />
+                    <CIcon name={"cilSettings"} size={"lg"} />
                   </CDropdownToggle>
                   <CDropdownMenu>
                     <CDropdownItem
@@ -133,7 +133,7 @@ const TodoTable = ({ todolist, userID }) => {
                   </CDropdownMenu>
                 </CDropdown>
               </td>
-            )
+            );
           },
         }}
       />
@@ -141,8 +141,8 @@ const TodoTable = ({ todolist, userID }) => {
         userID={userID}
         toggle={handleUpdate}
         modal={modal}
-        type={'Update'}
-        title={'Update task title'}
+        type={"Update"}
+        title={"Update task title"}
         currentValue={taskId}
         selectedItem={selectedItem}
       />
@@ -154,7 +154,7 @@ const TodoTable = ({ todolist, userID }) => {
         del_funtion={deleteTaskType}
       />
     </div>
-  )
-}
+  );
+};
 
-export default TodoTable
+export default TodoTable;

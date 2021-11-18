@@ -60,7 +60,7 @@ const HealthManagement = () => {
         <SettingPageTitle title="Health Records" />
         <CButton
           onClick={() => {
-            if (programs && programs.healthManagement.Add === 1) {
+            if (programs && programs.healthManagement?.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {

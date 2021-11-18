@@ -48,7 +48,7 @@ const Designation = () => {
         <SettingPageTitle title="ACRClass" />
         <CButton
           onClick={() => {
-            if (programs && programs.acrClass.Add === 1) {
+            if (programs && programs.acrClass?.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {
@@ -63,8 +63,8 @@ const Designation = () => {
       <AcrClassTable
         acrClass={acrClass}
         userID={userID}
-        editPermission={programs && programs.acrClass.Add.Edit}
-        deletePermission={programs && programs.acrClass.Add.Delete}
+        editPermission={programs && programs.acrClass?.Add?.Edit}
+        deletePermission={programs && programs.acrClass?.Add?.Delete}
       />
       <AcrClassModal
         userID={userID}

@@ -49,7 +49,7 @@ const Grades = () => {
         <SettingPageTitle title="Grades / Pay scales" />
         <CButton
           onClick={() => {
-            if (programs && programs.grades.Add === 1) {
+            if (programs && programs.grades?.Add === 1) {
               toggle();
             } else {
               alert("You dont have this permission");

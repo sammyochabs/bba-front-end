@@ -62,8 +62,8 @@ const AddEmployee = ({
       day = "" + d.getDate(),
       year = d.getFullYear();
 
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
+    if (month?.length < 2) month = "0" + month;
+    if (day?.length < 2) day = "0" + day;
 
     return [day, month, year].join("/");
   }
@@ -98,11 +98,11 @@ const AddEmployee = ({
       }
     });
     setErrors(errs);
-    return !Object.keys(errs).length;
+    return !Object.keys(errs)?.length;
   };
   useEffect(() => {
     console.log("errors", errors);
-    if (Object.keys(errors).length)
+    if (Object.keys(errors)?.length)
       alert("mandatory fields should be filled on each tab");
   }, [errors]);
   const handleSubmit = async (e) => {

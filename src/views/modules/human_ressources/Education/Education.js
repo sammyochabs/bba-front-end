@@ -44,7 +44,7 @@ const Education = () => {
             el.EmployeeName = emp.Name;
           }
         });
-        if (index == array.length - 1) {
+        if (index == array?.length - 1) {
           seteducationlist([..._educationList]);
         }
       });
@@ -71,7 +71,7 @@ const Education = () => {
             el.EmployeeName = emp.Name;
           }
         });
-        if (index == array.length - 1) {
+        if (index == array?.length - 1) {
           seteducationlist([..._educationList]);
         }
       });

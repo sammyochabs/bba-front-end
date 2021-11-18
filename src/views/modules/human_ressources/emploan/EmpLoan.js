@@ -61,7 +61,7 @@ const EmpLoan = () => {
         <SettingPageTitle title="Employee Loan Request" />
         <CButton
           onClick={() => {
-            if (programs && programs.loanManagement.Add === 1) {
+            if (programs && programs.loanManagement?.Add === 1) {
               // history.push("/HR/AddEducation");
               toggle();
             } else {
@@ -74,11 +74,11 @@ const EmpLoan = () => {
         </CButton>
       </div>
       <EmpLoanTable
-        editPermission={programs && programs.loanManagement.Edit}
-        viewPermission={programs && programs.loanManagement.View}
-        deletePermission={programs && programs.loanManagement.Delete}
-        approvePermission={programs && programs.loanManagement.Permission}
-        declinePermission={programs && programs.loanManagement.Permission}
+        editPermission={programs && programs.loanManagement?.Edit}
+        viewPermission={programs && programs.loanManagement?.View}
+        deletePermission={programs && programs.loanManagement?.Delete}
+        approvePermission={programs && programs.loanManagement?.Permission}
+        declinePermission={programs && programs.loanManagement?.Permission}
         empLoan={empLoan}
         userID={userID}
         emplist={emplist}

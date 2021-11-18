@@ -94,6 +94,8 @@ const Promotion = () => {
     });
   }, [mainNavigation]);
 
+  console.log(programs);
+
   return (
     <CCard className="p-5">
       <div className="hr-header">
@@ -103,7 +105,7 @@ const Promotion = () => {
             <CFormGroup className={"mr-1"}>
               <CButton
                 onClick={() => {
-                  if (programs && programs.promotion.Add === 1) {
+                  if (programs && programs.promotion?.Add === 1) {
                     toggle();
                   } else {
                     alert("You dont have permission to do this");
@@ -117,7 +119,7 @@ const Promotion = () => {
                 color="info"
                 csvData={promotionList}
                 fileName={"Promotion-charge-list"}
-                permission={programs && programs.promotion.Export}
+                permission={programs && programs.promotion?.Export}
               />
             </CFormGroup>
           </CCol>

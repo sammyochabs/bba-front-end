@@ -64,7 +64,7 @@ const Trainer = () => {
           <CCol sm="12">
             <CButton
               onClick={() => {
-                if (programs && programs.training.Add === 1) {
+                if (programs && programs.training?.Add === 1) {
                   // history.push("/HR/AddEducation");
                   toggle();
                 } else {

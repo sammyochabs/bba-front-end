@@ -163,13 +163,13 @@ const Role = () => {
               onChange={handleSaveChanges}
               name={module.ModuleAPP}
               value={module.ModuleID}
-              defaultChecked={module.Permission}
+              defaultChecked={module?.Permission}
             />
-            {module.Permission === 1 ? (
+            {module?.Permission === 1 ? (
               <Eye
                 onClick={() => {
                   togglePrograms(
-                    module.Permission,
+                    module?.Permission,
                     module.ModuleID,
                     module.ModuleAPP
                   );
@@ -196,7 +196,7 @@ const Role = () => {
               value={program.ProgramID}
               onChange={handleGrantProgramPermission}
               key={Math.random()}
-              defaultChecked={program.Add}
+              defaultChecked={program?.Add}
               // checked={checkedPermission}
             />
           </CFormGroup>
@@ -209,7 +209,7 @@ const Role = () => {
               value={program.ProgramID}
               onChange={handleGrantProgramPermission}
               key={Math.random()}
-              defaultChecked={program.Edit}
+              defaultChecked={program?.Edit}
               // checked={checkedPermission}
             />
           </CFormGroup>
@@ -222,7 +222,7 @@ const Role = () => {
               value={program.ProgramID}
               onChange={handleGrantProgramPermission}
               key={Math.random()}
-              defaultChecked={program.View}
+              defaultChecked={program?.View}
               // checked={checkedPermission}
             />
           </CFormGroup>
@@ -235,7 +235,7 @@ const Role = () => {
               value={program.ProgramID}
               onChange={handleGrantProgramPermission}
               key={Math.random()}
-              defaultChecked={program.Delete}
+              defaultChecked={program?.Delete}
               // checked={checkedPermission}
             />
           </CFormGroup>
@@ -309,7 +309,7 @@ const Role = () => {
           <div className="d-flex justify-content-between">
             <h4 className="mb-4">Modules</h4>
           </div>
-          {Object.keys(roleModules).length === 0 ? (
+          {Object.keys(roleModules)?.length === 0 ? (
             <p className="alert alert-warning">Please select a role.</p>
           ) : (
             <div>

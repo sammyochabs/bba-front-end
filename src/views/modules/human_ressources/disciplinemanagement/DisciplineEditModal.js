@@ -19,20 +19,20 @@ import {
   CRow,
   CTextarea,
   CLink,
-} from '@coreui/react'
+} from "@coreui/react";
 
-import React, { useEffect, useState } from 'react'
-import { getFile } from 'src/actions/HumanRessource/downloadFile'
+import React, { useEffect, useState } from "react";
+import { getFile } from "src/actions/HumanRessource/downloadFile";
 // import { fetchEmployees } from "src/actions/employees";
-import { useDispatch } from 'react-redux'
+import { useDispatch } from "react-redux";
 import {
   addDiscipline,
   updateDiscipline,
-} from 'src/actions/HumanRessource/disciplines'
-import { addPunishmentFile } from 'src/actions/HumanRessource/setPunishmentFile'
-import './DisciplineEditModal.css'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
+} from "src/actions/HumanRessource/disciplines";
+import { addPunishmentFile } from "src/actions/HumanRessource/setPunishmentFile";
+import "./DisciplineEditModal.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const DisciplineEditModal = ({
   toggle,
@@ -47,48 +47,48 @@ const DisciplineEditModal = ({
   setData,
   isenableMode,
 }) => {
-  console.log('Current Data', data)
+  console.log("Current Data", data);
   // const [data, setData] = useState("");
-  const [selectedEmployee, setSelectedEmployee] = useState('Employee')
-  const [selectedPuishment, setSelectedPuishment] = useState('Punishment')
-  const [releaseFromCharge, setReleaseFromCharge] = useState(false)
-  const [punishmentMemoDate, setpunishmentMemoDate] = useState()
-  const [releaseMemoDate, setreleaseMemoDate] = useState()
-  const [files, setFiles] = useState('')
+  const [selectedEmployee, setSelectedEmployee] = useState("Employee");
+  const [selectedPuishment, setSelectedPuishment] = useState("Punishment");
+  const [releaseFromCharge, setReleaseFromCharge] = useState(false);
+  const [punishmentMemoDate, setpunishmentMemoDate] = useState();
+  const [releaseMemoDate, setreleaseMemoDate] = useState();
+  const [files, setFiles] = useState("");
   //setReleaseFromCharge
   // const [employeeList, setEmployeeList] = useState([]);
 
-  const dispatch = useDispatch()
-  var formData = new FormData()
-  var formDataForFile = new FormData()
-  var formDataForRealaseFile = new FormData()
+  const dispatch = useDispatch();
+  var formData = new FormData();
+  var formDataForFile = new FormData();
+  var formDataForRealaseFile = new FormData();
 
   const handleInputDatePunishment = (e) => {
     // setData({ ...data, [e.target.name]:e.target.value});
     setData({
       ...data,
       PunishmentMemoDate: formatDate(e),
-    })
-    return console.log(data)
-  }
+    });
+    return console.log(data);
+  };
   const handleInputDateRelease = (e) => {
     // setData({ ...data, [e.target.name]:e.target.value});
     setData({
       ...data,
       ReleaseMemoDate: formatDate(e),
-    })
-    return console.log(data)
-  }
+    });
+    return console.log(data);
+  };
   function formatDate(date) {
     var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear()
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
 
-    if (month.length < 2) month = '0' + month
-    if (day.length < 2) day = '0' + day
+    if (month?.length < 2) month = "0" + month;
+    if (day?.length < 2) day = "0" + day;
 
-    return [day, month, year].join('/')
+    return [day, month, year].join("/");
   }
   // const changeDateFormatToUS = (currentDate) => {
   //   var parts = (currentDate).toString().split('/');
@@ -99,82 +99,82 @@ const DisciplineEditModal = ({
   // }
 
   const handleInputData = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value })
-    return console.log(data)
-  }
+    setData({ ...data, [e.target.name]: e.target.value });
+    return console.log(data);
+  };
 
   const handleSelect = (name, id) => {
-    setData({ ...data, [name]: id })
-  }
+    setData({ ...data, [name]: id });
+  };
   const handleInputFile = (e) => {
-    setFiles({ ...files, [e.target.name]: e.target.files[0] })
-  }
+    setFiles({ ...files, [e.target.name]: e.target.files[0] });
+  };
 
   useEffect(() => {
     if (data) {
-      console.log('data.EmployeeName', data.EmployeeName)
-      setSelectedEmployee(data.EmployeeName)
-      setSelectedPuishment(data.Punishment)
+      console.log("data.EmployeeName", data.EmployeeName);
+      setSelectedEmployee(data.EmployeeName);
+      setSelectedPuishment(data.Punishment);
     }
-  }, [])
+  }, []);
 
-  console.log('Employees', employeeList)
+  console.log("Employees", employeeList);
 
   const changeDateFormatToUk = (dateValue) => {
-    var parts = dateValue?.split('/')
+    var parts = dateValue?.split("/");
 
     if (parts) {
-      return parts[2] + '-' + parts[1] + '-' + parts[0]
+      return parts[2] + "-" + parts[1] + "-" + parts[0];
     }
-    return Date.now()
-  }
+    return Date.now();
+  };
 
   const handleSubmit = (e, type) => {
-    e.preventDefault()
+    e.preventDefault();
     switch (type) {
-      case 'Add':
-        Object.keys(data).forEach((key) => formData.append(key, data[key]))
-        Object.keys(files).forEach((key) => formData.append(key, files[key]))
+      case "Add":
+        Object.keys(data).forEach((key) => formData.append(key, data[key]));
+        Object.keys(files).forEach((key) => formData.append(key, files[key]));
 
-        dispatch(addDiscipline(formData, userID))
+        dispatch(addDiscipline(formData, userID));
 
-        break
-      case 'Update':
-        formData.append('userID', localStorage.getItem('userID'))
+        break;
+      case "Update":
+        formData.append("userID", localStorage.getItem("userID"));
         Object.keys(data).forEach((key) => {
-          if (key != 'ReleaseMemoFile' && key != 'PunishmentMemoFile')
-            formData.append(key, data[key])
-        })
+          if (key != "ReleaseMemoFile" && key != "PunishmentMemoFile")
+            formData.append(key, data[key]);
+        });
 
-        dispatch(updateDiscipline(formData, userID))
+        dispatch(updateDiscipline(formData, userID));
 
-        formDataForFile.append('userID', localStorage.getItem('userID'))
-        formDataForFile.append('DisciplineID', data?.DisciplineID)
-        formDataForFile.append('File', files?.PunishmentMemoFile)
+        formDataForFile.append("userID", localStorage.getItem("userID"));
+        formDataForFile.append("DisciplineID", data?.DisciplineID);
+        formDataForFile.append("File", files?.PunishmentMemoFile);
         dispatch(
-          addPunishmentFile(formDataForFile, '/Discipline/setPunishmentFile'),
-        )
+          addPunishmentFile(formDataForFile, "/Discipline/setPunishmentFile")
+        );
 
-        formDataForRealaseFile.append('userID', localStorage.getItem('userID'))
-        formDataForRealaseFile.append('DisciplineID', data?.DisciplineID)
-        formDataForRealaseFile.append('File', files?.ReleaseMemoFile)
+        formDataForRealaseFile.append("userID", localStorage.getItem("userID"));
+        formDataForRealaseFile.append("DisciplineID", data?.DisciplineID);
+        formDataForRealaseFile.append("File", files?.ReleaseMemoFile);
         dispatch(
           addPunishmentFile(
             formDataForRealaseFile,
-            '/Discipline/setReleaseFile',
-          ),
-        )
+            "/Discipline/setReleaseFile"
+          )
+        );
 
         //   formData.append("disciplineID", currentValue);
         // formData.append("discipline", data);
         //dispatch(updateDiscipline(formData, userID));
         // console.log(currentValue)
-        break
+        break;
 
       default:
-        break
+        break;
     }
-  }
+  };
   return (
     <CModal show={modal} onClose={toggle} size="lg" centered>
       <CModalHeader closeButton>{title}</CModalHeader>
@@ -204,12 +204,12 @@ const DisciplineEditModal = ({
                           size="xl"
                           key={employee.EmployeeID}
                           onClick={() => {
-                            handleSelect('EmployeeID', employee.EmployeeID)
-                            setSelectedEmployee(employee.Name)
+                            handleSelect("EmployeeID", employee.EmployeeID);
+                            setSelectedEmployee(employee.Name);
                           }}
                           href="#"
                           value={employee.Name}
-                          eventKey={'option-' + employee.EmployeeID}
+                          eventKey={"option-" + employee.EmployeeID}
                           active={data?.EmployeeID === employee.EmployeeID}
                         >
                           {employee.Name}
@@ -259,7 +259,7 @@ const DisciplineEditModal = ({
                 <CCol sm="4">
                   <CFormGroup>
                     <CLabel htmlFor="nfhealthRecord">
-                      {' '}
+                      {" "}
                       Type Of Punishment
                     </CLabel>
                     <CDropdown variant="btn-group">
@@ -277,13 +277,13 @@ const DisciplineEditModal = ({
                             key={punishment.PunishmentID}
                             onClick={() => {
                               handleSelect(
-                                'PunishmentID',
-                                punishment.PunishmentID,
-                              )
-                              setSelectedPuishment(punishment.PunishmentType)
+                                "PunishmentID",
+                                punishment.PunishmentID
+                              );
+                              setSelectedPuishment(punishment.PunishmentType);
                             }}
                             href="#"
-                            eventKey={'option-' + punishment.PunishmentID}
+                            eventKey={"option-" + punishment.PunishmentID}
                           >
                             {punishment.PunishmentType}
                           </CDropdownItem>
@@ -343,7 +343,7 @@ const DisciplineEditModal = ({
                 <CCol>
                   <CFormGroup>
                     <CLabel htmlFor="nfhealthRecord">
-                      Punishment Memo Scan{' '}
+                      Punishment Memo Scan{" "}
                     </CLabel>
                     <CInput
                       type="file"
@@ -357,11 +357,11 @@ const DisciplineEditModal = ({
                     <CLink
                       onClick={() => {
                         getFile(
-                          'DisciplineID',
+                          "DisciplineID",
                           data?.DisciplineID,
                           data?.PunishmentMemoFile,
-                          'Discipline/GetPunishmentFile',
-                        )
+                          "Discipline/GetPunishmentFile"
+                        );
                       }}
                     >
                       {data?.PunishmentMemoFile}
@@ -408,8 +408,8 @@ const DisciplineEditModal = ({
                       id="flexCheckDefault"
                       className="appeal-checkbox"
                       onChange={(event) => {
-                        handleInputData(event)
-                        setReleaseFromCharge(event.target.checked)
+                        handleInputData(event);
+                        setReleaseFromCharge(event.target.checked);
                       }}
                     />
                   </CFormGroup>
@@ -477,11 +477,11 @@ const DisciplineEditModal = ({
                         <CLink
                           onClick={() => {
                             getFile(
-                              'DisciplineID',
+                              "DisciplineID",
                               data?.DisciplineID,
                               data?.ReleaseMemoFile,
-                              'Discipline/GetPunishmentFile',
-                            )
+                              "Discipline/GetPunishmentFile"
+                            );
                           }}
                         >
                           {data?.ReleaseMemoFile}
@@ -498,13 +498,13 @@ const DisciplineEditModal = ({
       <CModalFooter>
         <CButton color="info" onClick={(e) => handleSubmit(e, type)}>
           {type}
-        </CButton>{' '}
+        </CButton>{" "}
         <CButton color="secondary" onClick={toggle}>
           Close
         </CButton>
       </CModalFooter>
     </CModal>
-  )
-}
+  );
+};
 
-export default DisciplineEditModal
+export default DisciplineEditModal;

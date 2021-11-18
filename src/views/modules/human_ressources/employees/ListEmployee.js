@@ -115,7 +115,7 @@ const ListEmployee = () => {
           <SettingPageTitle title="All Employees" />
           <div
             onClick={() => {
-              if (programs && programs.allEmployee.Add === 1) {
+              if (programs && programs.allEmployee?.Add === 1) {
                 history.push("/HR/AddEmployee");
               } else {
                 alert("You dont have this permission");
@@ -171,7 +171,7 @@ const ListEmployee = () => {
                     <CDropdownMenu>
                       <CDropdownItem
                         onClick={() => {
-                          if (programs && programs.allEmployee.Edit === 1) {
+                          if (programs && programs.allEmployee?.Edit === 1) {
                             history.push(
                               `/HR/UpdateEmployee/${item.EmployeeID}`
                             );
@@ -184,7 +184,7 @@ const ListEmployee = () => {
                       </CDropdownItem>
                       <CDropdownItem
                         onClick={() => {
-                          if (programs && programs.allEmployee.View === 1) {
+                          if (programs && programs.allEmployee?.View === 1) {
                             history.push(`/HR/ViewEmployee/${item.EmployeeID}`);
                           } else {
                             alert("You dont have this permission");
@@ -195,7 +195,7 @@ const ListEmployee = () => {
                       </CDropdownItem>
                       <CDropdownItem
                         onClick={() => {
-                          if (programs && programs.allEmployee.Delete === 1) {
+                          if (programs && programs.allEmployee?.Delete === 1) {
                             if (window.confirm("are you sure!"))
                               handleDelete(item.EmployeeID, userID);
                           } else {
